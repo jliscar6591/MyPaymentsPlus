@@ -1,0 +1,80 @@
+<mat-card>
+  <mat-toolbar >
+    <div>
+      Documents To Review
+    </div>
+  </mat-toolbar>
+  <mat-tab-group>
+    <mat-tab *ngFor="let student of data.orientationList,let i = index ">
+      <ng-template mat-tab-label>
+        <span matBadge="{{student.orientation.unsignedDocuments.length}}" matBadgeOverlap="false" matBadgeColor="accent"
+          *ngIf="student.orientation.unsignedDocuments.length > 0">{{student.name}}</span>
+      </ng-template>
+      <div class="orientations" *ngIf="student.orientation.unsignedDocuments.length > 0">
+        <div class="orientation-message">
+          <div class="orientation-title">
+            {{student.orientation.title}}
+          </div>
+          <div class="orientation-description">
+            {{student.orientation.description}}
+          </div>
+        </div>
+        <mat-accordion class="accordion">
+          <mat-expansion-panel hideToggle *ngFor="let document of student.orientation.unsignedDocuments, let j = index"
+            [expanded]="step === j" (opened)="setStep(j)">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="mat-title">
+                <div class="doc-title">
+                <div class="name">
+                  {{document.name}}
+                </div>
+                <div *ngIf="document.required" class="required">
+                  (Required)
+                </div>
+              </div>
+                <div *ngIf="document.checked && document.itemType === 'CHECKBOX'">
+                  <mat-icon class="check">check_circle_outline</mat-icon>
+                </div>
+                <div *ngIf="document.signed && document.itemType === 'YES/NO' || document.signed && document.itemType === 'AGREE/DISAGREE'">
+                  <mat-icon class="check">check_circle_outline</mat-icon>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="description">
+              <div>
+                {{document.description}}
+              </div>
+              <a class="link" href="https://scratch.mit.edu/projects/182898061/fullscreen/" target="_blank"> 2019-2020
+                Orientations</a>
+            </div>
+            <mat-action-row class="action-row">
+              <div *ngIf="document.itemType === 'CHECKBOX'" class="checkbox">
+                <mat-checkbox [checked]="document.signed" (change)="onCheckBoxChange($event, i, j,document, student)">
+                  Agree</mat-checkbox>
+              </div>
+              <mat-radio-group class="radio-group" (change)="onChangeAgree($event, i, j, document, student)"
+                *ngIf="document.itemType === 'AGREE/DISAGREE'">
+                <mat-radio-button value="1">Agree</mat-radio-button>
+                <mat-radio-button value="2">Disagree</mat-radio-button>
+              </mat-radio-group>
+              <mat-radio-group class="radio-group" (change)="onChangeYes($event, i , j, document, student)" *ngIf="document.itemType === 'YES/NO'">
+                <mat-radio-button value="1">Yes</mat-radio-button>
+                <mat-radio-button value="2">No</mat-radio-button>
+              </mat-radio-group>
+              <div class="action-row-right">
+                <button mat-button color="warn" *ngIf="step !== 0" (click)="prevStep()">Previous</button>
+                <button mat-button color="primary" *ngIf="step !== student.orientation.unsignedDocuments.length" (click)="nextStep()">Next</button>
+              </div>
+            </mat-action-row>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="actions">
+    <button mat-raised-button color="primary" *ngIf="responses.length > 0" (click)="signDocuments()"> Sign {{responses.length}} Documents</button>
+    <button mat-raised-button color="primary" *ngIf="responses.length === 0" (click)="onNoClick()">Skip for now</button>
+  </div>
+</mat-card>
+<mat-divider></mat-divider>

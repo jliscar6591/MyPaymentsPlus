@@ -1,0 +1,33 @@
+<div class="page-container">
+  <!-- Start -->
+  <mat-card class="card-spacing">
+    <mat-card-title>
+      <div id="froTitle">My Free &amp; Reduced School Meals Applications<mat-spinner strokeWidth="1" diameter="25" *ngIf="isFroAvailabilityGetting || isFroStatusGetting">Loading...</mat-spinner></div>
+    </mat-card-title>
+    <fro-start-selector *ngIf="!isFroAvailabilityGetting && !this.isBlackedOut"
+                        [model]="froAppAvailabilityService.froAppAvailability"
+                        (startNewFroApp)="startNewFroApp($event)">
+    </fro-start-selector>
+    <div *ngIf="!isFroAvailabilityGetting && getFroAvailabilityErr" class="error card-spacing">
+      {{getFroAvailabilityErrMsg}}
+    </div>
+  </mat-card>
+  <!-- Status -->
+  <mat-card class="card-spacing" *ngIf="!isFroStatusGetting && isFroStatus && !this.isBlackedOut">
+    <fro-status-selector [model]="froAppStatusService.froAppStatus"
+                         (continue)="continueApp($event)"
+                         (determination)="eligibilityDetermination($event)"
+                         (download)="downloadApplication($event)">
+    </fro-status-selector>
+    <div *ngIf="!isFroStatusGetting && getFroStatusErr" class="error card-spacing">
+      {{getFroStatusErrMsg}}
+    </div>
+  </mat-card>
+  <mat-card *ngIf="this.isBlackedOut">
+    <div class="blackout-banner">
+      <div class="banner-text">
+        Sorry!! Applications for the upcoming school year can not be submitted yet..
+      </div>
+    </div>
+  </mat-card>
+</div>

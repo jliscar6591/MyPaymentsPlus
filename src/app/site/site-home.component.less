@@ -1,0 +1,444 @@
+@import '../../colors.less';
+@import "../../mdc.fab.css";
+
+#footer sidenav-footer {
+  margin-left: 270px;
+}
+
+#toolbar-options {
+  justify-content: flex-end;
+
+  .md-select select {
+    margin-top: 0;
+  }
+}
+
+.md-toolbar-layout {
+  .option {
+    margin: 10px 20px;
+    vertical-align: middle;
+    justify-content: center;
+  }
+}
+
+.district-selector {
+  margin-left: 15%;
+  background-color: white;
+  height: 45px;
+}
+
+.mdc-fab--extended {
+  background-color: @primaryColor;
+  position: fixed;
+  z-index: 2;
+  bottom: 1rem;
+  right: 3rem;
+}
+
+.floating-button {
+  width: 75%;
+
+  .checkout-floater {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+  }
+
+  .quantity {
+    padding-right: 75px;
+  }
+}
+
+.notification:hover{
+cursor: pointer;
+}
+
+#mobileCart {
+  animation-name: jump;
+  animation-duration: 1s;
+}
+
+@keyframes jump {
+  0% {
+    margin-bottom: 0px;
+  }
+
+  25% {
+    margin-bottom: 50px;
+  }
+
+  50% {
+    margin-bottom: 0px;
+  }
+
+  75% {
+    margin-bottom: 25px;
+  }
+
+  100% {
+    margin-bottom: 0px;
+  }
+}
+
+.notification-wrapper {
+  display: flex;
+  justify-content: flex-end;
+
+  .notification {
+    justify-content: flex-end;
+  }
+}
+
+.test {
+  font-size: .60em;
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 50%;
+  margin: 10px auto;
+}
+
+.container-content {
+  flex: 1 0 auto;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -o-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+  padding-top: 59px;
+}
+
+#app-container {
+  padding-top: 60px;
+  min-height: 100vh;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  height: fit-content;
+}
+
+#app-sidenav-layout {
+
+  #app-sidenav {
+    width: 270px;
+  }
+}
+
+#emptyCart {
+  margin-right: 15px;
+}
+
+#cart {
+
+  &.cart-detailed {
+    width: 160px;
+    background-color: #E4E4E4;
+    border-radius: 20px;
+    padding-top: 0;
+  }
+
+  &[disabled] {
+    opacity: 0.75;
+  }
+
+  #cart-detailed {
+    align-items: center;
+    justify-content: center;
+    line-height: 30px;
+
+    #cart-counter {
+      position: relative;
+      font-size: 16px;
+      text-align: left;
+      left: 0;
+      top: 0px;
+      padding: 5px 8px;
+      margin-left: 10px;
+    }
+
+    #cart-description {
+      flex-grow: 1;
+      font-size: 18px;
+      color: gray;
+    }
+
+    #cart-empty {
+      font-size: 12px;
+      color: gray;
+      margin-left: 10px;
+      margin-right: 5px;
+    }
+
+    #cart-icon {
+      font-size: 20px;
+      margin-right: 10px;
+    }
+  }
+}
+
+#app-toolbar {
+
+  #toolbar-header {
+    padding: 0 100px;
+    width: 100%;
+    position: relative;
+    align-items: center;
+  }
+
+  #toolbar-nav {
+    padding: 0 100px;
+    background-color: @primaryColor;
+    height: 40px;
+  }
+
+  #toolbar-options {
+    button {
+      margin-right: 15px;
+    }
+
+    #notification-counter {
+      background-color: red;
+      color: white;
+      border-radius: 20px;
+      position: absolute;
+      top: 8px;
+      right: 5px;
+      line-height: 13px;
+      font-size: 9px;
+      padding: 0px 4px;
+      font-weight: bold;
+    }
+  }
+}
+
+#sidenav-additional-title {
+  font-size: 11px;
+  margin-left: 33px;
+}
+
+.notification {
+  position: relative;
+}
+
+.desktop-font {
+  font-size: 14px;
+  width: 150px;
+}
+
+
+.page-loading-container {
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 auto;
+  width: 100%;
+  min-width: 320px;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0px 10px;
+}
+
+.routingToolbar {
+  z-index: 2;
+  position: fixed;
+  background-color: #2196F3;
+  margin-top: 64px;
+  height: 54px !important;
+  display: flex;
+  justify-content: center;
+
+  .navList {
+    display: flex;
+    height: 50px !important;
+
+    .navText {
+      cursor: pointer;
+      color: white;
+      padding: 0px 20px 0px 20px;
+    }
+
+    .navText:hover {
+      background-color: #1565C0;
+    }
+  }
+
+  .spacer {
+    width: 700px;
+  }
+}
+
+@media(max-width: 600px) {
+  #cart {
+    position: fixed;
+  }
+
+  #app-toolbar {
+
+    margin-top: 12.5px;
+  }
+
+  .container-content {
+    padding-top: 9px;
+  }
+}
+
+
+//sm - md
+@media(min-width: 960px) and (max-width: 1279px) {
+  #app-toolbar {
+    #toolbar-header, #toolbar-nav {
+      padding: 0 25px;
+    }
+  }
+}
+
+@media(min-width:600px) and (max-width:959px){
+  .container-content {
+    flex: 1 0 auto;
+    display: -moz-flex;
+    display: -o-flex;
+    display: flex;
+    -moz-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+    padding-top: unset;
+}
+
+.floating-button {
+  width: 50%;
+}
+
+  .mdc-fab--extended {
+    background-color: #3883d0;
+    position: fixed;
+    z-index: 2;
+    bottom: 5rem;
+    right: 11rem;
+
+}
+}
+
+//sm
+@media(max-width: 959px) {
+
+  #app-toolbar {
+    background-color: rgba(238,238,238,1);
+
+    .md-dark {
+      color: white;
+    }
+
+    #toolbar-header, #toolbar-nav {
+      padding: 0 10px;
+    }
+  }
+
+  .selector-display {
+    display: none;
+  }
+}
+
+@media all and (min-width: 375px) and (max-width: 667px) {
+  .safari-checkout {
+    //  margin-right: 100px;
+    min-width: 110px;
+  }
+
+  .mat-icon-button {
+    width: auto !important;
+  }
+}
+
+
+@media all and (min-width: 960px) {
+  #toolbar-options {
+    margin-left: 10px;
+  }
+
+  .district-selector {
+    // margin-left: 2px;
+    font-size: 0.60em;
+    width: 100%;
+    max-width: 245px;
+  }
+
+  .selector-display {
+    display: block;
+  }
+
+  .tab-width {
+    min-width: 145px !important;
+  }
+
+  .mat-tab-label {
+    min-width: 130px !important;
+  }
+
+  .mat-ink-bar {
+    width: 130px;
+  }
+}
+
+@media(min-color-index:0) and (-webkit-min-device-pixel-ratio:0) {
+
+  .safari-checkout {
+    //  margin-right: 100px;
+    min-width: 110px;
+  }
+}
+
+@supports
+
+(-webkit-marquee-repetition:infinite and (object-fit:fill) {
+  .safari-checkout {
+    //  margin-right: 100px;
+    min-width: 110px;
+  }
+}
+
+
+@media only screen and (min-width : 375px) and (max-width : 667px) {
+  .safari-checkout {
+    //  margin-right: 100px;
+    min-width: 110px;
+  }
+}
+
+@media print {
+  .mat-toolbar-layout {
+    display: none;
+  }
+
+  #toolbar-header {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 414px) and (max-width: 767px) {
+  #app-sidenav-layout {
+
+    #app-sidenav {
+      width: 270px;
+      padding-top: 30px;
+    }
+  }
+}
+//Apple iPhone XR Min-Width Media Queries
+
+@media only screen and (min-width: 414px) {
+}
+//Apple iPhone XR Min-Height Media Queries
+
+@media only screen and (min-height: 896px) {
+}
+//Apple iPhone XR Landscape Media Queries
+
+@media only screen and (min-width: 896px) and (orientation: landscape) {
+}
+//Apple iPhone XR Portrait Media Queries
+
+@media only screen and (min-width: 414px) and (orientation: portrait) {
+}

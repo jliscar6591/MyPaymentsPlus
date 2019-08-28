@@ -1,0 +1,20 @@
+<mat-card class="card-spacing" *ngIf="!noShow" >
+    <mat-card-title class="flex-row">
+        <div class="flex-grow-1">
+            <mat-card-title>Welcome</mat-card-title>           
+            <mat-card-subtitle>{{dashboardDistrictMessageService.districtName}}</mat-card-subtitle>
+        </div>       
+   </mat-card-title>
+    <mat-card-content>        
+        <div  [innerHTML] = dashboardDistrictMessageService.districtContent></div>
+        <!--<div class="card-footer-action text-right">
+            <a class="link">Add School / District</a>
+        </div>-->
+    </mat-card-content>
+    <mat-card-actions *ngIf="mobile" style="display:flex; justify-content:flex-end; ">
+      <button mat-icon-button (click)="noShow = true">
+        <mat-icon aria-label="close">undo</mat-icon>
+      </button>
+    </mat-card-actions>
+</mat-card>
+<mobile-district-message *ngIf="noShow"></mobile-district-message>

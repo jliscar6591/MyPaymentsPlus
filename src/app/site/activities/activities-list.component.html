@@ -1,0 +1,246 @@
+<div class="container">
+  <div class="flex-column filters" *ngIf="searchComplete && searchResults.length > 0 && !mobile">
+    <form [formGroup]="filters">
+      <div class="filterTitle filters">
+        Categories
+      </div>
+      <div class="students">
+        <mat-selection-list #students
+                            class="flex-column"
+                            formControlName="category">
+          <mat-list-option *ngFor="let category of uniqueCategories, let i = index"
+                           class="student"
+                           (click)="filterCategories()"
+                           [value]="category"
+                           [selected]="category"
+                           selected>
+            {{category}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      <div class="filterTitle filters">
+        Attendees
+      </div>
+      <mat-selection-list #students
+                          class="flex-column"
+                          formControlName="student">
+        <mat-list-option *ngFor="let account of uniqueStudents, let i = index"
+                         (click)="filterStudents()"
+                         class="student"
+                         [value]="account"
+                         [selected]="account"
+                         selected>
+          {{account}}
+        </mat-list-option>
+      </mat-selection-list>
+    </form>
+    <div class="flex-column">
+      <div class="searchValues filterTitle">
+        Search Filters
+      </div>
+      <mat-chip-list *ngIf="searchComplete" class="matChipList">
+        <mat-chip>
+          {{search.value.searchValue}}
+          <button mat-icon-button class="closeBtn">
+            <mat-icon class="closeChip" aria-label="close chip" (click)="clearSearch();">close</mat-icon>
+          </button>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <div class="flex-column filters" *ngIf="searchComplete && searchResults.length > 0 && mobile">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="filterPanelTitle">
+        <mat-panel-title>
+          Filter Results
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form [formGroup]="filters">
+        <div class="filterTitle filters">
+          Categories
+        </div>
+        <div class="students">
+          <mat-selection-list #students
+                              class="flex-column"
+                              formControlName="category">
+            <mat-list-option *ngFor="let category of uniqueCategories, let i = index"
+                             class="student"
+                             (click)="filterCategories()"
+                             [value]="category"
+                             [selected]="category"
+                             selected>
+              {{category}}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+        <div class="filterTitle filters">
+          Attendees
+        </div>
+        <div class="students">
+          <mat-selection-list #students
+                              class="flex-column"
+                              formControlName="student">
+            <mat-list-option *ngFor="let account of uniqueStudents, let i = index"
+                             (click)="filterStudents(i, account)"
+                             class="student"
+                             [value]="account"
+                             [selected]="account"
+                             selected>
+              {{account}}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </form>
+      <div class="sortOption">
+        <form [formGroup]="sort">
+          <mat-form-field class="sort">
+            <mat-select #sortDropdown formControlName="sortOptions" [placeholder]="'Sort by '" (selectionChange)="sortBy();" aria-label="Sort options" ngDefaultControl>
+              <mat-option [value]="1">Relevance</mat-option>
+              <mat-option [value]="2">Activity Date</mat-option>
+              <mat-option [value]="3">SignUp Deadline</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-expansion-panel>
+  </div>
+  <div class="content">
+    <mat-expansion-panel *ngIf="activitiesInCart.length > 0">
+      <mat-expansion-panel-header id="activtiesInCartPanel">
+        <mat-panel-title id="title">
+          <b><span>Activities in your cart</span></b>
+        </mat-panel-title>
+        <mat-panel-description class="actInCartPanelDesc">
+          <mat-chip-list>
+            <mat-chip color="accent" selected>{{activitiesInCart.length}}</mat-chip>
+          </mat-chip-list>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-list class="activityInCart">
+        <mat-list-item *ngFor="let activityInCart of activitiesInCart" class="activityInCartDetails">
+          <div class="mat-list-text">
+            <div class="leftInCart">
+              <div class="activityName" (click)="openActivityDialog(activityInCart)">
+                {{activityInCart.activityName}}
+              </div>
+            </div>
+            <mat-chip-list class="student ">
+              <mat-chip class="studentInCart">{{activityInCart.studentName}}</mat-chip>
+            </mat-chip-list>
+            <div>
+              {{activityInCart.amountInCart | currency}}
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+    <form [formGroup]="search" class="flex-grow-1 searchForm">
+      <div class="flex-row">
+        <mat-form-field class="search">
+          <input matInput placeholder="Search Activities" formControlName="searchValue" />
+          <button mat-button matSuffix type="submit" mat-icon-button (click)="searchActivities()" aria-label="Search">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-chip-list class="searchClear" *ngIf="searchComplete">
+          <mat-chip class="clearChip" (click)="clearSearch();">Clear</mat-chip>
+        </mat-chip-list>
+      </div>
+    </form>
+    <div style="display:flex; justify-content:space-between;" *ngIf="searchComplete">
+      <div class="sortOption">
+        <form [formGroup]="sort">
+          <mat-form-field class="sort">
+            <mat-select #sortDropdown formControlName="sortOptions" [placeholder]="'Sort by '" (selectionChange)="sortBy();" aria-label="Sort options" ngDefaultControl>
+              <mat-option [value]="1">Relevance</mat-option>
+              <mat-option [value]="2">Activity Date</mat-option>
+              <mat-option [value]="3">SignUp Deadline</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+      <pagination-controls *ngIf="searchComplete"
+                           class="pagination"
+                           (pageChange)="p = $event"
+                           autoHide="true">
+      </pagination-controls>
+    </div>
+    <mat-accordion *ngIf="!searchComplete && activitiesList.length > 0" multi="true" class="accordion">
+      <mat-expansion-panel *ngFor="let category of uniqueSearchCategories">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title">
+            <b>{{category.category}}</b>
+          </mat-panel-title>
+          <mat-panel-description class="subPanelDesc" *ngIf="category.subCategory.length === 1">
+            {{category.subCategory.length}} subcategory
+          </mat-panel-description>
+          <mat-panel-description class="subPanelDesc" *ngIf="category.subCategory.length > 1">
+            {{category.subCategory.length}} subcategories
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-expansion-panel *ngFor="let account of category.accounts, let j = index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon id="icon">person</mat-icon>
+              {{account.studentFirstName}}
+            </mat-panel-title>
+            <mat-panel-description class="panelDesc" *ngIf="account.activities.length === 1">
+              {{account.activities.length}} activity
+            </mat-panel-description>
+            <mat-panel-description class="panelDesc" *ngIf="account.activities.length > 1">
+              {{account.activities.length}} activities
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <activities-details *ngFor="let activity of account.activities, let k = index"
+                              style="width:100%;"
+                              [model]="activity">
+          </activities-details>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngFor="let subCategory of category.subCategory, let i = insideIndex">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="title">
+              <b>{{subCategory.category}}</b>
+            </mat-panel-title>
+            <mat-panel-description class="panelDesc" *ngFor="let account of subCategory.accounts">
+              <div *ngIf="!mobile"> {{account.studentFirstName}} has {{account.activities.length}} <span *ngIf="account.activities.length === 1">activity</span> <span *ngIf="account.activities.length > 1">activities</span> &nbsp;available!</div>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-expansion-panel *ngFor="let account of subCategory.accounts, let j = index">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon id="icon">person</mat-icon>
+                {{account.studentFirstName}}
+              </mat-panel-title>
+              <mat-panel-description class="panelDesc" *ngIf="account.activities.length === 1">
+                {{account.activities.length}} activity
+              </mat-panel-description>
+              <mat-panel-description class="panelDesc" *ngIf="account.activities.length > 1">
+                {{account.activities.length}} activities
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <activities-details *ngFor="let activity of account.activities, let k = index"
+                                [model]="activity">
+            </activities-details>
+          </mat-expansion-panel>
+        </mat-expansion-panel>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div *ngIf="!searchComplete && searchCategories.length == 0">
+      There are currently no Events or Activities at this time.
+    </div>
+    <div *ngIf="searchComplete && uniqueSearchResults.length > 0">
+      <activities-details *ngFor="let activity of uniqueSearchResults | paginate: { itemsPerPage: 10, currentPage: p }"
+                          [model]="activity"
+                          class="actDetails">
+      </activities-details>
+      <pagination-controls *ngIf="searchComplete"
+                           class="pagination"
+                           (pageChange)="p = $event"
+                           autoHide="true">
+      </pagination-controls>
+    </div>
+    <div *ngIf="searchComplete && uniqueSearchResults.length === 0">
+      No matches for that search...
+    </div>
+  </div>
+</div>

@@ -1,0 +1,277 @@
+/*.history-receipt {*/
+.history-receipt {
+  
+  
+}
+
+.receipt-container {
+  width: 91%;
+  margin: 20px;
+  position: absolute;
+  background: white;
+  z-index: 1000;
+  max-width: 1280px;
+  min-height: 120vh;
+  height: 100%;
+  border: 1px solid dodgerblue;
+}
+
+.header-row {
+  /*width: 99.5%;
+  margin: 4px 2px;*/
+  max-width: 1024px;
+  display: flex;
+  flex-flow: row;
+  flex: 0 1 auto;
+  width: 100%;
+  margin: 0px auto !important;
+}
+
+.receipt-margin {
+  margin: 2px 4px;
+}
+
+.close-button {
+  /*float: right;*/
+  display: none;
+  /*visibility: hidden;*/
+}
+
+.reciept-content-container {
+  /*margin-left: 5px;
+  width: 98%;
+  position: absolute;*/
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: 1024px;
+  margin: 0px auto;
+}
+
+.receipt-content {
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 auto;
+  width: 90%;
+}
+
+.item-height {
+  height: 30px;
+}
+
+.row-border {
+  border-bottom: 1px solid @lightgray;
+}
+
+.item-details {
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 auto;
+  width: 100%;
+}
+
+.item-number-row {
+  display: flex;
+  flex-flow: row;
+  flex: 0 1 auto;
+  width: 99%;
+  min-height: 30px;
+}
+
+.item-details-col1 {
+  width: 15%;
+}
+
+.item-header-row {
+  display: flex;
+  flex-flow: row;
+  flex: 0 1 auto;
+  width: 85%;
+  justify-content: space-between;
+  min-height: 30px;
+}
+
+.item-details-col1 {
+  width: 15%;
+}
+
+.item-subtotal-row {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  width: 83%;
+  min-height: 30px;
+}
+
+.item-details-col1 {
+  width: 15%;
+}
+
+.item-fee-row {
+  display: flex;
+  flex-flow: row;
+  flex: 0 1 auto;
+  justify-content: space-between;
+  width: 83%;
+  min-height: 30px;
+}
+
+.item-details-col1 {
+  width: 15%;
+}
+
+.item-total-row {
+  min-height: 30px;
+  width: 83%;
+  display: flex;
+  flex-flow: row;
+  flex: 0 1 auto;
+  justify-content: space-between;
+}
+
+.item-details-col1 {
+  width: 15%;
+}
+/*}*/
+/*.payment-details-container {*/
+.details-header-row {
+  font-weight: bold;
+  display: flex;
+  flex-flow: row;
+  flex: 0 1 auto;
+  width: 84%;
+  justify-content: space-between;
+}
+
+.details-name-row {
+  margin-top: 10px;
+}
+
+.details-dba-row {
+  display: flex;
+  flex-flow: row;
+  width: 88%;
+  justify-content: flex-end;
+  flex: 0 1 auto;
+  font-size: .85em;
+  margin-left: 2%
+}
+/*}*/
+.reciept-footer {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  flex: 0 1 auto;
+  margin: 0px auto;
+  font-size: .90em;
+}
+
+#printBtnContainer {
+   width: 100%;
+  display: block;
+  height: 69px;
+  position: relative;
+  left: 0px;
+  padding-bottom: 2px;
+  max-width: 1024px;
+  margin: 0px auto;
+}
+
+.print-button-row {
+  display: flex;
+  flex-flow: row;
+  flex: 0 1 auto;
+  width: 28%;
+  justify-content: space-around;
+  align-items: center;
+  height: 57px;
+  margin: 0px auto;
+}
+
+.row-border {
+  border-bottom: 1px solid #e0e1e2;
+  width: 90%;
+}
+
+#print {
+  background-color: rgb(56,131,208);
+  border-radius: 4px;
+  width: 73px;
+  color: #ffffff;
+}
+
+#cancel {
+  /*background-color: rgb(56,131,208);*/
+  border-radius: 4px;
+  width: 73px;
+  color: #000000;
+}
+
+.details-payLabel-row {
+  /*margin-top: 20px;
+  height: 100px;*/
+}
+
+@media print {
+  .payment-details-container {
+    height: 110px;
+  }
+
+ 
+
+  .print-button-row {
+    display: none;
+    margin-top: 10px;
+  }
+
+  .item-height {
+    height: 40px;
+  }
+
+  .item-details {
+    margin-top: -20px;
+  }
+
+  item-subtotal-row {
+    height: 20px;
+    /*padding-bottom: 5px;*/
+  }
+
+  .payment-details-container {
+    position: relative;
+    top: 15px;
+    padding-bottom: 30px;
+    height: 100px;
+  }
+
+  .details-name-row {
+    height: 18px;
+  }
+
+  .details-dba-row {
+    height: 18px;
+    /*display: none;*/
+  }
+
+  .details-payLabel-row {
+    margin-top: -15px;
+    height: 20px;
+  }
+
+  .bottom-divider {
+    /*display: none;*/
+  }
+
+  .reciept-footer {
+    position: relative;
+    margin-top: 50px;
+    width: 700px;
+    margin-left: 20px;
+    /*display: none;*/
+  }
+
+  #printBtnContainer{
+    display: none;
+  }
+}

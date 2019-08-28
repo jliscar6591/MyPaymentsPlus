@@ -1,0 +1,59 @@
+#register-card {
+  width: 500px;
+  margin: auto;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+
+  .create-account-message {
+    font-size: .85em;
+    font-weight: bold;
+    padding-left: 1px;
+  }
+}
+#container {
+    flex-grow: 1;
+}
+
+#container-content {
+    margin: 0px auto auto auto;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.agreement {
+  max-width:240px;
+  margin-left:40px;
+  margin-top:-20px;
+}
+
+@media(max-width: 599px){
+  #register-card {
+    width: 100%;
+
+    .form-field-width {
+      width: 99%;
+      margin: 0px 5px 0px -5px;
+    }
+  }
+
+    #container-content {
+        margin: 64px 0 0 0;
+    }
+
+}
+
+@media(max-height: 700px){
+    #container-content {
+        display: block;
+        flex: none;
+    }
+  }
+

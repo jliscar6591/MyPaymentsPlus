@@ -1,0 +1,117 @@
+#login-card {
+  width: 100%;
+  max-width: 325px;
+  display: inline-block;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 324px;
+  max-height:  365px;
+  position: fixed;
+}
+.login-modal-conatiner{
+  display: flex;
+  width:  98%;
+  flex: 0 1 auto;
+  margin:  0px auto;
+}
+.iphone-fix{
+  max-height: 50px;
+}
+
+/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+  .iphone-modal{
+    height:  100% !important;
+  }
+
+  .iphone-modal-noshow{
+    display: none;
+  }
+  #home-banner-login {
+    #login-card {
+      width: 98% !important;
+      max-width: 585px;
+    }
+  }
+}
+
+/* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+  .iphone-modal {
+    height: 100% !important;
+  }
+
+  .iphone-modal-noshow {
+    display: none;
+  }
+}
+
+@media all and (min-width: 960px){
+      #login-card {
+      position: inherit;
+    }
+}
+
+
+
+/*IE Message*/
+/*#alert {
+  display: flex;
+  position: absolute;
+  height: 330px;
+  width: 22vw;
+  border: 2px solid blue;
+  background-color: #ffffff;
+  text-align: center;
+  margin: 0px auto 0px auto;
+  top: 25px;
+  flex: 0 1 auto;
+  min-width: 322px;
+  flex-flow: column;
+
+}*/
+
+#alert {
+  display: flex;
+  position: absolute;
+  height: 395px;
+  width: 38%;
+  border: 2px solid blue;
+  background-color: #ffffff;
+  text-align: center;
+  top: 25px;
+  flex: 0 1 auto;
+  min-width: 322px;
+  flex-flow: column;
+  z-index: 1000;
+  margin-left: -26px;
+  max-width: 372px;
+}
+
+
+
+
+@media all and (max-width: 768px){
+  #alert {
+    display: flex;
+    position: absolute;
+    height: 395px;
+    width: 38%;
+    border: 2px solid blue;
+    background-color: #ffffff;
+    text-align: center;
+    top: 15px;
+    flex: 0 1 auto;
+    min-width: 325px;
+    flex-flow: column;
+    z-index: 1000;
+    margin-left: 0px;
+    max-width: 372px;
+  }
+
+}
+

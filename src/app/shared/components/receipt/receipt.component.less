@@ -1,0 +1,697 @@
+@import '../../../../colors.less';
+
+.receipt-container {
+  width: 95%;
+  position: absolute;
+  background: white;
+  z-index: 1000;
+  max-width: 1473px;
+  min-height: 97vh;
+  height: 92%;
+  border: 1px solid dodgerblue;
+  top: 54px;
+  left: 0px;
+  margin: -8px 10px;
+  overflow-y: scroll;
+
+  .header-row {
+    width: 99.5%;
+    margin: 4px 2px;
+
+
+    .receipt-margin {
+      margin: 2px 4px;
+    }
+
+    .close-button {
+      float: right;
+    }
+  }
+
+  .reciept-content-container {
+    margin-left: 5px;
+    width: 98%;
+    position: absolute;
+
+    .item-header-row {
+      display: flex;
+      flex-flow: row;
+      width: 83%;
+      justify-content: space-between;
+      min-height: 30px;
+
+      .item-details-col3 {
+        margin-right: -1.75%;
+      }
+    }
+  }
+
+  .receipt-content {
+    display: flex;
+    flex-flow: column;
+    flex: 0 1 auto;
+    width: 90%;
+  }
+
+  .row-border {
+    border-bottom: 1px solid @lightgray;
+  }
+
+  .item-list{
+    padding-bottom:5px;
+  }
+
+  .item-details {
+    display: flex;
+    flex-flow: column;
+    flex: 0 1 auto;
+    width: 100%;
+
+    .item-number-row {
+      display: flex;
+      flex-flow: row;
+      flex: 0 1 auto;
+      width: 99%;
+      min-height: 30px;
+
+      .item-details-col1 {
+        width: 15%;
+      }
+    }
+
+    .item-header-row {
+      display: flex;
+      flex-flow: row;
+      flex: 0 1 auto;
+      width: 85%;
+      justify-content: space-between;
+      min-height: 30px;
+      max-width: 450px;
+
+      .item-details-col1 {
+        width: 11%;
+      }
+    }
+
+
+    .item-subtotal-row {
+      display: flex;
+      flex-flow: row;
+      justify-content: flex-end;
+      width: 83%;
+      min-height: 30px;
+
+      .item-details-col2 {
+        width: 31%;
+      }
+
+      .item-details-col3 {
+        width: 27%;
+      }
+    }
+
+    .item-fee-row {
+      display: flex;
+      flex-flow: row;
+      flex: 0 1 auto;
+      justify-content: space-between;
+      width: 83%;
+      min-height: 30px;
+
+      .item-details-col1 {
+        width: 15%;
+      }
+    }
+
+    .item-activity-row {
+      display: flex;
+      flex-flow: row;
+      flex: 0 1 auto;
+      justify-content: space-between;
+      width: 83%;
+      min-height: 30px;
+
+      .item-details-col1 {
+        width: 15%;
+      }
+    }
+
+    .item-total-row {
+      min-height: 30px;
+      width: 83%;
+      display: flex;
+      flex-flow: row;
+      flex: 0 1 auto;
+      justify-content: space-between;
+
+      .item-details-col1 {
+        width: 15%;
+      }
+    }
+  }
+
+  .bonus-details-container {
+    max-width: 930px;
+    margin: 20px auto auto 33%;
+  }
+
+  .payment-details-container {
+    .details-header-row {
+      font-weight: bold;
+      display: flex;
+      flex-flow: row;
+      flex: 0 1 auto;
+      width: 90%;
+      justify-content: space-between;
+    }
+
+    .details-header-row-paid {
+      font-weight: bold;
+      display: flex;
+      flex-flow: row;
+      padding-top: 5px;
+      flex: 0 1 auto;
+      width: 90%;
+      justify-content: space-between;
+    }
+
+    .details-name-row {
+      margin-top: 10px;
+    }
+
+    .details-dba-row {
+      display: flex;
+      flex-flow: row;
+      width: 97%;
+      padding-top: 5px;
+      justify-content: flex-start;
+      flex: 0 1 auto;
+      font-size: .85em;
+    }
+
+    .item-subtotal-row {
+      display: flex;
+      flex-flow: row;
+
+      .item-details-col2 {
+        width: 50%;
+      }
+
+      .item-detials-col3 {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        margin-left: 23.3%;
+      }
+    }
+
+    .item-fee-row {
+      display: flex;
+      flex-flow: row;
+
+      .item-details-col2 {
+        width: 50%;
+      }
+
+      .item-detials-col3 {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        margin-left: 23.3%;
+      }
+    }
+
+    .item-total-row {
+      display: flex;
+      flex-flow: row;
+
+      .item-details-col2 {
+        width: 50%;
+      }
+
+      .item-detials-col3 {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        margin-left: 23.3%;
+      }
+    }
+  }
+
+  .reciept-footer {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    flex: 0 1 auto;
+    margin: 0px auto;
+    font-size: .90em;
+  }
+}
+
+.history-receipt {
+  .receipt-container {
+    width: 91%;
+    margin: 20px;
+    position: absolute;
+    background: white;
+    z-index: 1000;
+    max-width: 1280px;
+    min-height: 120vh;
+    height: 100%;
+    border: 1px solid dodgerblue;
+
+    .header-row {
+      width: 99.5%;
+      margin: 4px 2px;
+
+
+      .receipt-margin {
+        margin: 2px 4px;
+      }
+
+      .close-button {
+        float: right;
+      }
+    }
+
+    .reciept-content-container {
+      margin-left: 5px;
+      width: 98%;
+      position: absolute;
+    }
+
+    .receipt-content {
+      display: flex;
+      flex-flow: column;
+      flex: 0 1 auto;
+      width: 90%;
+    }
+
+    .item-height {
+      height: 30px;
+    }
+
+    .row-border {
+      border-bottom: 1px solid @lightgray;
+    }
+
+    .item-details {
+      display: flex;
+      flex-flow: column;
+      flex: 0 1 auto;
+      width: 100%;
+
+      .item-number-row {
+        display: flex;
+        flex-flow: row;
+        flex: 0 1 auto;
+        width: 99%;
+        min-height: 30px;
+
+        .item-details-col1 {
+          width: 15%;
+        }
+      }
+
+
+      .item-header-row {
+        display: flex;
+        flex-flow: row;
+        flex: 0 1 auto;
+        width: 85%;
+        justify-content: space-between;
+        min-height: 30px;
+
+        .item-details-col1 {
+          width: 15%;
+        }
+
+        .item-details-col2 {
+          width: 15%;
+        }
+
+        .item-details-col3 {
+          width: 13.7%;
+        }
+      }
+
+
+      .item-subtotal-row {
+        display: flex;
+        flex-flow: row;
+        justify-content: flex-end;
+        width: 83%;
+        min-height: 30px;
+        margin-right: 17.5%;
+
+        .item-details-col1 {
+          width: 15%;
+        }
+
+        .item-details-col2 {
+          width: 31%;
+        }
+
+        .item-details-col3 {
+          width: 29.5%;
+        }
+      }
+
+      .item-fee-row {
+        display: flex;
+        flex-flow: row;
+        flex: 0 1 auto;
+        justify-content: space-between;
+        width: 83%;
+        min-height: 30px;
+
+        .item-details-col1 {
+          width: 15%;
+        }
+      }
+
+      .item-total-row {
+        min-height: 30px;
+        width: 83%;
+        display: flex;
+        flex-flow: row;
+        flex: 0 1 auto;
+        justify-content: space-between;
+
+        .item-details-col1 {
+          width: 15%;
+        }
+      }
+    }
+
+    .payment-details-container {
+      .details-header-row {
+        font-weight: bold;
+        display: flex;
+        flex-flow: row;
+        flex: 0 1 auto;
+        width: 90%;
+        justify-content: space-between;
+      }
+
+      .details-header-row-paid {
+        font-weight: bold;
+        display: flex;
+        flex-flow: row;
+        margin-top: 5px;
+        flex: 0 1 auto;
+        width: 90%;
+        justify-content: space-between;
+      }
+
+      .details-name-row {
+        margin-top: 10px;
+      }
+
+      .details-dba-row {
+        display: flex;
+        flex-flow: row;
+        width: 97%;
+        justify-content: flex-start;
+        flex: 0 1 auto;
+        font-size: .85em;
+        margin-left: 2%
+      }
+    }
+
+    .reciept-footer {
+      display: flex;
+      flex-flow: row wrap;
+      width: 100%;
+      flex: 0 1 auto;
+      margin: 0px auto;
+      font-size: .90em;
+    }
+  }
+}
+
+.page-container {
+  .receipt-history-contianer {
+    width: 93%;
+    margin: 31px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    max-width: 1200px;
+  }
+}
+
+
+@media all and (max-width: 600px) {
+  .receipt-container {
+    max-width: 562px;
+    //width: 96% !important;
+    // margin: -24px 14px 0px -14px;
+    .header-row {
+      width: 94% !important;
+    }
+
+    .hello-container {
+      margin: 0px 4px;
+    }
+
+    .receipt-margin {
+      margin: 10px 14px;
+    }
+
+    .item-details {
+      width: 96% !important;
+      margin: 0px auto;
+    }
+
+    .bottom-divider {
+      width: 98%;
+      margin: 0px 2px;
+    }
+
+    .bonus-details-container {
+      margin: 0px 10px;
+      padding-bottom: 10px;
+      text-align: center;
+    }
+  }
+
+  .details-header-row-paid {
+    font-weight: bold;
+    display: flex;
+    flex-flow: row;
+    margin-top: 5px;
+    flex: 0 1 auto;
+    width: 90%;
+    justify-content: space-between;
+  }
+
+  .payment-details-container {
+    width: 97%;
+    margin-left: 1%;
+
+    .item-subtotal-row {
+      margin-right: 4%;
+    }
+
+    .item-fee-row {
+      margin-right: 4%;
+    }
+
+    .item-total-row {
+      margin-right: 4%;
+    }
+
+    .details-dba-row {
+      width: 96% !important;
+      font-size: .80em;
+      display: flex;
+      padding-top: 5px;
+      justify-content: flex-start !important;
+      margin-left: 1% !important
+    }
+  }
+
+  .reciept-footer {
+    width: 98% !important;
+    margin: 0px auto !important;
+  }
+
+  .history-receipt {
+    .receipt-container {
+      width: 92%;
+      margin-left: 1.5%;
+
+      .item-details {
+        .item-header-row {
+          .item-details-col2 {
+            margin-left: -8%;
+          }
+        }
+      }
+
+      .payment-details-container {
+        .item-subtotal-row {
+          margin-right: 4%;
+        }
+
+        .item-fee-row {
+          margin-right: 4%;
+        }
+
+        .item-total-row {
+          margin-right: 4%;
+        }
+      }
+    }
+  }
+}
+
+@media all and (min-width: 600px) {
+  .receipt-container {
+    .receipt-content {
+      max-width: 778px;
+    }
+
+    .item-details {
+      .item-header-row {
+        max-width: 664px;
+      }
+    }
+  }
+
+  .history-receipt {
+    .receipt-container {
+      width: 92%;
+    }
+  }
+}
+
+@media all and (min-width: 768px) {
+
+  .history-receipt {
+    .receipt-container {
+      margin: 10px;
+      width: 97%;
+    }
+  }
+}
+
+@media all and (min-width: 960px) {
+  .receipt-container {
+    // margin: -19px 20px 17px -24px;
+    width: 97% !important;
+
+
+    .header-row {
+      max-width: 945px;
+      margin: 25px auto;
+    }
+
+    .hello-container {
+      max-width: 930px;
+      margin: 0px auto;
+    }
+
+    .order-details {
+      max-width: 930px;
+      margin: 0px auto;
+    }
+
+    .receipt-content {
+      max-width: 930px;
+      margin: 0px auto;
+    }
+
+    .item-details {
+      max-width: 930px;
+      margin: 0px auto;
+
+      .item-header-row {
+        max-width: 785px;
+      }
+    }
+
+    .payment-details-container {
+      max-width: 930px;
+      margin: 10px auto;
+
+      .details-dba-row {
+        max-width: 875px;
+      }
+    }
+
+    .reciept-footer {
+      max-width: 930px;
+      margin: 0px auto;
+    }
+  }
+  //History Receipt
+  .history-receipt {
+    .receipt-container {
+      margin: -43px 10px;
+      width: 98% !important;
+
+      .header-row {
+        max-width: 963px;
+        margin: 5px auto;
+      }
+    }
+  }
+}
+
+@media all and (min-width: 1024px) {
+
+}
+
+@media all and (min-width: 1100px) {
+
+}
+
+@media all and (min-width: 1475px) {
+
+  .receipt-container {
+    margin: 0px 10%;
+  }
+}
+
+@media all and (min-width: 1570px) {
+  .history-receipt {
+    .receipt-container {
+      min-width: 1270px !important;
+    }
+  }
+}
+
+
+
+@media print {
+  .receipt-container {
+    .close-button {
+      display: none;
+    }
+  }
+
+  .history-receipt {
+    width: auto;
+    display: block !important;
+    min-height: 800px !important;
+
+    .receipt-container {
+      // min-width: 1270px !important;
+      width: auto;
+      display: block !important;
+      min-height: 800px !important;
+    }
+
+    .reciept-content-container {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* IE10+ CSS styles go here */
+}

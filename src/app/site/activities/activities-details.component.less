@@ -1,0 +1,83 @@
+@import '../../../colors.less';
+
+.activityContent {
+  width: 97%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+}
+
+.mat-card {
+  width: 98%;
+  padding: 16px !important;
+  display: flex;
+}
+
+.left {
+  display: flex;
+
+  .ticket {
+    padding-right: 16px;
+    display: block;
+    max-height: 100px;
+    max-width: 100px;
+  }
+
+  .details {
+    flex-flow: column;
+
+    .title {
+      color: @primaryColor;
+      font-size: medium;
+    }
+
+    .title:hover {
+      cursor: pointer;
+    }
+
+    .date-time {
+      font-size: small;
+    }
+
+    .location {
+      font-size: small;
+    }
+
+    .studentChips {
+      display: flex;
+      padding-top: 4px;
+
+      .chip {
+        background-color: @accentColor;
+        color: white;
+        height: 20px;
+      }
+    }
+  }
+}
+
+.right {
+
+  .price {
+    align-items: center;
+  }
+
+  .inCartAmount {
+    color: #4CAF50
+  }
+
+  .ticket-mobile {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+@media(max-width:500px) {
+  .mat-expansion-panel-body {
+    padding: 0px;
+  }
+
+  .activityContent {
+    width: 90%;
+  }
+}

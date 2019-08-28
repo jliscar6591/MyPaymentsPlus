@@ -1,0 +1,242 @@
+<div class="page-container">
+    <!-- Profile -->
+    <mat-card class="card-spacing">
+        <mat-card-title-group class="flex-children-start">
+            <mat-card-title>
+                <div id="profileTitle">My Profile<mat-spinner strokeWidth="1" diameter="25" *ngIf="isProfileGetting">Loading...</mat-spinner></div>
+            </mat-card-title>
+            <div class="card-title-action">
+                <div>
+                    <button mat-raised-button 
+                            color="primary"
+                            aria-label="Edit"
+                             *ngIf="!showEditProfile && !showChangePassword && !getProfileErr && !isProfileGetting" 
+                            (click)="showEditProfile = true"
+                            >
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </mat-card-title-group>
+        <div *ngIf="!isProfileGetting && getProfileErr" class="error card-spacing">
+            {{getProfileErrMsg}}
+        </div>
+        <mat-card-content *ngIf="!isProfileGetting && !getProfileErr" id="account-profile">
+            <div *ngIf="!showEditProfile && !showChangePassword" class="flex-row">
+                <div>
+                    <i class="material-icons md-48 md-dark md-inactive notranslate">account_circle</i>
+                </div>
+                <div>
+                    <p class="md-title">{{ profileUserprofileService.profileUserprofileGetModel.firstName }} {{profileUserprofileService.profileUserprofileGetModel.lastName}}</p>
+                    <p>{{ profileUserprofileService.profileUserprofileGetModel.email }}</p>
+                    <a (click)="showChangePassword = true" class="link cursor-pointer">Change Password</a>
+                </div>
+            </div>
+            <form *ngIf="showEditProfile" [formGroup]="updateProfileForm" novalidate>
+                <div class="input-container">
+                    <mat-form-field class="width-100">
+                        <input matInput placeholder="First Name" [(ngModel)]="profileUserprofileService.profileUserprofileGetModel.firstName" formControlName="firstName" required />
+                    </mat-form-field>
+                    <div *ngIf="formErrors.firstName" class="form-inline-validation error">
+                        {{ formErrors.firstName }}
+                    </div>
+
+                </div>
+                <div class="input-container">
+                    <mat-form-field class="width-100">
+                        <input matInput placeholder="Last Name" [(ngModel)]="profileUserprofileService.profileUserprofileGetModel.lastName" formControlName="lastName" required />
+                    </mat-form-field>
+                    <div *ngIf="formErrors.lastName" class="form-inline-validation error">
+                        {{ formErrors.lastName }}
+                    </div>
+
+                </div> 
+                <div class="input-container">
+                    <mat-form-field class="width-100">
+                        <input matInput placeholder="Email Address" [(ngModel)]="profileUserprofileService.profileUserprofileGetModel.email" formControlName="email"
+                               aria-label="Email Address" required />
+                    </mat-form-field>
+                    <div *ngIf="formErrors.email" class="form-inline-validation error">
+                        {{ formErrors.email }}
+                    </div>
+                    <div *ngIf="duplicationError" class="form-inline-validation error">
+                        {{duplicationErrorMessage}}
+                        <a routerLink="/reset-password" routerLinkActive="active" class="link">
+                            Forgot Password?
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer-action text-right">
+                    <button mat-raised-button aria-label="Cancel" (click)="cancelUpdateProfile()" type="button">Cancel</button>
+                    <button mat-raised-button color="primary" aria-label="Save" (click)="putProfileCore()" type="button">
+                        <span *ngIf="profileCoreSaving">
+                            <mat-spinner strokeWidth="1" diameter="25" *ngIf="profileCoreSaving" class="spinner-button spinner-button-center">
+                                Loading..
+                            </mat-spinner>
+                        </span>
+                        <span *ngIf="!profileCoreSaving">Save</span>
+                    </button>
+                </div>
+                <div class="error card-spacing" *ngIf="profileCoreErr">
+                    {{profileCoreErrMsg}}
+                </div>
+
+            </form>
+            <form *ngIf="showChangePassword" [formGroup]="changePasswordForm" (ngSubmit)="changePassword()" novalidate>
+                <div class="md-title">Change Password</div>
+                <popover-password-validator #passwordValidator></popover-password-validator>
+                <div class="input-container">
+                    <mat-form-field class="width-100">
+                        <input matInput [(ngModel)]="changeDetail.newPassword"
+                               (focus)="passwordValidator.show()"
+                               (blur)="passwordValidator.hide()"
+                               (ngModelChange)="passwordValidator.change($event)"
+                               placeholder="New Password"
+                               type="password"
+                               formControlName="newPassword"
+                               aria-label="New Password"
+                               required />
+                    </mat-form-field>
+                    <div *ngIf="formErrors.newPassword" class="form-inline-validation error">
+                        {{ formErrors.newPassword }}
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <mat-form-field class="form-field width-100">
+                        <input matInput [(ngModel)]="changeDetail.confirmPassword"
+                               (focus)="passwordOnFocus()"
+                               (blur)="passwordOnBlur()"
+                               placeholder="Confirm Password"
+                               type="password"
+                               formControlName="confirmPassword"
+                               aria-label="Confirm Password"
+                               required />
+                    </mat-form-field>
+                    <div *ngIf="formErrors.confirmPassword" class="form-inline-validation error">
+                        {{ formErrors.confirmPassword }}
+                    </div>
+                </div>
+                <br /><br />
+                <div class="card-footer-action text-right">
+                    <button mat-raised-button aria-label="Cancel" (click)="cancelChangePassword()" type="button">Cancel</button>
+                    <button mat-raised-button color="primary" aria-label="Save" type="submit">
+                        <span *ngIf="changePasswordSaving">
+                            <mat-spinner strokeWidth="1" diameter="25" class="spinner-button spinner-button-center">
+                                Loading..
+                            </mat-spinner>
+                        </span>
+                        <span *ngIf="!changePasswordSaving">Save</span>
+                    </button>
+                </div>
+                <div class="error card-spacing" *ngIf="changePasswordErr">
+                    {{changePasswordErrMsg}}
+                </div>
+
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <!-- Email Preference -->
+    <mat-card *ngIf="!isProfileGetting && !getProfileErr" class="card-spacing none" [formGroup]="updateProfileForm">
+      <mat-card-title-group class="flex-children-start">
+        <mat-card-title>Email Preferences</mat-card-title>
+      </mat-card-title-group>
+        <mat-card-content>
+          <mat-checkbox (click)="emailPrefUpdated = true" [(ngModel)]="profileUserprofileService.emailUpdates" formControlName="emailUpdates"
+                        aria-label="Receive important email updates from MyPaymentsPlus" class="mobile-label">
+            Receive important email updates from MyPaymentsPlus
+          </mat-checkbox>
+          <div *ngIf="emailPrefUpdated" class="card-footer-action">
+            <button mat-raised-button color="primary" (click)="putEmailPreference()" aria-label="Save">
+              <span *ngIf="emailPrefSaving">
+                <mat-spinner strokeWidth="1" diameter="25" class="spinner-button spinner-button-center">
+                  Loading..
+                </mat-spinner>
+              </span>
+              <span *ngIf="!emailPrefSaving">Save</span>
+            </button>
+          </div>
+          <div class="error card-spacing" *ngIf="emailPrefErr">
+            {{emailPrefErrMsg}}
+          </div>
+        </mat-card-content>
+    </mat-card>
+    <!-- Relationship -->
+    <mat-card *ngIf="!isProfileGetting && !getProfileErr" class="card-spacing none">
+        <mat-card-title-group class="flex-children-start">
+            <mat-card-title>Relationship to the District</mat-card-title>
+            <div class="card-title-action">
+                <button *ngIf="!showEditRelationship"
+                        (click)="showEditRelationship = true"
+                        mat-raised-button
+                        aria-label="Edit"
+                        color="primary"
+                        >
+                    Edit
+                </button>
+            </div>
+        </mat-card-title-group>
+        <mat-card-content>
+            <div *ngIf="!showEditRelationship">
+              <p *ngIf="profileUserprofileService.profileUserprofileGetModel.isParent">
+                <span *ngIf="!isMultiDistrict">I am a <b>Parent or Guardian</b> with student(s) in {{profileUserprofileService.profileUserprofileGetModel.districtName}}</span>
+                <span *ngIf="isMultiDistrict"> I am a <b>Parent or Guardian</b> with student(s)</span>
+              </p>
+                <p *ngIf="profileUserprofileService.profileUserprofileGetModel.isStudent">I am a <b>Student</b> in the district</p>
+                <p *ngIf="profileUserprofileService.profileUserprofileGetModel.isStaff">I work in the district (<b>Staff Member</b>)</p>
+                <p *ngIf="profileUserprofileService.profileUserprofileGetModel.isGuest">I'm a <b>Guest</b> interested in district activities and/or I want to support the district</p>
+            </div>
+            <form *ngIf="showEditRelationship" [formGroup]="relationshipForm" novalidate>
+
+                <ul class="checkbox-list">
+                  <li>
+                    <mat-checkbox class="checkbox-fix" [(ngModel)]="profileUserprofileService.profileUserprofileGetModel.isParent"
+                                  formControlName="parent" color="primary"
+                                  aria-label="I am a Parent or Guardian with students checkbox">
+                      <span *ngIf="!isMultiDistrict">I am a <b>Parent or Guardian</b> with student(s) in {{profileUserprofileService.profileUserprofileGetModel.districtName}}</span>
+                      <span *ngIf="isMultiDistrict"> I am a <b>Parent or Guardian</b> with student(s)</span>
+                    </mat-checkbox>
+                  </li>
+                  <li>
+                    <mat-checkbox [(ngModel)]="profileUserprofileService.profileUserprofileGetModel.isStudent" formControlName="student" color="primary"
+                                  aria-label="I am a Student in the district checkbox">
+                      I am a <b>Student</b> in the district
+                    </mat-checkbox>
+                  </li>
+                  <li>
+                    <mat-checkbox [(ngModel)]="profileUserprofileService.profileUserprofileGetModel.isStaff" formControlName="staff" color="primary"
+                                  aria-label="I work in the district as a staff member checkbox">
+                      I work in the district (<b>Staff Member</b>)
+                    </mat-checkbox>
+                  </li>
+                  <li>
+                    <mat-checkbox class="checkbox-fix" [(ngModel)]="profileUserprofileService.profileUserprofileGetModel.isGuest" formControlName="guest" color="primary"
+                                  aria-label="I am a Guest interested in district activities and/or I want to support the district checkbox">
+                      I'm a <b>Guest</b> interested in district activities and/or I want to support the district
+                    </mat-checkbox>
+                  </li>
+                </ul>
+              
+                <div *ngIf="relationshipError" class="form-inline-validation error">
+                    At least 1 selection is required.
+                </div>
+                <div class="card-footer-action text-right">
+                    <button mat-raised-button aria-label="Cancel" type="button" (click)="cancelSaveRelationship()">Cancel</button>
+                    <button mat-raised-button color="primary" aria-label="Save" type="button" (click)="putRelationship()">
+                        <span *ngIf="relationshipSaving">
+                            <mat-spinner strokeWidth="1" diameter="25" class="spinner-button spinner-button-center">
+                                Loading..
+                            </mat-spinner>
+                        </span>
+                        <span *ngIf="!relationshipSaving">Save</span>
+                    </button>
+                </div>
+                <div class="error card-spacing" *ngIf="relationshipErr">
+                    {{relationshipErrMsg}}
+                </div>
+
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
+

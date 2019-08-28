@@ -1,0 +1,21 @@
+<div fxLayout="column"  class="transfer-confirmation">
+  <div fxLayout="row wrap" fxFlexOffset="10px"  class="confirmation-row">
+    <div class="transfer-account-name">
+      {{transferFrom.studentName}}
+    </div>
+    <div class="transfer-account-date">
+      as of {{transferFrom.balanceDate | date: 'MM/dd/yyyy'}}
+    </div>
+  </div>
+  <div fxLayout="row" class="confirmation-content-row center">
+    <p>A Transfer of Funds has been successfully requested. The transfer should be
+    available within 15 minutes.
+    </p>
+  </div>
+  <div fxLayout="row" class="confirmation-icon-row center">
+    <span><i class="material-icons confirmation-success-icon confirmation-icon">check</i></span>
+  </div>
+  <div fxLayout="row" class="confirmation-button-row center">
+    <a  (click)="goToDashboard()" routerLink="/dashboard" mat-raised-button class="confirmation-button"> Return to Dashboard</a>
+  </div>
+</div>

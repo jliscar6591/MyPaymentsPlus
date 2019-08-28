@@ -1,0 +1,27 @@
+<section id="breadcrumbs" class="flex-row">
+    <section class="breadcrumb-state flex-column flex-children-center">
+        <div class="breadcrumb-state-graphic breadcrumb-active">
+            <i class="material-icons md-light">checkmark</i>
+        </div>
+        <div>Find District</div>
+    </section>
+    <div class="breadcrumb-divider"></div>
+    <section class="breadcrumb-state flex-column flex-children-center">
+        <div class="breadcrumb-state-graphic breadcrumb-active">
+            <i class="material-icons md-light">checkmark</i>
+        </div>
+        <div>Register</div>
+    </section>
+    <div class="breadcrumb-divider"></div>
+    <section class="breadcrumb-state flex-column flex-children-center">
+        <div class="breadcrumb-state-graphic" [ngClass]="{'breadcrumb-active': registrationBreadcrumbsService.getRelationshipState()}">
+            <i *ngIf="registrationBreadcrumbsService.getRelationshipState()" class="material-icons md-light">checkmark</i>
+        </div>
+        <div>Relationship<br/>to District</div>
+    </section>
+    <div *ngIf="!registrationBreadcrumbsService.getGuestState()" class="breadcrumb-divider"></div>
+    <section *ngIf="!registrationBreadcrumbsService.getGuestState()" class="breadcrumb-state flex-column flex-children-center">
+        <div class="breadcrumb-state-graphic"></div>
+        <div>Add Students</div>
+    </section>
+</section>

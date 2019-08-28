@@ -1,0 +1,202 @@
+<mat-card class="card-spacing">
+  <mat-card-title id="autoTitle">Autopay <mat-spinner strokeWidth="1" diameter="25" *ngIf="isgettingAutoPay || isDeleting">Loading...</mat-spinner></mat-card-title>
+  <suspend-payment-warning *ngIf="isSuspendPayment"></suspend-payment-warning>
+  <mat-card-content>
+    <div *ngIf="!setupAutopay && !editAutopay && paymentAutoPayService.result">
+      <div *ngIf="!hasAutoPay" class="well">
+        <p>You have 0 payment methods setup with autopay.</p>
+      </div>
+      <div *ngIf="failedtoDelete" class="form-inline-validation error student-error-message">
+        {{failedtoDeleteMsg}}
+      </div>
+      <div *ngIf="!isgettingAutoPay && getAutoPayErr" class="error card-spacing">
+        {{getAutoPayErrMsg}}
+      </div>
+      <div *ngIf="hasAutoPay">
+        <div *ngFor="let student of paymentAutoPayService.autopayDetails.students; let i = index;" class="accordion-group">
+          <div class="accordion-heading">
+            <h4 class="accordion-title">
+              {{student.firstName}}
+            </h4>
+          </div>
+          <div class="accordion-body accordion-open">
+            <div class="padding-20">
+              <table class="mat-table">
+                <tbody>
+                  <tr *ngFor="let plan of student.settings; let j = index;">
+                    <td>
+                      <p><b>{{plan.categoryName}}</b></p>
+                      <div *ngIf="plan.isAutoPayActive">
+                        Make an automatic payment of <b>{{plan.paymentAmount | currency }}</b> from <b>{{parseWalletNickname(plan)}}</b> when the balance falls below <b>{{plan.accountMinBalance | currency }}</b>.
+                        <span *ngIf="utilityService.isAchBlocked(loginResponse) && utilityService.isAch(plan.walletKey, paymentMethodService.paymentMethods)" class="pill pill-primary">Blocked</span>
+                      </div>
+                      <div *ngIf="!plan.isAutoPayActive">
+                        <a aria-label="Setup Autopay"
+                           (click)="setuppay(i,j)"
+                           class="link cursor-pointer">
+                          Setup Autopay
+                        </a>
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="plan.isAutoPayActive">
+                        <span class="padding-10">
+                          <a aria-label="Edit"
+                             (click)="editpay(i,j)"
+                             class="link cursor-pointer">
+                            Edit
+                          </a>
+                        </span>
+                        |
+                        <span class="padding-10">
+                          <a class="link cursor-pointer"
+                             (click)="showDeleteDialog(plan)">
+                            Delete
+                          </a>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="hasAutoPay && ( setupAutopay || editAutopay)">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <h4 class="accordion-title">
+            Setup Autopay for {{autopaysetup.studentName}} - {{autopaysetup.categoryName}}
+          </h4>
+        </div>
+        <div class="accordion-body accordion-open auto-pay">
+          <div class="padding-20">
+            <form [formGroup]="autopayForm" novalidate>
+              <!-- Wallet -->
+              <div class="input-container">
+                <mat-form-field>
+                  <!--this.paymentAutoPayService.autopayDetails.students[studentIdx].settings[planIdx].walletKey"-->
+                  <mat-select [(ngModel)]="studentList.walletKey"
+                              placeholder="Payments will be made using:"
+                              aria-label="Select Payment Method"
+                              class="autopay-field"
+                              formControlName="walletKey"
+                              required>
+                    <mat-option *ngFor="let wallet of paymentMethodsFiltered"
+                                [value]="wallet.walletKey">
+                      <span *ngIf="wallet.walletNickname">{{wallet.accountType}} - {{wallet.walletNickname}}</span>
+                      <span *ngIf="!wallet.walletNickname">{{wallet.accountType}} - {{wallet.accountTail}}</span>
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="formErrors.walletKey" class="form-inline-validation error">
+                  {{ formErrors.walletKey }}
+                </div>
+              </div>
+
+
+              <h4 class="md-title">Autopay Preference</h4>
+
+              <!-- Payment -->
+              <!--this.paymentAutoPayService.autopayDetails[0].students[studentIdx].settings[planIdx].paymentAmount"-->
+              <div class="input-container">
+                <mat-form-field class="autopay-field">
+                  <input type="text"
+                         class="autopay-field"
+                         [(ngModel)]="studentList.paymentAmount"
+                         [matAutocomplete]="auto"
+                         matInput placeholder="Make an automatic payment of"
+                         formControlName="paymentAmount" />
+                </mat-form-field>
+
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let text of autoPayAmountList" [value]="text">
+                    {{text | currency }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div *ngIf="formErrors.paymentAmount" class="form-inline-validation error">
+                  {{ formErrors.paymentAmount }}
+                </div>
+              </div>
+
+              <!-- Minimum Balance -->
+
+
+              <div class="input-container">
+                <mat-form-field class="autopay-field">
+                  <input type="text"
+                         class="autopay-field"
+                         [(ngModel)]="studentList.accountMinBalance"
+                         [matAutocomplete]="auto"
+                         matInput placeholder="When the balance falls below"
+                         formControlName="minBalance" />
+                </mat-form-field>
+
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let text of autoPayMinBalList" [value]="text">
+                    {{text | currency }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div *ngIf="formErrors.minBalance" class="form-inline-validation error">
+                  {{ formErrors.minBalance }}
+                </div>
+              </div>
+            </form>
+
+            <div>
+              <sub>*Program fee of </sub><b><sub *ngIf="showFee" style="padding-left:3px;">{{autopayFee | currency}}</sub></b><sub> will apply</sub>
+            </div>
+            <div class="card-footer-action card-footer-padding text-right">
+              <button mat-raised-button aria-label="Cancel"
+                      (click)="cancelAddorEdit()"
+                      type="button">
+                Cancel
+              </button>
+
+              <button *ngIf="!editAutopay"
+                      mat-raised-button color="primary"
+                      aria-label="Setup"
+                      (click)="setupstudentAutopay()"
+                      type="button">
+                <span *ngIf="isAdding">
+                  <mat-spinner strokeWidth="1" diameter="25" *ngIf="isAdding" class="spinner-button spinner-button-center">
+                    Loading..
+                  </mat-spinner>
+                </span>
+                <span *ngIf="!isAdding">
+                  Setup
+                </span>
+              </button>
+
+
+              <button mat-raised-button
+                      color="primary"
+                      aria-label="Save"
+                      (click)="updateAutopay()"
+                      type="button"
+                      *ngIf="editAutopay">
+                <span *ngIf="isSaving">
+                  <mat-spinner strokeWidth="1" diameter="25" *ngIf="isSaving" class="spinner-button spinner-button-center">
+                    Loading..
+                  </mat-spinner>
+                </span>
+                <span *ngIf="!isSaving">
+                  Save
+                </span>
+              </button>
+
+            </div>
+            <div *ngIf="failedtoAdd" class="form-inline-validation error">
+              {{failedtoAddMsg}}
+            </div>
+            <div *ngIf="failedtoSave" class="form-inline-validation error">
+              {{failedtoAddMsg}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

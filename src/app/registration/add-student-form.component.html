@@ -1,0 +1,112 @@
+<img mat-card-image src="../../assets/images/registration/registration-banner-students.png" alt="Student's school supplies" class="hide-xs registration-banner">
+<mat-card-title>
+  <div class="mat-headline">Add Student(s) to Your Account</div>
+</mat-card-title>
+<mat-card-content>
+  <p>
+    Adding your students(s) from <b>{{districtLoginDerivedService.districtName}}</b> will allow you to manage meal account balances, track meal purchases, pay for school expenses and more.
+  </p>
+  <div class="flex-row-gt-sm flex-column-sm flex-column-xs">
+    <section class="addstudent-section">
+      <form [formGroup]="addStudentForm" novalidate class="flex-column">
+        <div *ngIf="showStateDistrict" class="input-container">
+          <mat-form-field>
+            <mat-select placeholder="Select State" aria-label="Select State" [(ngModel)]="state" (selectionChange)="getDistrict(state)" formControlName="state" required class="width-100 notranslate">
+              <mat-option *ngFor="let text of stateProvinceListService.stateProvinceList" [value]="text.stateCode">{{text.displayName}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!--</div>-->
+          <div *ngIf="showDistrictDdl" class="input-container">
+            <mat-form-field>
+              <mat-select placeholder="Select School District" aria-label="Select School District" [(ngModel)]="studentAddDetail.districtKey" (selectionChange)="overrideDerivedDistrict(studentAddDetail.districtKey)" formControlName="district" required class="width-100 notranslate">
+                <mat-option *ngFor="let text of districtListService.districtList" [value]="text.districtKey">{{text.districtName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngIf="!showDistrictDdl && showNoDistrictWarning">
+            There are no available districts for this state
+          </div>
+
+        </div>
+        <div class="input-container">
+          <mat-form-field class="width-100">
+            <input matInput [(ngModel)]="studentAddDetail.studentID" formControlName="id" aria-label="Enter Student ID" placeholder="Student ID" required />
+          </mat-form-field>
+          <div *ngIf="formErrors.id" class="form-inline-validation error">
+              {{ formErrors.id }}
+          </div>
+        </div>
+
+        <a class="link cursor-pointer text-center" aria-label="Where to find Student ID?" (click)="getDistrictContent()">
+          Where to find Student ID?
+        </a><br />
+        <div class="input-container">
+          <mat-form-field class="width-100">
+            <input matInput [(ngModel)]="studentAddDetail.lastName" formControlName="last" aria-label="Enter Student Last Name" placeholder="Student Last Name" required />
+          </mat-form-field>
+          <div *ngIf="formErrors.last" class="form-inline-validation error">
+              {{ formErrors.last }}
+          </div>
+        </div>
+
+        <button mat-raised-button type="submit" color="accent" aria-label="Add student to student list" (click)="addStudent()">
+          <span *ngIf="!isAdding">Add Student</span>
+          <mat-spinner strokeWidth="1" diameter="25" *ngIf="isAdding" class="spinner-button spinner-button-center">Loading..</mat-spinner>
+        </button>
+        <div *ngIf="failedtoAdd" class="form-inline-validation error student-error-message"> Failed to Add student</div>
+      </form>
+      <br />
+      <div *ngIf="!showStateDistrict" class="text-center">
+        <a (click)="showStateDistrict = true" aria-label="Change School District" class="link cursor-pointer">Change School District</a>
+      </div>
+    </section>
+    <section class="flex-grow-1 student-list-section">
+      <div class="mat-title">My Students</div>
+      <br />
+      <table *ngIf="studentListService.students.length > 0" class="mat-table">
+        <thead>
+          <tr>
+            <td>
+              Name
+            </td>
+            <td>
+              Student ID
+            </td>
+            <td>
+              District
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of studentListService.students">
+            <td>
+              {{student.firstName}} {{student.lastName}}
+            </td>
+            <td>
+              {{student.studentId}}
+            </td>
+            <td>
+              {{student.districtName}}
+            </td>
+            <td>
+              <i class="material-icons rotate-45 mat-dark cursor-pointer notranslate" aria-label="Delete Student" (click)="deleteStudent(student.accountBalanceId)">add_circle</i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="studentListService.students.length === 0 && studentListService.result" class="well">
+        There are 0 students on your account.
+      </div>
+    </section>
+  </div>
+  <div class="card-actions-right">
+    <button *ngIf="studentListService.students.length === 0" mat-button aria-label="Skip adding students for now" (click)="navHome()">
+      Skip for Now
+    </button>
+    <button mat-raised-button color="primary" aria-label="Done" (click)="navHome()">
+      Done
+    </button>
+  </div>
+
+</mat-card-content>
+<toaster-container></toaster-container>

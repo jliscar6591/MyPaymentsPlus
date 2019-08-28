@@ -1,0 +1,124 @@
+<mat-card-title>
+  <div class="flex">
+    <div>
+      <img *ngIf="!mobile && data.s3UriFull" (click)="openPictureDialog()" class="ticket" src="{{data.s3UriFull}}" />
+    </div>
+    <div>
+      <img *ngIf="!mobile && !data.s3UriFull" class="ticket" src="../../../assets/images/cart/activities.png" />
+    </div>
+    <div class="flex-cloumn">
+      <div class="activity-title-container">
+        <span class="activity-title">
+          <b>{{data.activityName}}</b>
+        </span>
+      </div>
+      <img *ngIf="mobile && data.s3UriFull" (click)="openPictureDialog()" class="ticket-mobile" src="{{data.s3UriFull}}" />
+      <div class="sub-title">
+        <br />
+        <div>
+          <b> Dates: </b>{{data.startDate}}
+          -
+          {{data.endDate}}
+        </div>
+      </div>
+      <div *ngIf="data.signupEndDate" class="deadline">
+        <b> SignUp Deadline: </b>{{data.signupEndDate | date: 'medium' }}
+      </div>
+      <div *ngIf="data.location" class="location">
+        <b>Location: </b>{{data.location}}
+      </div>
+      <span *ngIf="!data.isVariable && !data.isPartialPay && !data.isInCart" class="activity-amount">
+        {{data.amount | currency}}
+      </span>
+      <form [formGroup]="dialogActivityForm" class="amountForm" *ngIf="!data.isInCart">
+        <div>
+          <mat-form-field *ngIf="data.isVariable || data.isPartialPay && !data.isInCart" class="amount">
+            <input type="number" formControlName="activityAmount" matInput class="activity-amount-input" placeholder="{{data.amount | currency }}" min="1" />
+            <mat-hint *ngIf="data.minimumPayment > 0 && data.isPartialPay" id="amount" align="start">Amount must be above {{data.minimumPayment | currency}}</mat-hint>
+            <mat-hint *ngIf="data.isVariable" id="amount" align="start">Amount must be above {{data.minimumPayment | currency}}</mat-hint>
+          </mat-form-field>
+          <mat-form-field *ngIf="!data.isInCart && data.isQuantity" class="quantity">
+            Quantity
+            <input type="number" formControlName="quantity" matInput class="activity-amount-input" min="1" />
+            <mat-hint id="quantity" align="start">Must include a quantity</mat-hint>
+          </mat-form-field>
+        </div>
+      </form>
+      <span *ngIf="data.isInCart && !data.isPartialPay" class="amountInCart">
+        ({{data.amountInCart | currency}} in cart)
+      </span>
+      <span *ngIf="data.isInCart && data.isPartialPay" class="amountInCart">
+        ({{data.amountInCart | currency }} in cart)
+      </span>
+      <mat-chip-list>
+        <mat-chip class="chip">{{data.studentName}}</mat-chip>
+      </mat-chip-list>
+    </div>
+    <div class="close-btn-conatiner">
+      <button mat-icon-button class="close-btn"><mat-icon (click)="onNoClick()">close</mat-icon></button>
+    </div>
+  </div>
+  <div class="details">
+    <b> Activity Details</b>
+  </div>
+  <div class="activity-description">
+    {{data.description}}
+  </div>
+  <div *ngIf="data.resources.length > 0" class="resources">
+    <a class="link" *ngFor="let link of data.resources" href="https://{{link.link}}" target="_blank">{{link.label}}</a>
+  </div>
+  <div *ngIf="data.contactName || data.contactPhone || data.contactEmail" class="contact">
+    <div class="contactTitle">
+      <b>Contact Info</b>
+    </div>
+    <div class="contactInfo">
+      {{data.contactName}}
+    </div>
+    <div class="contactInfo">
+      {{data.contactPhone}}
+    </div>
+    <div class="contactInfo">
+      {{data.contactEmail}}
+    </div>
+  </div>
+  <div *ngIf="data.isPartialPay" class="partial-pay-details">
+    <div>
+      This activity allows partial payments. The total amount due can be paid in full or in seperate installments.
+    </div>
+    <div>
+      The minimum payment accepted for this activity is
+    </div>
+    <div>
+      <b>{{data.minimumPayment | currency}}</b>
+    </div>
+    <div>
+      The final payment due date is
+    </div>
+    <div>
+      <b>{{data.partialPayDue}}</b>
+    </div>
+  </div>
+  <div class="footer">
+    <button mat-raised-button class="cancel-btn" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button class="add-btn" *ngIf="data.isInCart" (click)="editAmount()" type="submit" color="primary">Edit</button>
+    <button mat-raised-button class="add-btn" *ngIf="!data.isPartialPay && !data.isVariable && !data.isInCart" (click)="addToCart(data.activityFormId, data.studentKey)" type="submit" color="primary">
+      <span *ngIf="!isAdding">Add to Cart</span>
+      <mat-spinner strokeWidth="1" diameter="25" *ngIf="isAdding" color="accent">
+        Loading..
+      </mat-spinner>
+    </button>
+    <button mat-raised-button class="add-btn" *ngIf="data.isPartialPay && !data.isInCart" (click)="addToCartPartial(data.activityFormId, data.studentKey)" type="submit" color="primary">
+      <span *ngIf="!isAdding">Add to Cart</span>
+      <mat-spinner strokeWidth="1" diameter="25" *ngIf="isAdding" color="accent">
+        Loading..
+      </mat-spinner>
+    </button>
+    <button mat-raised-button class="add-btn" *ngIf="data.isVariable && !data.isInCart" (click)="addToCartVariable(data.activityFormId, data.studentKey)" type="submit" color="primary">
+      <span *ngIf="!isAdding">Add to Cart</span>
+      <mat-spinner strokeWidth="1" diameter="25" *ngIf="isAdding" color="accent">
+        Loading..
+      </mat-spinner>
+    </button>
+  </div>
+</mat-card-title>
+

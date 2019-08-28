@@ -1,0 +1,239 @@
+<mat-sidenav-container>
+  <mat-sidenav id="app-sidenav" #appSidenav opened="false" mode="over" class="sidenav sidenav-dark">
+    <div id="sidenav-logo">
+      <img src="../../assets/images/mpp-logo-white.png">
+    </div>
+    <ul class="sidenav-list">
+      <li class="sidenav-list-option">
+        <button routerLink="/dashboard"
+                [ngClass]="{'sidenav-option-active': tabIndex === 0}"
+                (click)="appSidenav.close(); reroute(0)"
+                aria-label="Dashboard"
+                mat-button class="sidenav-option">
+          <i class="material-icons mat-18 notranslate">home</i>
+          <span class="option-text">
+            Dashboard
+          </span>
+        </button>
+      </li>
+      <li class="sidenav-list-option">
+        <button routerLink="/meals"
+                
+                aria-label="Cafeteria Accounts"
+                (click)="appSidenav.close();"
+                mat-button class="sidenav-option">
+          <i class="material-icons mat-18 notranslate">restaurant</i>
+          <span class="option-text">
+            Cafeteria Accounts
+          </span>
+        </button>
+      </li>
+      <li class="sidenav-list-option" *ngIf="districtHasFees && showFees">
+        <button routerLink="/fees"
+                
+                aria-label="Fees"
+                (click)="appSidenav.close()"
+                mat-button class="sidenav-option">
+          <i class="material-icons mat-18 notranslate">assignment_ind</i>
+          <span class="option-text">
+            Fees
+          </span>
+        </button>
+      </li>
+      <li class="sidenav-list-option" *ngIf="districtHasActivities && showActivities">
+        <button routerLink="/activities"
+                [ngClass]="{'sidenav-option-active': tabIndex === 2}"
+                aria-label="Events & Activities"
+                (click)="appSidenav.close(); reroute(2)"
+                mat-button class="sidenav-option">
+          <i class="material-icons mat-18 notranslate">local_activity</i>
+          <span class="option-text">
+            Events & Activities
+          </span>
+        </button>
+      </li>
+      <li class="sidenav-list-option" *ngIf="districtHasOrientations">
+          <button routerLink="/orientations"
+                  aria-label="Documents"
+                  (click)="appSidenav.close();"
+                  mat-button class="sidenav-option">
+            <i class="material-icons mat-18 notranslate">rate_review</i>
+            <span class="option-text">
+              Documents
+            </span>
+          </button>
+        </li>
+      <li class="sidenav-list-option" *ngIf="districtHasExams">
+          <button routerLink="/exams"
+                  aria-label="Exams"
+                  (click)="appSidenav.close();"
+                  mat-button class="sidenav-option">
+            <i class="material-icons mat-18 notranslate">insert_invitation</i>
+            <span class="option-text">
+              AP Exams
+            </span>
+          </button>
+        </li>
+      <li class="sidenav-list-option">
+        <button routerLink="/account"
+                [ngClass]="{'sidenav-option-active': tabIndex === 1}"
+                aria-label="My Account"
+                (click)="appSidenav.close(); reroute(1)"
+                mat-button class="sidenav-option">
+          <i class="material-icons mat-18 notranslate">account_circle</i>
+          <span class="option-text">
+            My Account
+          </span>
+        </button>
+      </li>
+      <!-- <li class="sidenav-list-option">
+        <button routerLink="/nutrislice"
+                
+                aria-label="Nutrislice"
+                (click)="appSidenav.close();"
+                mat-button class="sidenav-option">
+          <i class="material-icons mat-18 notranslate">shutter_speed</i>
+          <span class="option-text">
+            Nutrislice Menus
+          </span>
+        </button>
+      </li> -->
+      <li class="sidenav-list-option">
+        <form [formGroup]="district">
+          <mat-form-field class="district-selector" *ngIf="userData && districtList.length !== 1">
+            <mat-select placeholder="{{defaultDistrict}}" [(ngModel)]="userOptions" formControlName="defaultDistrict" (selectionChange)="setDistrict(userOptions)" name="districts">
+              <mat-option *ngFor="let district of userData.availableDistricts" [value]="district.districtName">
+                {{district.districtName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </li>
+      <li class="sidenav-list-option">
+        <button (click)="appSidenav.close();logOut()"
+                aria-label="Sign Out"
+                mat-button class="sidenav-option">
+          <i class="material-icons mat-18 notranslate">input</i>
+          <span class="option-text">
+            Sign Out
+          </span>
+        </button>
+      </li>
+    </ul>
+  </mat-sidenav>
+  <mat-toolbar id="app-toolbar" class="theme-light">
+    <div id="toolbar-header" class="flex-row">
+      <button *ngIf="mobile" (click)="appSidenav.open()" aria-label="Menu" mat-icon-button class="option cursor-pointer">
+        <i class="material-icons mat-dark notranslate">menu</i>
+      </button>
+      <span id="nav-logo">
+        <a *ngIf="!mobile" class="logo cursor-pointer" routerLink="/dashboard" routerLinkActive="active" aria-label="My Payments Plus Logo">
+          <img src="../../assets/images/mpp-logo.png" alt="My Payment's Plus logo" class="logo">
+        </a>
+        <span *ngIf="mobile">{{ title }}</span>
+      </span>
+      <div class="selector-display" *ngIf="showDistricts && districtList.length !== 1">
+        <form [formGroup]="district">
+          <mat-form-field class="district-selector">
+            <mat-select placeholder="{{defaultDistrict}}" [(ngModel)]="userOptions" formControlName="defaultDistrict" name="districts" title="{{defaultDistrict}}" (selectionChange)="setDistrict(userOptions)">
+              <mat-option *ngFor="let district of districtList; let i = index;" [value]="district.districtName">
+                {{district.districtName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+      <div id="toolbar-options" class="flex-row flex-grow-1 flex-children-center">
+        <!--Notifications-->
+        <button aria-label="Documents" *ngIf="unsignedDocumentCount === 0" mat-icon-button class="notification cursor-pointer" [matMenuTriggerFor]="menu">
+          <mat-icon class="material-icons mat-dark notranslate notification">notifications</mat-icon>
+        </button>
+        <button aria-label="Documents" *ngIf="unsignedDocumentCount > 0" mat-icon-button class="notification cursor-pointer" [matMenuTriggerFor]="menu">
+            <mat-icon class="material-icons mat-dark notranslate notification" matBadge="!" matBadgeColor="warn">notifications</mat-icon>
+          </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngIf="unsignedDocumentCount > 0" class="notification" routerLink="/orientations" routerLinkActive="active"> 
+              {{unsignedDocumentCount}}
+              <span>Documents to sign</span>
+            </button>
+            <button mat-menu-item *ngIf="unsignedDocumentCount === 0" class="notification"> 
+                {{unsignedDocumentCount}}
+                <span>Notifications</span>
+              </button>
+          </mat-menu>
+        <!--cart button-->
+        <button *ngIf="!mobile" [disabled]="!cartItemCount" id="cart"
+                mat-icon-button [attr.aria-label]="'Cart has ' + cartItemCount + ' items'"
+                (click)="viewCart()" [ngClass]="{'cart-detailed': !mobile }" class="option cursor-pointer safari-checkout"
+                >
+          <span *ngIf="!mobile" id="cart-detailed" class="flex-row">
+            <span id="cart-counter" *ngIf="cartItemCount">{{cartItemCount}}</span>
+            <span id="cart-description" *ngIf="cartItemCount">Checkout</span>
+            <mat-icon id="cart-icon" class="mat-dark notranslate">shopping_cart</mat-icon>
+          </span>
+        </button>
+        <!--welcome dropdown list-->
+        <div *ngIf="!mobile" class="flex-column option">
+          <form [formGroup]="welcome">
+            <mat-form-field class="desktop-font">
+              <mat-select #userOptionsDropdown [(ngModel)]="userOptions" formControlName="userOptions" (selectionChange)="switchUserOptions();" [placeholder]="'Welcome, '+loginResponse.firstName" aria-label="User Options" ngDefaultControl>
+                <mat-option [value]="1" [disabled]="userOptionsAccount()">My Account</mat-option>
+                <mat-option [value]="2">Sign Out</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar>
+  <!-- Top tabs -->
+  <mat-toolbar *ngIf="!mobile" class="routingToolbar">
+    <mat-nav-list class="navList">
+      <mat-list-item routerLink="/dashboard" routerLinkActive="active" aria-label="Dashboard" class="navText" id="dash-nav">Dashboard</mat-list-item>
+      <mat-list-item routerLink="/account" routerLinkActive="active" aria-label="My Account" class="navText" id="account-nav">My Account</mat-list-item>
+      <mat-list-item routerLink="/activities" routerLinkActive="active" aria-label="Activities" class="navText" id="activ-nav" *ngIf="districtHasActivities && showActivities">Events & Activities</mat-list-item>
+      <mat-list-item routerLink="/orientations" routerLinkActive="active" aria-label="Documents" class="navText" id="activ-nav" *ngIf="userContextDefault.districtHasOrientations">Documents</mat-list-item>
+      <mat-list-item routerLink="/exams" routerLinkActive="active" aria-label="Exams" class="navText" id="activ-nav" *ngIf="userContextDefault.districtHasExams">Exams</mat-list-item>
+    </mat-nav-list>
+    <div class="spacer"></div>
+  </mat-toolbar>
+
+  <div id="app-container" class="flex-column">
+    <section class="container-content">
+      <router-outlet></router-outlet>
+    </section>
+    <footer id="footer" *ngIf="!sidenavLayout">
+      <ul class="footer-list">
+        <li>
+          ©Copyright 2019
+          <a href="https://www.horizonsoftware.com/" aria-label="Horizon Software" target="_blank" class="link">Horizon Software</a>
+        </li>
+        <li>
+          <a routerLink="/about" routerLinkActive="active" aria-label="About" class="link">About</a>
+        </li>
+        <li>
+          <a routerLink="/privacy-policy" routerLinkActive="active" aria-label="Privacy Policy" class="link">Privacy Policy</a>
+        </li>
+        <li>
+          <a routerLink="/terms" routerLinkActive="active" aria-label="Terms of Use" class="link">Terms of Use</a>
+        </li>
+        <li>
+          <a routerLink="/support" routerLinkActive="active" aria-label="Support" class="link">Support</a>
+        </li>
+      </ul>
+    </footer>
+  </div>
+</mat-sidenav-container>
+<button *ngIf="mobile && cartItemCount && router.url !== '/review' && router.url !== '/checkout'" id="mobileCart"
+        [attr.aria-label]="'Cart has ' + cartItemCount + ' items'"
+        (click)="viewCart()" [ngClass]="{'cart-detailed': !mobile }" class="option cursor-pointer safari-checkout mdc-fab mdc-fab--extended floating-button">
+  <span *ngIf="mobile" class="mdc-fab__label checkout-floater">
+    <mat-icon class="material-icons mat-dark" *ngIf="cartItemCount" matBadge="{{cartItemCount}}" matBadgePosition="below after" matBadgeColor="accent">shopping_cart</mat-icon>
+    <span id="cart-description" *ngIf="cartItemCount">Checkout</span>
+  </span>
+</button>
+
+<!--<div class="page-loading-container">
+  <page-loading></page-loading>
+</div>-->
+

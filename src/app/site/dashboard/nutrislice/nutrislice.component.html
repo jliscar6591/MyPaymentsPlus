@@ -1,0 +1,34 @@
+<div *ngIf="mobile" class="top-nav">
+  <a routerLink="/dashboard" routerLinkActive="active" class="link">Dashboard</a>
+  <mat-icon class="nav-arrow">navigate_next</mat-icon>
+  <a>Nutrislice Menus</a>
+</div>
+<mat-card class="card-spacing mat-elevation-z3">
+  <mat-card-title class="flex-row">
+    <div class="flex-grow-1">
+      <mat-card-title>Today's Menu Options</mat-card-title>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <div class="studentOption"></div>
+    <div class="studentNames">Abigail</div>
+    <div class="menuButtons">
+      <button mat-raised-button class="button" color="primary" (click)="openNutrisliceMealItems()">Breakfast</button>
+      <button mat-raised-button class="button" color="primary" (click)="openNutrisliceMealItems()">Lunch</button>
+    </div>
+    <div class="studentOption"></div>
+    <div class="studentNames">Julio</div>
+    <div class="menuButtons">
+      <button mat-raised-button class="button" color="primary" (click)="openNutrisliceMealItems()">Breakfast</button>
+      <button mat-raised-button class="button" color="primary" (click)="openNutrisliceMealItems()">Lunch</button>
+    </div>
+    <div class="nutrislice">
+      <div class="nutrisliceMsg">
+        Powered by
+      </div>
+      <div class="nutrisliceLogo">
+        <img src="..\..\assets\images\nustrislice_logo.png" height="41" width="150" onclick="window.open('https://www.nutrislice.com', '_blank');"/>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

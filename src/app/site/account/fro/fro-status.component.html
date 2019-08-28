@@ -1,0 +1,27 @@
+<mat-card-content class="shadedBackground padding-20">
+  <div class="flex-row flex-fill equal flex-grid-12">
+    <div class="flex-column header">App Year</div>
+    <div class="flex-column header">Status</div>
+    <!-- Stub for action that can be taken on status -->
+    <!--<div class="flex-column header">Action</div>-->
+  </div>
+  <div *ngFor="let status of model; let i = index" class="flex-row flex-fill equal flex-grid-12">
+    <div class="flex-column">{{status.applicationYear}}</div>
+    <div class="flex-column">{{displayStatus(status.status)}}</div>
+    <!-- Stub for action that can be taken on status -->
+    <!--<div class="flex-column" *ngIf="!status.status">
+      &nbsp;
+    </div>
+    <div class="flex-column" *ngIf="status.status && status.status.toLowerCase() == Constants.FroAppStatus.pending.value">
+      &nbsp;
+    </div>
+    <div class="flex-column" *ngIf="status.status && status.status.toLowerCase() == Constants.FroAppStatus.inProcess.value">Continue</div>
+    <div class="flex-column" *ngIf="status.status && status.status.toLowerCase() == Constants.FroAppStatus.processed.value">
+      <div class="flex-row flex-fill equal">
+        <div class="flex-column">View Eligibility Determination</div>
+        <div class="flex-column">Download</div>
+      </div>
+    </div>-->
+  </div>
+</mat-card-content>
+

@@ -1,0 +1,10 @@
+
+<div *ngIf="isMobile" class="top-nav">
+  <a routerLink="/dashboard" routerLinkActive="active" class="link">Dashboard</a>
+  <mat-icon class="nav-arrow">navigate_next</mat-icon>
+  <a>Cafeteria Accounts</a>
+</div>
+<div>
+  <meals-list *ngIf="isStudentsRemote && !loginResponse.isDisableMealPaymentsDistrict"></meals-list>
+  <meals-empty *ngIf="!isStudentsRemote || loginResponse.isDisableMealPaymentsDistrict"></meals-empty>
+</div>

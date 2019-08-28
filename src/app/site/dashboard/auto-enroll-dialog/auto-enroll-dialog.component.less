@@ -1,0 +1,194 @@
+@import '../../../../colors.less';
+
+.message {
+  font-size: large;
+  display: flex;
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.fees {
+  display: flex;
+  flex-flow: column;
+}
+
+.required{
+  color:grey;
+  font-size: small;
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+  display: flex;
+  box-sizing: border-box;
+  padding:0 !important;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.list-option {
+  display: flex !important;
+  justify-content: space-between;
+  padding-bottom: 7px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5px;
+}
+
+.mat-standard-chip {
+  padding: 3px 10px !important;
+}
+
+.left {
+  display: flex;
+  flex-flow: column;
+}
+
+.left-top {
+  color: @primaryColor;
+}
+
+.left-top:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.left-btm {
+  display: flex;
+}
+
+.chip {
+  background-color: @accentColor;
+  color: white;
+}
+
+.right {
+  display: flex;
+}
+
+.amount {
+  margin-top: 15px;
+}
+
+.select-all {
+  display: flex;
+  justify-content: center;
+}
+
+.total {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+  font-size: x-large;
+  font-weight: 500;
+}
+
+.toolbar{
+padding-left: 15px !important;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+  padding-top:10px;
+}
+
+@media only screen and (max-width: 700px) {
+  .message {
+    font-size: small;
+    display: flex;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .toolbar{
+    padding-left: 10px !important;
+    display: flex;
+    font-size: large;
+    }
+
+  .mat-list .mat-list-item, .mat-list .mat-list-option, .mat-nav-list .mat-list-item, .mat-nav-list .mat-list-option, .mat-selection-list .mat-list-item, .mat-selection-list .mat-list-option {
+    display: block;
+    height: unset !important;
+    margin-top: 10px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .amount {
+    font-size: small;
+  }
+
+  .left {
+    font-size: small;
+  }
+}
+
+.mat-title {
+  justify-content: space-between;
+  align-items: center;
+  margin-right: unset !important;
+  flex-shrink: 1;
+}
+
+.name {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  line-height: .95;
+  font-weight: 400;
+}
+
+.mat-h2, .mat-title, .mat-typography h2 {
+  font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  margin: unset !important;
+}
+
+.accordion {
+  overflow: hidden !important;
+}
+
+.orientations {
+  list-style-type: none;
+  padding: 0px;
+  margin-top: 10px;
+
+  .action-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .radio-group {
+    display: flex;
+    flex-flow: column
+  }
+
+  .indeterminate {
+    color: @accentColor;
+  }
+
+  .check {
+    color: rgba(76,175,80,1);
+  }
+
+  .description {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .completed {
+    padding-top: 16px;
+  }
+
+  .title {
+    padding-left: 5px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+  }
+
+}

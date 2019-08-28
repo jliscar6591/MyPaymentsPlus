@@ -1,0 +1,96 @@
+<div class="top-nav">
+  <a routerLink="/dashboard" routerLinkActive="active" class="link">Dashboard</a>
+  <mat-icon class="nav-arrow">navigate_next</mat-icon>
+  <a>My Account</a>
+</div>
+<mat-sidenav-container id="sidenav-module-layout" class="sidenav-fill show-sm show-xs">
+  <mat-sidenav #sidenav [opened]="sidenavState" mode="side" class="sidenav sidenav-tile-mobile sidenav-dark">
+    <ul class="sidenav-grid-list show-sm">
+      <li class="flex-row flex-fill equal text-center">
+        <button mat-button (click)="sidenav.close()" routerLink="/account/profile" aria-label="My Profile" class="sidenav-grid-option bg-lightgray">
+          <div class="option-graphic">
+            <img src="../../../assets/images/icons/icons8-contact-details-64.png" class="notranslate image">
+          </div>
+          <div class="option-text">My Profile</div>
+        </button>
+        <button mat-button (click)="sidenav.close()"
+                routerLink="/account/payment-method"
+                class="sidenav-grid-option bg-lightgray"
+                [attr.aria-expanded]="getAutopaySettingLabel()">
+          <div class="option-graphic">
+            <img src="../../../assets/images/icons/icons8-card-exchange-64.png" class="notranslate image">
+          </div>
+          <div class="option-text">
+            {{getAutopaySettingLabel()}}
+          </div>
+        </button>
+      </li>
+      <li class="flex-row flex-fill equal text-center">
+        <button mat-button (click)="sidenav.close()" routerLink="/account/alerts" aria-label="Low Balance Alerts" class="sidenav-grid-option bg-lightgray">
+          <div class="option-graphic">
+            <img src="../../../assets/images/icons/icons8-cheap-2-64.png" class="notranslate image">
+          </div>
+          <div class="option-text">Low Balance Alerts</div>
+        </button>
+        <button mat-button (click)="sidenav.close()" routerLink="/account/manage-students" aria-label="Manage Students" class="sidenav-grid-option bg-lightgray">
+          <div class="option-graphic">
+            <img src="../../../assets/images/icons/icons8-business-network-64.png" class="notranslate image">
+          </div>
+          <div class="option-text">Manage Students</div>
+        </button>
+      </li>
+      <li class="flex-row flex-fill equal text-center">
+        <button mat-button (click)="sidenav.close()" routerLink="/account/meal-purchases" aria-label="Student Meal Purchases" class="sidenav-grid-option bg-lightgray">
+          <div class="option-graphic">
+            <img src="../../../assets/images/icons/icons8-bill-64.png" class="notranslate image">
+          </div>
+          <div class="option-text">Student Meal Purchases</div>
+        </button>
+        <button mat-button (click)="sidenav.close()" routerLink="/account/payment-history" aria-label="My Payment History" class="sidenav-grid-option bg-lightgray">
+          <div class="option-graphic">
+            <img src="../../../assets/images/icons/icons8-payment-history-64.png" class="notranslate image">
+          </div>
+          <div class="option-text">My Payment History</div>
+        </button>
+        <button *ngIf="loginResponse.isFroEnabled" mat-button (click)="sidenav.close()" routerLink="/account/fro-launch" aria-label="Free &amp; Reduced School Meals" class="sidenav-grid-option bg-lightgray">
+          <div class="option-graphic">
+            <img src="../../../assets/images/my-account/history.png" class="notranslate image">
+          </div>
+          <div class="option-text">Free &amp; Reduced School Meals</div>
+        </button>
+      </li>
+      <li class="flex-row flex-fill equal text-center" *ngIf="showXferHistory">
+        <button mat-button (click)="sidenav.close()" routerLink="/account/transfer-history" aria-label="Balance Transfer History" class="sidenav-grid-option bg-lightgray">
+          <div class="option-graphic">
+            <img src="../../../assets/images/icons/icons8-money-circulation-64.png" class="notranslate image">
+          </div>
+          <div class="option-text">Balance Transfer History</div>
+        </button>
+      </li>
+    </ul>
+  </mat-sidenav>
+  <div id="myaccount-container">
+    <div class="hide-gt-sm show-sm view-menu-tiles">
+      <a aria-label="Back to My Account Menu" (click)="sidenav.open()" class="link cursor-pointer"><mat-icon class="nav-arrow">chevron_left</mat-icon> My Account Menu</a>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-container>
+<footer id="footer" class="hide-md hide-lg show-sm">
+  <ul class="footer-list">
+    <li>
+      ©Copyright 2019
+      <a href="https://www.horizonsoftware.com/" aria-label="Horizon Software" target="_blank" class="link">Horizon Software</a>
+    </li>
+    <li>
+      <a routerLink="/about" routerLinkActive="active" aria-label="About" class="link ">About</a>
+      |
+      <a routerLink="/privacy-policy" routerLinkActive="active" aria-label="Privacy Policy" class="link ">Privacy Policy</a>
+      |
+      <a routerLink="/terms" routerLinkActive="active" aria-label="Terms of Use" class="link ">Terms of Use</a>
+      |
+      <a routerLink="/support" routerLinkActive="active" aria-label="Support" class="link ">Support</a>
+    </li>
+  </ul>
+</footer>
+

@@ -1,0 +1,64 @@
+#smpTitle{
+  display:flex;
+}
+
+.payment-amount {
+  text-align: right;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.activity-period {
+  padding-right: 20px;
+}
+
+.filters {
+  display: flex;
+}
+
+.start {
+  padding-right: 20px;
+  max-width: 125px;
+}
+
+.end {
+  padding-right: 20px;
+  max-width: 125px;
+}
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: #2962ff;
+  opacity: 1;
+  display: block;
+  width: 10px;
+  height: 6px;
+  border-width: thin;
+}
+
+@media all and (max-width: 600px) {
+  .ngx-pagination {
+    padding-left: 0px !important;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: -40px;
+    min-width: 60px;
+  }
+}
+
+  @media(max-width: 959px) {
+    .payment-amount {
+      text-align: left;
+      font-size: 20px;
+    }
+  }

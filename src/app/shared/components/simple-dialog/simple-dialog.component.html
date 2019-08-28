@@ -1,0 +1,12 @@
+<div>
+    <div class="mat-headline main-title">{{ title }}<button mat-icon-button (click)="dialogRef.close(false)" class="float-right"><mat-icon>close</mat-icon></button></div>
+    <p [innerHTML]="content"></p>
+    <br/><br/><br/>
+    <div *ngIf="error !== '' && error !== null" class="form-inline-validation error">{{ error }}</div>
+    <div>
+        <div class="float-right">
+            <button mat-button autofocus (click)="dialogRef.close(false)">Cancel</button>
+            <button *ngIf="primaryActionDescription !== ''" routerLink="/dashboard" mat-raised-button (click)="dialogRef.close(true)" autofocus color="primary">{{ primaryActionDescription }}</button>
+        </div>
+    </div>
+</div>

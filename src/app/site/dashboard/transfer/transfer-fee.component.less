@@ -1,0 +1,138 @@
+@import "../../../../colors.less";
+.acceptance-contianer {
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 auto;
+  width: 95%;
+  max-width: 403px;
+  margin: 19px auto;
+  height: 695px;
+  border: 2px solid #04416b;
+
+  .acceptance-account-container {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    flex: 0 1 auto;
+    width: 40%;
+    margin: 5px 10px;
+
+    .acceptance-account-name {
+      font-size: 1.25em;
+      font-weight: bold;
+      display: flex;
+      height: 28px
+    }
+
+    .acceptance-account-date {
+      font-size: .95em;
+      color: #989898;
+    }
+  }
+
+  .transfer-msg{
+    display:flex;
+    align-items: center;
+    color: red;
+    padding-top:10px;
+  }
+
+  .acceptance-text {
+    flex: 0 1 auto;
+    display: flex;
+    flex-flow: column;
+    width: 95%;
+    margin: 0px auto;
+
+
+    .acceptance-text-one {
+      color: @primaryColor;
+      font-size: 1.15em;
+
+      span {
+        color: #000000;
+      }
+    }
+
+    .acceptance-checkbox-row {
+      display: flex;
+      flex: 0 1 auto;
+      width: 98%;
+      margin: 0px auto;
+      flex-flow: row;
+    }
+  }
+
+  .spinner-inline {
+    height: 15px !important;
+    width: 15px !important;
+  }
+
+  .spinner-button svg path {
+    stroke: white !important;
+  }
+
+  .spinner-button {
+    height: 20px !important;
+    margin: 5px;
+  }
+
+  .spinner-button-center {
+    display: inline-block !important;
+    vertical-align: middle;
+  }
+
+  .acceptance-fee-spinner {
+    display: flex;
+    flex-flow: column;
+    flex: 0 1 auto;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    margin: 70px auto;
+    height: 100px;
+    font-size: 1em;
+    .acceptance-fee-spinner-text{
+      display: flex;
+      flex: 0 1 auto;
+      flex-flow: row;
+      margin: 50px auto;
+      width: 100%;
+      align-self: flex-end;
+      font-style: italic;
+
+    }
+  }
+}//end of acceptance-container
+
+.acceptance-buttons-container {
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 auto;
+  width: 95%;
+  margin: 0px auto;
+  height: 91px;
+  justify-content: space-between;
+
+  .acceptance-button-cancel {
+    background-color: lightgray;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .acceptance-contianer {
+    font-size: 1.2em;
+    max-width: 503px;
+
+    .message{
+      display: flex;
+    }
+
+    .acceptance-text {
+      height: 40vh;
+    }
+  }
+ }
+
+   
+

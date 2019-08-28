@@ -1,0 +1,266 @@
+<!--MOBILE-->
+<div *ngIf="isMobile" class="top-nav">
+  <a routerLink="/dashboard" routerLinkActive="active" class="link">Dashboard</a>
+  <mat-icon class="nav-arrow">navigate_next</mat-icon>
+  <a>AP Exams</a>
+</div>
+<div *ngIf="isMobile" class="exams-container">
+  <div class="mat-headline flex-grow-1">
+    AP Exams
+    <mat-icon>insert_invitation</mat-icon>
+    <span class="mat-caption" *ngIf="gettingExams">
+      Getting MPP AP exams
+      <mat-spinner mode="indeterminate" strokeWidth="1" diameter="25">
+        Loading...
+      </mat-spinner>
+    </span>
+  </div>
+  <div class="exams-enrolled">
+    <mat-toolbar>
+      Enrolled Exams
+    </mat-toolbar>
+    <mat-list role="list">
+      <mat-list-item role="listitem">
+        <div>
+          <div class="listitem">
+            <div>
+              <b>AP US History</b>
+            </div>
+            <div>
+              Wed. April 28th, 2020 8:00AM
+            </div>
+            <mat-chip-list>
+              <mat-chip>
+                Julio
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="exams-in-cart">
+    <mat-toolbar>
+      Exams in your cart
+    </mat-toolbar>
+    <mat-list role="list">
+      <mat-list-item role="listitem">
+        <div class="exams-cart">
+          <div>
+            <b>AP Biology</b>
+
+            <br>
+            Thur. April 29th, 2020 12:00PM
+            <br>
+            <mat-chip-list>
+              <mat-chip>
+                Julio
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+          <div>
+            <mat-icon>
+              edit
+            </mat-icon>
+            <mat-icon>
+              delete_forever
+            </mat-icon>
+          </div>
+        </div>
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <div class="exams-cart">
+          <div>
+            <b>AP Amer. Literature</b>
+
+            <br>
+            Wed. April 28th, 2020 10:00PM
+            <br>
+            <mat-chip-list>
+              <mat-chip>
+                Abigail
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+          <div>
+            <mat-icon>
+              edit
+            </mat-icon>
+            <mat-icon>
+              delete_forever
+            </mat-icon>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="exams-available">
+    <mat-toolbar>
+      Available Exams
+    </mat-toolbar>
+    <ul class="exams">
+      <li class="incomplete">
+        <mat-tab-group>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span>Julio</span>
+            </ng-template>
+            <div class="exams">
+              <mat-accordion class="accordion">
+                <mat-expansion-panel hideToggle [expanded]="step === 0" (opened)="setStep(0)">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="mat-title">
+                      <div class="name">
+                        AP Mathematics
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div>
+                    <a class="link" href="https://scratch.mit.edu/projects/182898061/fullscreen/" target="_blank">
+                      Info about AP Exam</a>
+                    <div>
+                      <mat-checkbox>Please check here to agree to the terms and conditions linked above</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="exam-radio">
+                    <b>Please choose an exam date and time:</b>
+                  </div>
+                  <mat-radio-group class="radio-group">
+                    <mat-radio-button value="1">Wed. April 28th, 2020 8:00 AM</mat-radio-button>
+                    <mat-radio-button value="2">Wed. April 28th, 2020 12:00 AM</mat-radio-button>
+                  </mat-radio-group>
+                  <mat-action-row class="action-row">
+                    <div>
+                      Do you need special accomadations based on an IEP or a 504 plan?
+                    </div>
+                    <mat-radio-group class="radio-group">
+                      <mat-radio-button value="1">Yes</mat-radio-button>
+                      <mat-radio-button value="2">No</mat-radio-button>
+                    </mat-radio-group>
+                    <button mat-raised-button color="primary" class="register-btn">
+                      Register
+                    </button>
+                  </mat-action-row>
+                </mat-expansion-panel>
+                <mat-expansion-panel hideToggle [expanded]="step === 1" (opened)="setStep(1)">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="mat-title">
+                      <div class="name">
+                        AP History
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div>
+                    <a class="link" href="https://scratch.mit.edu/projects/182898061/fullscreen/" target="_blank">
+                      Info about AP Exam</a>
+                    <div>
+                      <mat-checkbox>Please check here to agree to the terms and conditions linked above</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="exam-radio">
+                    <b>Please choose an exam date and time:</b>
+                  </div>
+                  <mat-radio-group class="radio-group">
+                    <mat-radio-button value="1">Wed. April 28th, 2020 8:00 AM</mat-radio-button>
+                    <mat-radio-button value="2">Wed. April 28th, 2020 12:00 AM</mat-radio-button>
+                    <mat-radio-button value="3">Thur. April 29th, 2020 8:00 AM</mat-radio-button>
+                  </mat-radio-group>
+                  <mat-action-row class="action-row">
+                    <div>
+                      Do you need special accomadations based on an IEP or a 504 plan?
+                    </div>
+                    <mat-radio-group class="radio-group">
+                      <mat-radio-button value="1">Yes</mat-radio-button>
+                      <mat-radio-button value="2">No</mat-radio-button>
+                    </mat-radio-group>
+                    <button mat-raised-button color="primary" class="register-btn">
+                      Register
+                    </button>
+                  </mat-action-row>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!--NOT MOBILE-->
+<div class="page-container" *ngIf="!isMobile">
+  <div class="exams-container">
+    <div class="mat-headline flex-grow-1">
+      AP Exams
+      <mat-icon>announcement</mat-icon>
+      <span class="mat-caption" *ngIf="gettingExams">
+        Getting MPP AP exams
+        <mat-spinner mode="indeterminate" strokeWidth="1" diameter="25">
+          Loading...
+        </mat-spinner>
+      </span>
+    </div>
+    <div>
+      <mat-tab-group>
+        <mat-tab label="Julio">
+          <div class="container">
+            <div class="classes">
+              <mat-list role="list">
+                <mat-list-item role="listitem">
+                  <button mat-raised-button class="class-button">
+                    AP History
+                  </button>
+                </mat-list-item>
+                <mat-list-item role="listitem" >
+                  <button mat-raised-button class="class-button">
+                    AP Lang
+                  </button>
+                </mat-list-item>
+                <mat-list-item role="listitem" >
+                  <button mat-raised-button class="class-button">
+                    AP Chemistry
+                  </button>
+                </mat-list-item>
+              </mat-list>
+            </div>
+            <mat-card class="exam-details">
+              <mat-card-title>
+                AP History
+              </mat-card-title>
+              <mat-card-content>
+                <div>
+                  <a class="link" href="https://scratch.mit.edu/projects/182898061/fullscreen/" target="_blank">
+                    Info about AP Exam</a>
+                  <div>
+                    <mat-checkbox>Please check here to agree to the terms and conditions linked above</mat-checkbox>
+                  </div>
+                </div>
+                <div class="exam-radio">
+                  <b>Please choose an exam date and time:</b>
+                </div>
+                <mat-radio-group class="radio-group">
+                  <mat-radio-button value="1">Wed. April 28th, 2020 8:00 AM</mat-radio-button>
+                  <mat-radio-button value="2">Wed. April 28th, 2020 12:00 AM</mat-radio-button>
+                  <mat-radio-button value="3">Thur. April 29th, 2020 8:00 AM</mat-radio-button>
+                </mat-radio-group>
+                <mat-action-row class="action-row">
+                  <div>
+                    Do you need special accomadations based on an IEP or a 504 plan?
+                  </div>
+                  <mat-radio-group class="radio-group">
+                    <mat-radio-button value="1">Yes</mat-radio-button>
+                    <mat-radio-button value="2">No</mat-radio-button>
+                  </mat-radio-group>
+                  <button mat-raised-button color="primary" class="register-btn">
+                    Register
+                  </button>
+                </mat-action-row>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-tab>
+        <mat-tab label="Abigial"> </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

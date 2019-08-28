@@ -1,0 +1,230 @@
+﻿[  
+   {  
+      "stateCode":"AL",
+      "displayName":"Alabama (AL)"
+   },
+   {  
+      "stateCode":"AK",
+      "displayName":"Alaska (AK)"
+   },
+   {  
+      "stateCode":"AZ",
+      "displayName":"Arizona (AZ)"
+   },
+   {  
+      "stateCode":"AR",
+      "displayName":"Arkansas (AR)"
+   },
+   {  
+      "stateCode":"CA",
+      "displayName":"California (CA)"
+   },
+   {  
+      "stateCode":"CO",
+      "displayName":"Colorado (CO)"
+   },
+   {  
+      "stateCode":"CT",
+      "displayName":"Connecticut (CT)"
+   },
+   {  
+      "stateCode":"DE",
+      "displayName":"Delaware (DE)"
+   },
+   {  
+      "stateCode":"DC",
+      "displayName":"District of Columbia(DC)"
+   },
+   {  
+      "stateCode":"EX",
+      "displayName":"Exchange (EX)"
+   },
+   {  
+      "stateCode":"FL",
+      "displayName":"Florida (FL)"
+   },
+   {  
+      "stateCode":"GA",
+      "displayName":"Georgia (GA)"
+   },
+   {  
+      "stateCode":"HI",
+      "displayName":"Hawaii (HI)"
+   },
+   {  
+      "stateCode":"ID",
+      "displayName":"Idaho (ID)"
+   },
+   {  
+      "stateCode":"IL",
+      "displayName":"Illinois (IL)"
+   },
+   {  
+      "stateCode":"IN",
+      "displayName":"Indiana (IN)"
+   },
+   {  
+      "stateCode":"IA",
+      "displayName":"Iowa (IA)"
+   },
+   {  
+      "stateCode":"KS",
+      "displayName":"Kansas (KS)"
+   },
+   {  
+      "stateCode":"KY",
+      "displayName":"Kentucky (KY)"
+   },
+   {  
+      "stateCode":"LA",
+      "displayName":"Louisiana (LA)"
+   },
+   {  
+      "stateCode":"ME",
+      "displayName":"Maine (ME)"
+   },
+   {  
+      "stateCode":"MD",
+      "displayName":"Maryland (MD)"
+   },
+   {  
+      "stateCode":"MA",
+      "displayName":"Massachusetts (MA)"
+   },
+   {  
+      "stateCode":"MI",
+      "displayName":"Michigan (MI)"
+   },
+   {  
+      "stateCode":"MN",
+      "displayName":"Minnesota (MN)"
+   },
+   {  
+      "stateCode":"MS",
+      "displayName":"Mississippi (MS)"
+   },
+   {  
+      "stateCode":"MO",
+      "displayName":"Missouri (MO)"
+   },
+   {  
+      "stateCode":"MT",
+      "displayName":"Montana (MT)"
+   },
+   {  
+      "stateCode":"NE",
+      "displayName":"Nebraska (NE)"
+   },
+   {  
+      "stateCode":"NV",
+      "displayName":"Nevada (NV)"
+   },
+   {  
+      "stateCode":"NH",
+      "displayName":"New Hampshire (NH)"
+   },
+   {  
+      "stateCode":"NJ",
+      "displayName":"New Jersey (NJ)"
+   },
+   {  
+      "stateCode":"NM",
+      "displayName":"New Mexico (NM)"
+   },
+   {  
+      "stateCode":"NY",
+      "displayName":"New York (NY)"
+   },
+   {  
+      "stateCode":"NC",
+      "displayName":"North Carolina (NC)"
+   },
+   {  
+      "stateCode":"ND",
+      "displayName":"North Dakota (ND)"
+   },
+   {  
+      "stateCode":"OH",
+      "displayName":"Ohio (OH)"
+   },
+   {  
+      "stateCode":"OK",
+      "displayName":"Oklahoma (OK)"
+   },
+   {  
+      "stateCode":"OR",
+      "displayName":"Oregon (OR)"
+   },
+   {  
+      "stateCode":"PA",
+      "displayName":"Pennsylvania (PA)"
+   },
+   {  
+      "stateCode":"PR",
+      "displayName":"Puerto Rico (PR)"
+   },
+   {  
+      "stateCode":"RI",
+      "displayName":"Rhode Island (RI)"
+   },
+   {  
+      "stateCode":"SC",
+      "displayName":"South Carolina (SC)"
+   },
+   {  
+      "stateCode":"SD",
+      "displayName":"South Dakota (SD)"
+   },
+   {  
+      "stateCode":"TN",
+      "displayName":"Tennessee (TN)"
+   },
+   {  
+      "stateCode":"TX",
+      "displayName":"Texas (TX)"
+   },
+   {  
+      "stateCode":"UT",
+      "displayName":"Utah (UT)"
+   },
+   {  
+      "stateCode":"VT",
+      "displayName":"Vermont (VT)"
+   },
+   {  
+      "stateCode":"VI",
+      "displayName":"Virgin Islands (VI)"
+   },
+   {  
+      "stateCode":"VA",
+      "displayName":"Virginia (VA)"
+   },
+  {
+    "stateCode": "WA",
+    "displayName": "Washington (WA)"
+  },
+   {  
+      "stateCode":"WV",
+      "displayName":"West Virginia (WV)"
+   },
+   {  
+      "stateCode":"WI",
+      "displayName":"Wisconsin (WI)"
+   },
+   {  
+      "stateCode":"WY",
+      "displayName":"Wyoming (WY)"
+   },
+   {  
+      "stateCode":"AA",
+      "displayName":"Armed Forces Americas (AA)"
+   },
+   {  
+      "stateCode":"AE",
+      "displayName":"Armed Forces Eurpoe (AE)"
+   },
+   {  
+      "stateCode":"AP",
+      "displayName":"Armed Forces Pacific (AP)"
+   }
+]

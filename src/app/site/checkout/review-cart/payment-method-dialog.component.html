@@ -1,0 +1,260 @@
+<section id="paymentMethodDialog">
+  <div class="md-headline main-title">
+    Payment Method<button md-icon-button (click)="dialogRef.close(false)" class="float-right mat-mini-fab close-button" type="button"><mat-icon class="close-icon">close</mat-icon></button>
+  </div>
+
+  <form id="paymentMethodForm" [formGroup]="paymentMethodForm">
+    <div class="flex-row-gt-xs flex-fill equal flex-column-xs">
+      <div id="types">
+        <div class="md-title">Payment Type</div>
+        <mat-radio-group formControlName="type" class="radio-group-list">
+          <mat-radio-button color="primary"
+                            class="radio-margin"
+                           value="checking"
+                           aria-label="Checking Account"
+                           (click)="setPayOption('checking')"
+                           *ngIf="!utilityService.isAchBlocked(loginResponse)">Checking Account</mat-radio-button><br />
+          <mat-radio-button color="primary"
+                            class="radio-margin"
+                           value="savings"
+                           aria-label="Savings Account"
+                           (click)="setPayOption('savings')"
+                           *ngIf="!utilityService.isAchBlocked(loginResponse)">Savings Account</mat-radio-button><br />
+          <mat-radio-button color="primary"
+                            class="radio-margin"
+                           value="card"
+                           aria-label="Support cards are Visa, MasterCard, and Discover"
+                           (click)="setPayOption('card')"
+                           [checked]="utilityService.isAchBlocked(loginResponse)">
+            <img src="../../../../assets/images/cards/supported_cards.jpg"
+                 alt="Visa, MasterCard, and Discover"
+                 class="supported-cards">
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div id="fields">
+        <div class="input-container input-margin">
+          <mat-form-field class="width-100 input-margin">
+            <input matInput
+                   class="input-margin"
+                   [(ngModel)]="accountHolderName"
+                   placeholder="Account Holder Name"
+                   formControlName="name"
+                   aria-label="Account Holder Name" 
+                   required/>
+          </mat-form-field>
+          <div *ngIf="formErrors.name" class="form-inline-validation error">
+            {{ formErrors.name }}
+          </div>
+        </div>
+        <div *ngIf="addAccountType == 'checking' || addAccountType == 'savings'" class="input-container">
+          <mat-form-field class="width-100 input-margin">
+            <input matInput
+                   [(ngModel)]="ach.account"
+                   placeholder="Account Number"
+                   formControlName="account"
+                   aria-label="Account Number"
+                   required />
+          </mat-form-field>
+          <div *ngIf="formErrors.account" class="form-inline-validation error">
+            {{ formErrors.account }}
+          </div>
+        </div>
+        <div *ngIf="addAccountType == 'checking' || addAccountType == 'savings'" class="input-container">
+          <mat-form-field class="width-100 input-margin">
+            <input matInput
+                   [(ngModel)]="ach.routing"
+                   placeholder="Routing Number"
+                   formControlName="routing"
+                   aria-label="Routing Number"
+                   required />
+          </mat-form-field>
+          <div *ngIf="formErrors.routing" class="form-inline-validation error">
+            {{ formErrors.routing }}
+          </div>
+        </div>
+        <div *ngIf="addAccountType == 'card'" class="input-container">
+          <mat-form-field class="width-100 input-margin">
+            <input matInput
+                   [(ngModel)]="creditCard.cardNumber"
+                   placeholder="Card Number"
+                   formControlName="creditcardaccount"
+                   aria-label="Card Number" 
+                   required/>
+          </mat-form-field>
+          <div *ngIf="formErrors.creditcardaccount" class="form-inline-validation error">
+            {{ formErrors.creditcardaccount }}
+          </div>
+        </div>
+
+        <div *ngIf="addAccountType == 'card'" class="input-container">
+          <mat-form-field class="select-month input-margin">
+            <mat-select [(ngModel)]="creditCard.expiryMonth"
+                        placeholder="Expiration Month"
+                        aria-label="Expiration Month"
+                        formControlName="expmonth"
+                        required>
+              <mat-option *ngFor="let text of creditCardMonth" [value]="text">
+                {{text}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+         
+          <div *ngIf="formErrors.expmonth" class="form-inline-validation error">
+            {{ formErrors.expmonth }}
+          </div>
+          <mat-form-field  class="select-year">
+            <mat-select [(ngModel)]="creditCard.expiryYear"
+                        placeholder="Expiration Year"
+                        aria-label="Expiration Year"
+                        formControlName="expyear"
+                        required>
+              <mat-option *ngFor="let text of creditCardYear" [value]="text">
+                {{text}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+            <div *ngIf="formErrors.expyear" class="form-inline-validation error">
+              {{ formErrors.expyear }}
+            </div>
+            <mat-form-field class="select-year">
+              <input matInput [(ngModel)]="creditCard.cardCode"
+                     placeholder="CVV"
+                     aria-label="CVV"
+                     formControlName="cardcode"
+                     required />
+            </mat-form-field>
+            <div *ngIf="formErrors.cardcode" class="form-inline-validation error">
+              {{ formErrors.cardcode }}
+            </div>
+</div>
+        <div class="input-container">
+          <mat-form-field class="width-100">
+            <input matInput
+                   [(ngModel)]="paymentAddDetail.nickname"
+                   placeholder="Account Nickname"
+                   formControlName="nickname"
+                   aria-label="Account Nickname" />
+          </mat-form-field>
+        </div>
+        <mat-checkbox color="primary"
+                     [(ngModel)]="paymentAddDetail.saveMethod"
+                     formControlName="saveMethod"
+                     aria-label="Save payment method to my account">
+          Save payment method to my account
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <div *ngIf="addAccountType == 'card'">
+      <h2 class="md-title">Billing Address</h2>
+      <div class="flex-row-gt-sm flex-fill equal">
+        <section>
+          <div class="input-container">
+            <div class="field-column-space">
+              <mat-form-field class="width-100">
+                <input matInput [(ngModel)]="paymentAddDetail.billingAddress"
+                       placeholder="Address Line 1"
+                       aria-label="Address Line 1"
+                       formControlName="address_line1"
+                       required />
+              </mat-form-field>
+            </div>
+            <div *ngIf="formErrors.address_line1" class="form-inline-validation error">
+              {{ formErrors.address_line1 }}
+            </div>
+          </div>
+          <div class="input-container">
+            <div class="field-column-space">
+              <mat-form-field class="width-100">
+                <input matInput [(ngModel)]="paymentAddDetail.billingAddress2"
+                       placeholder="Address Line 2"
+                       aria-label="Address Line 2"
+                       formControlName="address_line2" />
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="input-container">           
+              <mat-form-field class="width-100">
+                <input matInput [(ngModel)]="paymentAddDetail.billingCity"
+                       placeholder="City"
+                       aria-label="City"
+                       formControlName="city"
+                       required />
+              </mat-form-field>      
+            <div *ngIf="formErrors.city" class="form-inline-validation error">
+              {{ formErrors.city }}
+            </div>
+          </div>
+          <div class="input-container">
+            <mat-form-field>
+              <mat-select [(ngModel)]="paymentAddDetail.billingState"
+                          placeholder="State"
+                          aria-label="Select State"
+                          (change)="showStates = true"
+                          class="cursor-pointer width-100"
+                          formControlName="state"
+                          required>
+                <mat-option *ngFor="let text of stateProvinceListService.stateProvinceList"
+                            [value]="text.stateCode">
+                  {{text.displayName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+              <div *ngIf="formErrors.state" class="form-inline-validation error">
+                {{ formErrors.state }}
+              </div>
+</div>
+          <div class="input-container">
+            <mat-form-field class="width-100">
+              <input matInput [(ngModel)]="paymentAddDetail.billingZip"
+                     placeholder="Zip Code"
+                     aria-label="Zip Code"
+                     formControlName="zip"
+                     required />
+            </mat-form-field>
+            <div *ngIf="formErrors.zip" class="form-inline-validation error">
+              {{ formErrors.zip }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+
+
+
+    <div>
+      <div class="float-right">
+        <button md-button
+                class="mat-button cancel-button"
+                type="button"
+                autofocus
+                (click)="cancelAdd()">
+         <span class="mat-button-wrapper">Cancel</span> 
+        </button>
+        <button *ngIf="primaryActionDescription !== ''"
+                type="button"
+                mat-raised-button
+                (click)="addPaymentMethod()"
+                autofocus
+                color="primary">
+          <span *ngIf="isAddPaymentSaving">
+            <mat-spinner strokeWidth="1" diameter="25" *ngIf="isAddPaymentSaving" class="spinner-button spinner-button-center">
+              Loading..
+            </mat-spinner>
+          </span>
+          <span *ngIf="!isAddPaymentSaving">Done</span>
+        </button>
+      </div>
+      <div *ngIf="failedToSave" class="form-inline-validation error">
+        {{failedToSaveMsg}}
+      </div>
+    </div>
+
+  </form>
+</section>
+

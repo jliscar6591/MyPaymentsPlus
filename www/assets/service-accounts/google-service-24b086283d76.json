@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "corded-gear-163616",
+  "private_key_id": "24b086283d7601e786978bdcb082d6f8d368872c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCzT4tCWUTccrjz\n4p9blI9/1qFvDcj/5K20OOm1tLaTGyakmz9jQ5tHMGz9zvXjhP29wJ++3QIt+wIM\nwmXJxRKzhuYTeKUorEsnvaOISTaiJprBvqV/Ahr3lfWQ8NUOrbeD0p8y5Wjvw+Si\nd8JmuzsRT8aNrIr897jURqHgom+EdSwQIytlmiWZUhwj2/udiRaRkzfC1GEngvLB\n6zf9z008JrLhOwQzHrNC2ZXo3C4syMuzH+W2cPrZcFlQAjfc4epfflaiwcsCUXrw\nD+T+i4UthA/ndi+EyC5ogBa8Vf41IC7N13UTRoTpu7NBZuJHpwr2e15rVJP1mSCG\nY5Uzq8PLAgMBAAECggEAVPFLoSS00FGweChVIYcg64h7dSZsn3xvJT8Ix8FR9CIa\njkPVJWrzdifkmd+e8CciJO/JPRtpWurbr7uviIPJNi6jc3nlk3z7JVpay8cTEIGF\nMl7j+2S97aemawELjSaSFuqB7BRtP5fnCWf+ObhcZPkLsDWaqfeYIUdMjCOm/HHP\n3T8EZdgK/hFY5sFc9+hIvnXfgtjKQDMvDd4SPyBeeMpzXgNXGOja5zv87RNWkAI+\nyVet0rCPWrRkRtTl5utL7Gct6fukFHp/cZm9eSdQfBwbq6HJmsUZrx5Vc0PdJhpw\nPGBPT4yWzemBmjs+x0bzL8flG0614kbP33e2+ipmkQKBgQD7IHQaQ4Tn65P7afXT\nWp+hzwJKDq/XlwhCbqyEPKyamRBAgGUiqwcJyZr/ANb79mMvMxfsv4bvP4nkADlN\ngP1K2NYbDbuPg+fQTrAHty851Vy7G+rp1Rfu6eSO/aQYd6gyGEhESIT33lSnP9d0\nBdcaaAlpZ2U633Pr8M0heIMtPwKBgQC2ylKvACwoTfkLZs/YqYNAfegBNRaoqNNa\npHDJUM5HwvVc/Bk9gOcHlzxHgbhp+eYblpaAE97Uo/qNsVb8K+R3wCeLtJwKxsX8\nyn6x5fiF1Bmcqvo8AEcC0eghGqh19b3cCFOTac1sCmTbhdU3DiEws/RqT4SJxzod\nl7fxZgRqdQKBgQDYaQ5Et9zn88ayCY0z10vrqDZD1cZJVrlibney+YqRK8iqnTsK\nljJZh+hPSsz5k0nEGhbLCf5hXPMajerT1I3zG0vfQoVY1wZFKBpge8dx4mGoSRW2\n7tFSLTOu2fu4rh0/FlfoqEoWRP3Up5qnPIUzF2bM87Jz+q6uK/TKnE0HBwKBgQCA\nXcWDMFPSWi+zWhhMx35tI/5yGp43A5ip5yFtv1md+8Pj8QaosoWMRyEF9otToTN/\n3FkEyO+L1Tx3lTrJDOn9Tux2p/eNedpAlNQ0ipPlJ/Z0l33z9R3pVQ/3b4kujc0v\nYImQ1JR2czYxE+OQLlQQp8/VeNJTD544efurg0FGoQKBgQCqVgRC8g0L23ncoSoP\n47t6aVt386xruXfzV9rTgPcc9HMEsrE0OtPLtBKtPeQ038b9agxrW8K/KnqUQs0M\nqxzsHafCowRtbfGAUVsH9qYJfrZ2Fj6paNmnFguvhtdTEKNTn3CRauHDWkUPnRwV\nPAeFyoUx93AfzgZmLId0XskIvg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "mypaymentsplus@corded-gear-163616.iam.gserviceaccount.com",
+  "client_id": "114608443746729440363",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mypaymentsplus%40corded-gear-163616.iam.gserviceaccount.com"
+}

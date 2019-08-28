@@ -1,0 +1,126 @@
+﻿<mat-card-title>
+    <div class="mat-headline" aria-label="Frequently Asked Questions">Frequently Asked Questions</div>
+</mat-card-title>
+<mat-card-content>
+    <div class="mat-title">Registering</div><br/>
+    <accordion heading="Where do I obtain my Student ID?"  id="mat-first-question">
+        A Student ID can usually be obtained by contacting your student's school, please ensure that you ask for the ID and not the PIN. It may also available from one of the following resources:
+        <ul>
+            <li>
+                Report card or transcript
+            </li>
+            <li>
+                Student ID card
+            </li>
+            <li>
+                School registration paper work
+            </li>
+            <li>
+                Student schedule
+            </li>
+            <li>
+                Bus card
+            </li>
+            <li>
+                School cafeteria
+            </li>
+        </ul>
+    </accordion>
+    <br /><div class="mat-title">Payments &amp; Transactions</div><br />
+    <accordion  heading="How long does it take for funds to reach my child's school after I make a cafeteria payment online?">
+        In most cases, funds are available in less than 24 hours. Occasionally, external factors may affect this process and could delay when the funds are received by the school. If you have made a payment, please utilize the payment tracking arrows on your profile to ensure your funds have been applied and are ready for use. If all arrows are highlighted, this indicates that the funds have been received by the school and applied to your student's cafeteria account.
+    </accordion>
+    <accordion  heading="How can I see what my child is purchasing in the cafeteria? (Where Available)">
+        If your district or organization provides this functionality via MyPaymentsPlus, simply click on 'View Purchase History' under the 'View History' tab. You may also contact your cafeteria or organization manager to obtain a full list of items purchased.
+    </accordion>
+    <accordion heading="How do I set up recurring payments? (Where available)">
+        MyPaymentsPlus provides the capability for accounts to auto-replenish each time they fall below a specified amount. To turn on auto-pay, click on the 'Manage Auto Pay' option under the 'Manage Account' tab. You will be prompted to provide credit or checking account information and will then be able to set the auto replenish amount and threshold level.
+
+    </accordion>
+    <accordion heading="Can I transfer money from one student to another or from one account to another?">
+        For security purposes, MyPaymentsPlus doesn't allow for the transfer of funds from one student to another or from one account to another. You may contact your student's school or central office to move funds.
+
+    </accordion>
+    <accordion heading="Can I make payments to multiple accounts in one transaction?">
+        Yes, you may pay for multiple items and multiple students in a single transaction.
+
+    </accordion>
+    <accordion heading="How can I obtain a refund?">
+        Refunds are handled differently by each organization. Please contact your student's school or organization with any questions regarding refund procedures.
+
+    </accordion>
+    <accordion heading="How secure is a MyPaymentsPlus transaction?">
+        MyPaymentsPlus utilizes a 128 bit encryption with SSL/secure socket layer. MyPaymentsPlus is certified by VISA for its CISP/Cardholder Information Security program. This certification is VISA's highest security protocol.
+
+    </accordion>
+    <accordion heading="I'd like to pay for something I don't see on the website, what do I do?">
+        While several items are available for payment via MyPaymentsPlus, your school or organization may not be utilizing the program for all fees and/or activities at every location. Please contact your student's school regarding the possibility of posting additional items to the website for your convenience.
+
+    </accordion>
+
+    <br /><div class="mat-title">Notifications</div><br />
+    <accordion  heading="How do I set up low balance notifications? (Where Available)">
+        MyPaymentsPlus provides the capability for users to be notified each time their child's cafeteria balance falls below a specified threshold. To turn on notifications, click on the 'manage notifications' option under 'manage account' and follow the onscreen instructions.
+    </accordion>
+    <accordion  heading="Why did I receive a low balance reminder when there is money in my child's account?">
+        You may be receiving e-mail alerts for one of the accounts on your profile, such as meal, while the funds on your students account may all be in the general account (or vice versa). You may stop the general or meal alerts by logging into your profile and clicking 'Manage Notifications' under the 'Manage Account' tab. Simply deselect the account which you are not currently using.
+
+    </accordion>
+    
+    <br /><div class="mat-title">My Account</div><br />
+
+    <accordion heading="How do I add additional students to my account?">
+        Students can be added or removed in the 'Add/Remove Students' area of your 'Manage Account' settings.
+
+    </accordion>
+   
+    
+    <accordion heading="How do I obtain my username or password?">
+        Simply click on the 'Forgot Username or Password' button in the secure sign-in area of the homepage. For security purposes, you will need access to the e-mail address you originally used to set up your account. If you no longer have access to that e-mail address, you may create a new account with your new e-mail address. All balances currently tied to your student will appear on the new account.
+
+    </accordion>
+    <accordion heading="Can I change the username and password on my account?">
+        For security purposes, the username is not changeable. However, you may edit the password by going to your 'My Profile' settings in the 'Manage Account' section of the home page. Simply click on 'Change Password' under the 'Username' section and type in your old and new password.
+
+    </accordion>
+    <accordion heading="How do I update my e-mail address or make changes to my profile?">
+        To update user profile information, click 'Manage Account' and choose 'My Profile'. You will be able to update your name, address, e-mail address, phone number, password, and stored payment methods. Be sure to click 'Save User Profile' at the bottom of the screen once you've made the necessary changes.
+
+    </accordion>
+    <accordion heading="How do I view various reading documents posted by my organization? (Where available)">
+        Many organizations will post required reading documents for parents on MyPaymentsPlus. To access these documents, simply click on 'Manage Documents' under the 'Manage Account' tab and select the student you wish to view documents for.
+
+    </accordion>
+    <br /><div class="mat-title">MyPaymentsPlus Mobile App</div><br />
+    <accordion  heading="What features are available through the MyPaymentsPlus Mobile App? How do I download it?">
+        The free MyPaymentsPlus mobile app allows users to view balances, make payments, monitor cafeteria purchase history, and receive low balance push notifications, all from the palm of their hand. To download the app for iPhone or iPad, <a href="https://itunes.apple.com/us/app/mypaymentsplus/id537636060?mt=8" target="_blank">click here</a>. For Android, <a href="https://play.google.com/store/apps/details?id=com.horizonsoftware.mypaymentsplus&hl=en%22" target="_blank">click here</a>. You can also search: MyPaymentsPlus in the Apple App Store or Google Play Store. Feature availability may vary by district.
+
+    </accordion>
+    <br /><div class="mat-title">Can't find what you're looking for?</div><br />
+    <div *ngIf="supportAvailable" class="faq-contact-tile flex-row flex-children-center">
+        <i class="material-icons mat-dark notranslate">chat_bubble</i>
+        <div class="faq-contact-text flex-column">          
+            <p class="faq-contact-title">
+                <button mat-raised-button color="primary" onclick="window.open('https://lc.chat/now/6285751/', '', 'width=200,height=100')">                  
+                    Live Chat Now!
+                </button>
+            </p>
+            <span>Mon - Fri 7:30 AM - 5:30 PM EST</span>
+        </div>
+    </div>
+    <div *ngIf="!supportAvailable" class="faq-contact-tile flex-row flex-children-center">
+        <i class="material-icons mat-dark notranslate">email</i>
+        <div class="faq-contact-text flex-column">
+            <span class="faq-contact-title"><a routerLink="/contact-offline" class="link">Email Support</a></span>
+            <span>Live Chat Offline</span>
+        </div>
+    </div>
+    <div class="faq-contact-tile flex-row flex-children-center">
+        <i class="material-icons mat-dark notranslate">phone</i>
+        <div class="faq-contact-text flex-column">
+            <span class="faq-contact-title"><a href="tel:1-877-237-0946" class="link">1-877-237-0946</a></span>
+            <span>Mon - Fri 7:30 AM - 5:30 PM EST</span>
+        </div>
+    </div>
+   
+</mat-card-content>

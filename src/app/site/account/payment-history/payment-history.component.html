@@ -1,0 +1,99 @@
+<div class="page-container">
+  <div class="history-spinner-container" *ngIf="showSpinner">
+    <span class="spinner-text">Please Wait....</span>
+    <mat-spinner strokeWidth="2" diameter="45"></mat-spinner>
+  </div>
+  <mat-card class="card-spacing" *ngIf="!showReceipt">
+    <mat-card-title>
+      My Payment History
+    </mat-card-title>
+    <mat-card-content>
+      <div class="input-container">
+        <div class="filters">
+          <form [formGroup]="activityPeriodForm" novalidate>
+            <mat-form-field class="activity-period">
+              <mat-select (selectionChange)="newSearch();"
+                          aria-label="Select Activity Period"
+                          placeholder="Select Activity Period"
+                          formControlName="activityPeriodSelector"
+                          [(ngModel)]="activityPeriodSelection"
+                          class="display-inline-block">
+                <mat-option *ngFor="let period of dateRangeSelectorService.dateRangeSelectorModel"
+                            [value]="period.value">
+                  {{period.text}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+          <form *ngIf="isCustom" [formGroup]="dateRangeForm" novalidate>
+            <mat-form-field class="start">
+              <input matInput
+                     placeholder="Start date"
+                     formControlName="startDate"
+                     [(ngModel)]="startDate"
+                     class="display-inline-block"
+                     title="Enter a date in this format MM-DD-YYYY"
+                     type="date" />
+            </mat-form-field>
+            <mat-form-field class="end">
+              <input matInput
+                     placeholder="End date"
+                     formControlName="endDate"
+                     [(ngModel)]="endDate"
+                     class="display-inline-block"
+                     title="Enter a date in this format MM-DD-YYYY"
+                     type="date" />
+            </mat-form-field>
+            <span class="alert-message" id="alertMessage"></span>
+            <button mat-raised-button
+                    (click)="dateSearch();"
+                    aria-label="Search"
+                    id="search-btn"
+                    color="primary">
+              Search
+            </button>
+          </form>
+          <mat-spinner strokeWidth="1" diameter="25" *ngIf="isHistoryGetting">Loading...</mat-spinner>
+        </div>
+        <div *ngIf="!isHistoryGetting && !getHistoryErr && !isHistory">
+          <p class="well">You have 0 past payments.</p>
+        </div>
+        <div *ngIf="!isHistoryGetting && getHistoryErr" class="error card-spacing">
+          {{getHistoryErrMsg}}
+        </div>
+        <table *ngIf="!isHistoryGetting && !getHistoryErr && isHistory" class="mat-table">
+          <thead class="hide-sm hide-xs">
+            <tr>
+              <td class="payDate">Payment Date</td>
+              <td class="confNumber">Confirmation Number</td>
+              <td class="amount text-right">Amount</td>
+            </tr>
+          </thead>
+          <tbody class="list">
+            <tr *ngFor="let activity of userPaymentModel | paginate: { itemsPerPage: 10, currentPage: p }">
+              <td>
+                <span class="hide-gt-sm">Date: </span>{{activity.date | date:'MM-dd-yyyy'}}
+              </td>
+              <td>
+                <span class="hide-gt-sm">Confirmation #: </span><a class="link" (click)="openReceipt(activity.confirmationNumber)">{{activity.confirmationNumber}}</a>
+              </td>
+              <td class="payment-amount">
+                {{activity.amount | currency }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls *ngIf="isHistory"
+                             class="pagination"
+                             (pageChange)="p = $event"
+                             autoHide="true">
+        </pagination-controls>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div class="flex-row padding-20 receipt-history-contianer" *ngIf="showReceipt">
+    <app-receipt [displayHistoryReceipt]="showReceipt" (changeReceipt)="receiptChange($event)"></app-receipt>
+    <!--<p>Can YOU See Me Now</p>-->
+  </div>
+
+</div>

@@ -1,0 +1,102 @@
+<div>
+  <div class="name-line">
+    <div class="name">
+      <b>{{student.firstName}}</b>
+    </div>
+    <div>
+      <mat-icon (click)="closeSheet()">keyboard_arrow_down</mat-icon>
+    </div>
+  </div>
+  <div class="text-balance-date">
+    as of {{student.balanceDate | date: 'MM/dd/yyyy'}}
+  </div>
+</div>
+<div *ngFor="let account of student.mealAccounts; let insideIndex = index;" class="balance-list">
+  <div (click)="insertAccount(insideIndex)" class="balance-list" id="{{insideIndex}}">
+    <div class="balances">
+      <div class="category-name">
+        <b>{{account.categoryName}}</b>
+      </div>
+     <i class="material-icons meals-amount-warning meal-info-small" matTooltip="{{account.categoryDescription}}">
+       help_outline
+     </i>
+      <div class="meal-amount text-in-Cart">
+        <div *ngIf="account.cartAmount > 0">
+          <div class="pending-amount" (click)="viewCart()">
+            <span>(</span> {{account.cartAmount | currency }} in cart
+            <span>)</span>
+          </div>
+          <span class="bonus-chip" *ngIf="account.bonusAmount > 0">
+            +{{account.bonusAmount | currency }} Bonus
+          </span>
+        </div>
+        <div>
+          <div class="meal-amount text-in-Cart text-pending" *ngIf="account.pendingBalance > 0">
+            <div>
+              <span>(</span> {{account.pendingBalance | currency }} pending
+              <span>)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <b>{{account.currentBalance | currency}}</b>
+        <!--as of {{account.currentBalanceLastUpdated | date: 'short'}}-->
+      </div>
+    </div>
+    <div class="meal-amount text-pending mobile-pad-bottom pending-chips" *ngIf="account.categoryName != 'Bonus' && account.transferPendingAmount > 0">
+      <div class="mobile-pending-target" selected>
+        (+{{account.transferPendingAmount | currency }}) Pending Transfer
+      </div>
+    </div>
+    <div class="pending-chips">
+      <!--Negative Transfer-->
+      <div class="meal-amount text-pending mobile-pad-bottom" *ngIf="account.transferPendingAmount < 0">
+        <div class="mobile-pending-source" selected>
+          (-{{account.transferPendingAmount | currency }}) Pending Transfer
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+<div *ngIf="throwAccountError" class="error-message">
+  Funds cannot be added to this account
+</div>
+<div class="quick-pay-message">
+  Quick Choice Options
+</div>
+<mat-grid-list cols="3" rowHeight="50px" gutterSize="12px" class="grid-list">
+  <mat-grid-tile [colspan]="1" class="grid-tile">
+    <button mat-stroked-button class="quick-pay-button" (click)="addCartItem(10, formAmount.controls.account.value)">$10</button>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" class="grid-tile">
+    <button mat-stroked-button class="quick-pay-button" (click)="addCartItem(25, formAmount.controls.account.value)">$25</button>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" class="grid-tile">
+    <button mat-stroked-button class="quick-pay-button" (click)="addCartItem(50, formAmount.controls.account.value)">$50</button>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1"></mat-grid-tile>
+  <mat-grid-tile [colspan]="1" class="grid-tile">
+    <button mat-stroked-button class="quick-pay-button" autofocus (click)="addCartItem(100, formAmount.controls.account.value)">$100</button>
+  </mat-grid-tile>
+</mat-grid-list>
+<mat-card class="add-card">
+  <div class="example-container">
+    <form [formGroup]="formAmount">
+      <mat-form-field>
+        <input matInput type="number" placeholder="Enter Amount" formControlName="amount">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Select Account" formControlName="account">
+          <mat-option *ngFor="let category of depositableAccounts, let insideIndex = index" [value]="insideIndex" (onSelectionChange)="listChange($event)">{{category.account.categoryName}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="add-to-cart">
+    <button mat-raised-button type="submit" color="primary" class="add-to-cart-button" (click)="addCartItemCustom()" [disabled]="!formAmount.valid">Add To Cart</button>
+  </div>
+</mat-card>

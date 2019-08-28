@@ -1,0 +1,81 @@
+<!--FEE-->
+<div class="container" *ngIf="data.feeTransactionKey">
+  <div class="close-button">
+    <button mat-icon-button class="close-btn"><mat-icon (click)="closeSheet()">close</mat-icon></button>
+  </div>
+  <div class="top">
+    <div class="name" style="padding-bottom:10px">
+      <b>{{data.feeName}}</b>
+    </div>
+    <div class="dates" *ngIf="data.dueDate" style="padding-bottom:10px">
+      <b> due by </b>{{data.dueDate | date: 'medium'}}
+    </div>
+    <div class="dates" *ngIf="data.dueDate === null" style="padding-bottom:10px">
+      <b>due by </b>{{data.partialPayDueDate}}
+    </div>
+    <div class="price" style="padding-bottom:10px">
+      {{data.amount | currency}}
+    </div>
+    <div class="description">
+      {{data.description}}
+    </div>
+  </div>
+  <div class="bottom" *ngIf="data.minimumPayment > 0">
+    Minimum Payment: {{data.minimumPayment | currency}}
+  </div>
+</div>
+<!--ACTIVITY-->
+<div class="container" *ngIf="data.activityKey">
+  <div class="close-button">
+    <button mat-icon-button class="close-btn"><mat-icon (click)="closeSheet()">close</mat-icon></button>
+  </div>
+  <div class="top">
+    <div class="name">
+      <b>{{data.activityName}}</b>
+    </div>
+    <img *ngIf="data.s3UriFull" class="image" src="{{data.s3UriFull}}" />
+    <div class="dates">
+      <br />
+      <div>
+        <b> Dates: </b>{{data.startDate}}
+        -
+        {{data.endDate}}
+      </div>
+    </div>
+    <div *ngIf="data.signupEndDate" class="deadline">
+      <b> SignUp Deadline: </b>{{data.signupEndDate | date: 'medium' }}
+    </div>
+    <div *ngIf="data.location" class="location">
+      <b>Location: </b>{{data.location}}
+    </div>
+    <span class="price">
+      {{data.amount | currency}}
+    </span>
+    <mat-chip-list>
+      <mat-chip class="chip">{{data.studentName}}</mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="bottom">
+    <b>Activity Details:</b>
+    <div class="description">
+      {{data.description}}
+    </div>
+    <div class="resources" *ngIf="data.resources.length > 0">
+      <a class="link" *ngFor="let link of data.resources" href="https://{{link.link}}" target="_blank">{{link.label}}</a>
+    </div>
+    <div *ngIf="data.contactName || data.contactPhone || data.contactEmail" class="contact">
+      <div class="contactTitle">
+        <b>Contact Info</b>
+      </div>
+      <div class="contactInfo">
+        {{data.contactName}}
+      </div>
+      <div class="contactInfo">
+        {{data.contactPhone}}
+      </div>
+      <div class="contactInfo">
+        {{data.contactEmail}}
+      </div>
+    </div>
+  </div>
+</div>

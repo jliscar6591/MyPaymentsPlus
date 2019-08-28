@@ -1,0 +1,8 @@
+<div class="page-container">
+    <div>
+        <payment-method></payment-method>
+    </div>
+    <div *ngIf="loginResponse.isAutoPayEnabled && !loginResponse.isDisableMealPaymentsDistrict">
+        <autopay></autopay>
+    </div>
+</div>

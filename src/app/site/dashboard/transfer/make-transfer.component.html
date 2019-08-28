@@ -1,0 +1,82 @@
+<div class="transfer-container">
+  <div class="mat-headline flex-grow-1">
+   Account Balance Transfers
+  </div>
+  <mat-card>
+   <div class="make-transfer-container">   
+      <!--<div class="transfer-from-container">
+        <span class="transfer-label">From:</span>
+        <div class="transfer-from-name">
+          {{transferFrom.studentName}} - {{transferFrom.category}}<span>(Avail Bal. {{transferFrom.currentBal | currency }}  )</span>
+        </div>
+      </div>-->
+      <div class="transfer-to-container">
+        <form [formGroup]="makeTransferForm" novalidate>
+          <div class="transfer-to-row">
+            <span class="transfer-label transfer-label-padding">From:</span>
+            <mat-form-field class="transfer-to-selector">
+              <mat-select aria-label="Select Transfer From Account"
+                          formControlName="transferFromSelector"
+                          (selectionChange)="getSelectedFromObj()"
+                          required>
+                <mat-option *ngFor="let account of studentSelectFromList" value="{{account.name}} - {{account.category}}   {{account.currBalance}}" class="transfer-to-option">
+                  <span class="option-padding-one">{{account.name}}</span> - <span class="option-padding-two">{{account.category}}</span><span class="option-padding-two">(Curr Bal. {{account.currBalance | currency }})</span>           
+                </mat-option>
+              </mat-select>
+              <mat-placeholder class="transfer-placeholder">Select Transfer From Account</mat-placeholder>
+            </mat-form-field>
+          </div>
+          <div class="transfer-to-row">
+            <span class="transfer-label transfer-label-padding">To:</span>
+            <mat-form-field class="transfer-to-selector">
+              <mat-select aria-label="Select Transfer To Account"
+                          formControlName="transferToSelector"
+                          (selectionChange)="getSelectedToObj()"
+                          required>
+                <mat-option *ngFor="let account of studentSelectToList" value="{{account.name}} - {{account.category}}   {{account.currBalance}}" class="transfer-to-option">
+                  <span class="option-padding-one">{{account.name}}</span> - <span class="option-padding-two">{{account.category}}</span><span class="option-padding-two">(Curr Bal. {{account.currBalance | currency }})</span>
+                </mat-option>
+              </mat-select>
+              <mat-placeholder class="transfer-placeholder">Select Transfer To Account</mat-placeholder>
+            </mat-form-field>
+          </div>
+          <div class="divider-container">
+            <div class="transfer-divider-to"></div>
+          </div>
+          <div class="transfer-amount-container">
+            <mat-form-field class="transfer-amount-input">
+              <input matInput placeholder="Enter Amount"
+                     formControlName="transferToAmount"
+                     [(ngModel)]="transferAmountInput"
+                     (keyup)="onKey($event)"
+                     [value]="transferAmountInput"
+                     type="text"
+                     required />
+            </mat-form-field>
+          </div>
+          <div *ngIf="!canMakeXfer" class="form-inline-validation error transfer-error">
+            {{ formErrors.transferToAmount }}
+          </div>
+          <!--<show-errors [control]="makeTransferForm"></show-errors>-->
+        </form>
+      </div>
+      <div class="transfer-buttons-container">
+        <button mat-raised-button class="transfer-button-cancel"
+                aria-label="Cancel" (click)="btnClick();">
+          <span>Cancel</span>
+        </button>
+        <button mat-raised-button color="primary"
+                aria-label="Transfer Funds"
+                [disabled]="isValid"
+                (click)="addCartItem()">
+          <!--<span *ngIf="model[insideIndex]['isAddCartAmountSaving']">
+      <mat-spinner strokeWidth="1" diameter="25" *ngIf="model[insideIndex]['isAddCartAmountSaving']" class="spinner-button spinner-button-center">
+        Loading..
+      </mat-spinner>
+    </span>-->
+          <span>Transfer Funds</span>
+        </button>
+      </div>
+     </div>
+  </mat-card>
+</div>

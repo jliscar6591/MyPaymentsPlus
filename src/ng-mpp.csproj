@@ -1,0 +1,426 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{25D0ADC7-5F6D-4209-8A77-FC1F6A430128}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>ConsoleApplication</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>ng_mpp</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".vs\config\applicationhost.config" />
+    <None Include=".vs\slnx.sqlite" />
+    <None Include=".vs\src\v15\.suo" />
+    <None Include="app\app.component.less" />
+    <None Include="app\login\login-home\login-home.component.less" />
+    <None Include="app\login\login-home\login.component.less" />
+    <None Include="app\registration\registration-form.component.less" />
+    <None Include="app\shared\components\page-loading\page-loading.component.less" />
+    <None Include="app\shared\components\page-not-found\page-not-found.component.less" />
+    <None Include="app\shared\components\purchase-banner\purchase-banner.component.less" />
+    <None Include="app\shared\components\simple-dialog\simple-dialog.component.less" />
+    <None Include="app\shared\components\suspend-payment-warning\suspend-payment-warning.component.less" />
+    <None Include="app\site\account\account-home.component.less" />
+    <None Include="app\site\account\alerts\alert-level.component.less" />
+    <None Include="app\site\account\fro\fro-launch.component.less" />
+    <None Include="app\site\account\payment-history\payment-history.component.less" />
+    <None Include="app\site\account\payment-method\autopay.component.less" />
+    <None Include="app\site\account\payment-method\payment-method.component.less" />
+    <None Include="app\site\checkout\cart\cart-item.component.less" />
+    <None Include="app\site\checkout\cart\cart.component.less" />
+    <None Include="app\site\checkout\review-cart\payment-method-dialog.component.less" />
+    <None Include="app\site\checkout\review-cart\review-cart.component.less" />
+    <None Include="app\site\checkout\view-cart\view-cart.component.less" />
+    <None Include="app\site\dashboard\dashboard-home.component.less" />
+    <None Include="app\site\dashboard\feedback\feedback-dialog.component.less" />
+    <None Include="app\site\dashboard\feedback\feedback.component.less" />
+    <None Include="app\site\dashboard\meals\meals.component.less" />
+    <None Include="app\site\site-home.component.less" />
+    <None Include="app\supplemental\supplemental.component.less" />
+    <None Include="assets\.gitkeep" />
+    <None Include="assets\data\date-range-selector.data.json" />
+    <None Include="assets\data\state-province.data.json" />
+    <None Include="assets\service-accounts\google-service-24b086283d76.json" />
+    <None Include="assets\service-accounts\google-service-b52a6e2270bb.json" />
+    <None Include="colors.less" />
+    <None Include="styles.less" />
+    <None Include="theme.scss" />
+    <None Include="tsconfig.app.json" />
+    <None Include="tsconfig.spec.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\login\login-home\login-home.component.html" />
+    <Content Include="app\login\login-home\login.component.html" />
+    <Content Include="app\login\reset-password\change-password.component.html" />
+    <Content Include="app\login\reset-password\request-password-change.component.css" />
+    <Content Include="app\login\reset-password\request-password-change.component.html" />
+    <Content Include="app\login\reset-password\reset-password.component.css" />
+    <Content Include="app\login\reset-password\reset-password.component.html" />
+    <Content Include="app\registration\add-student-form.component.css" />
+    <Content Include="app\registration\add-student-form.component.html" />
+    <Content Include="app\registration\breadcrumbs\registration-breadcrumbs.component.css" />
+    <Content Include="app\registration\breadcrumbs\registration-breadcrumbs.component.html" />
+    <Content Include="app\registration\registration-form.component.css" />
+    <Content Include="app\registration\registration-form.component.html" />
+    <Content Include="app\registration\registration-setup.component.css" />
+    <Content Include="app\registration\registration-setup.component.html" />
+    <Content Include="app\registration\segmentation-form.component.html" />
+    <Content Include="app\shared\components\accordion\accordion.component.html" />
+    <Content Include="app\shared\components\page-loading\page-loading.component.html" />
+    <Content Include="app\shared\components\page-not-found\page-not-found.component.html" />
+    <Content Include="app\shared\components\popover\popover-password-validator.component.css" />
+    <Content Include="app\shared\components\popover\popover-password-validator.component.html" />
+    <Content Include="app\shared\components\popover\popover.component.css" />
+    <Content Include="app\shared\components\popover\popover.component.html" />
+    <Content Include="app\shared\components\purchase-banner\purchase-banner.component.html" />
+    <Content Include="app\shared\components\simple-dialog\simple-dialog.component.html" />
+    <Content Include="app\shared\components\suspend-payment-warning\suspend-payment-warning.component.html" />
+    <Content Include="app\site\account\account-home.component.html" />
+    <Content Include="app\site\account\alerts\alert-level.component.html" />
+    <Content Include="app\site\account\alerts\alerts.component.html" />
+    <Content Include="app\site\account\fro\fro-launch.component.html" />
+    <Content Include="app\site\account\fro\fro-start.component.html" />
+    <Content Include="app\site\account\fro\fro-status.component.html" />
+    <Content Include="app\site\account\manage-students\manage-students.component.html" />
+    <Content Include="app\site\account\meal-purchases\meal-purchases.component.html" />
+    <Content Include="app\site\account\payment-history\payment-history.component.html" />
+    <Content Include="app\site\account\payment-method\autopay.component.html" />
+    <Content Include="app\site\account\payment-method\payment-method-autopay.component.html" />
+    <Content Include="app\site\account\payment-method\payment-method.component.html" />
+    <Content Include="app\site\account\profile\profile.component.css" />
+    <Content Include="app\site\account\profile\profile.component.html" />
+    <Content Include="app\site\checkout\cart\cart-item.component.html" />
+    <Content Include="app\site\checkout\cart\cart.component.html" />
+    <Content Include="app\site\checkout\review-cart\payment-method-dialog.component.html" />
+    <Content Include="app\site\checkout\review-cart\review-cart.component.html" />
+    <Content Include="app\site\checkout\view-cart\view-cart.component.html" />
+    <Content Include="app\site\dashboard\dashboard-home.component.html" />
+    <Content Include="app\site\dashboard\district-message\district-message.component.html" />
+    <Content Include="app\site\dashboard\district-message\mobile-district-message.component.html" />
+    <Content Include="app\site\dashboard\feedback\feedback-dialog.component.html" />
+    <Content Include="app\site\dashboard\feedback\feedback.component.html" />
+    <Content Include="app\site\dashboard\meals\meals-empty.component.html" />
+    <Content Include="app\site\dashboard\meals\meals-list-add-to-cart-mobile.component.html" />
+    <Content Include="app\site\dashboard\meals\meals-list-add-to-cart.component.html" />
+    <Content Include="app\site\dashboard\meals\meals-list.component.html" />
+    <Content Include="app\site\dashboard\meals\meals.component.html" />
+    <Content Include="app\site\site-home.component.html" />
+    <Content Include="app\supplemental\supplemental-about.component.html" />
+    <Content Include="app\supplemental\supplemental-email.component.css" />
+    <Content Include="app\supplemental\supplemental-email.component.html" />
+    <Content Include="app\supplemental\supplemental-privacy.component.html" />
+    <Content Include="app\supplemental\supplemental-support.component.html" />
+    <Content Include="app\supplemental\supplemental-terms.component.html" />
+    <Content Include="app\supplemental\supplemental.component.css" />
+    <Content Include="app\supplemental\supplemental.component.html" />
+    <Content Include="assets\images\browser-logos\chrome.png" />
+    <Content Include="assets\images\browser-logos\explorer.png" />
+    <Content Include="assets\images\browser-logos\firefox.png" />
+    <Content Include="assets\images\browser-logos\safari.png" />
+    <Content Include="assets\images\browser-logos\__MACOSX\._chrome.png" />
+    <Content Include="assets\images\browser-logos\__MACOSX\._explorer.png" />
+    <Content Include="assets\images\browser-logos\__MACOSX\._firefox.png" />
+    <Content Include="assets\images\browser-logos\__MACOSX\._safari.png" />
+    <Content Include="assets\images\cards\discover.jpg" />
+    <Content Include="assets\images\cards\mastercard.jpg" />
+    <Content Include="assets\images\cards\amex.jpg" />
+    <Content Include="assets\images\cards\supported_cards.png" />
+    <Content Include="assets\images\cards\visa.jpg" />
+    <Content Include="assets\images\cart\utensils.PNG" />
+    <Content Include="assets\images\home\feature-exams.png" />
+    <Content Include="assets\images\home\feature-meals.png" />
+    <Content Include="assets\images\home\feature-products.png" />
+    <Content Include="assets\images\home\feature-student.png" />
+    <Content Include="assets\images\home\howitworks-image.png" />
+    <Content Include="assets\images\home\splash-banner.png" />
+    <Content Include="assets\images\home\testimonial-0.png" />
+    <Content Include="assets\images\home\testimonial-1.png" />
+    <Content Include="assets\images\home\testimonial-2.png" />
+    <Content Include="assets\images\home\whympp-image.png" />
+    <Content Include="assets\images\horizon-logo-white.png" />
+    <Content Include="assets\images\icons\facebook.png" />
+    <Content Include="assets\images\icons\pinterest.png" />
+    <Content Include="assets\images\icons\twitter.png" />
+    <Content Include="assets\images\image-placeholder.jpg" />
+    <Content Include="assets\images\mpp-logo-white.png" />
+    <Content Include="assets\images\mpp-logo.png" />
+    <Content Include="assets\images\my-account\alert.png" />
+    <Content Include="assets\images\my-account\card.png" />
+    <Content Include="assets\images\my-account\history.png" />
+    <Content Include="assets\images\my-account\manage.png" />
+    <Content Include="assets\images\my-account\profile.png" />
+    <Content Include="assets\images\my-account\receipt.png" />
+    <Content Include="assets\images\page-not-found.png" />
+    <Content Include="assets\images\registration\registration-banner-relationship.png" />
+    <Content Include="assets\images\registration\registration-banner-students.png" />
+    <Content Include="assets\images\schellman-logo.png" />
+    <Content Include="assets\images\supplemental\about.png" />
+    <Content Include="assets\images\supplemental\call.png" />
+    <Content Include="assets\images\supplemental\email.png" />
+    <Content Include="assets\images\supplemental\livechat.png" />
+    <Content Include="assets\images\supplemental\privacy.png" />
+    <Content Include="assets\images\supplemental\support.png" />
+    <Content Include="assets\images\supplemental\terms.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="index.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app\app.component.ts" />
+    <TypeScriptCompile Include="app\app.module.ts" />
+    <TypeScriptCompile Include="app\app.routes.ts" />
+    <TypeScriptCompile Include="app\app.settings.ts" />
+    <TypeScriptCompile Include="app\login\login-home\login-home.component.ts" />
+    <TypeScriptCompile Include="app\login\login-home\login.component.ts" />
+    <TypeScriptCompile Include="app\login\login.module.ts" />
+    <TypeScriptCompile Include="app\login\login.routes.ts" />
+    <TypeScriptCompile Include="app\login\model\change-password-put.model.ts" />
+    <TypeScriptCompile Include="app\login\model\change-password.model.ts" />
+    <TypeScriptCompile Include="app\login\model\index.ts" />
+    <TypeScriptCompile Include="app\login\model\login-response.model.ts" />
+    <TypeScriptCompile Include="app\login\model\login.model.ts" />
+    <TypeScriptCompile Include="app\login\model\request-password-change.model.ts" />
+    <TypeScriptCompile Include="app\login\reset-password\change-password.component.ts" />
+    <TypeScriptCompile Include="app\login\reset-password\request-password-change.component.ts" />
+    <TypeScriptCompile Include="app\login\reset-password\reset-password.component.ts" />
+    <TypeScriptCompile Include="app\login\reset-password\reset-password.module.ts" />
+    <TypeScriptCompile Include="app\login\reset-password\reset-password.routes.ts" />
+    <TypeScriptCompile Include="app\main.ts" />
+    <TypeScriptCompile Include="app\registration\add-student-form.component.ts" />
+    <TypeScriptCompile Include="app\registration\breadcrumbs\registration-breadcrumbs.component.ts" />
+    <TypeScriptCompile Include="app\registration\model\index.ts" />
+    <TypeScriptCompile Include="app\registration\model\registration-detail.model.ts" />
+    <TypeScriptCompile Include="app\registration\model\registration-view.model.ts" />
+    <TypeScriptCompile Include="app\registration\model\segmentation-detail.model.ts" />
+    <TypeScriptCompile Include="app\registration\model\student-add-detail.model.ts" />
+    <TypeScriptCompile Include="app\registration\model\student.model.ts" />
+    <TypeScriptCompile Include="app\registration\model\user-duplication-response.model.ts" />
+    <TypeScriptCompile Include="app\registration\model\user-duplication.model.ts" />
+    <TypeScriptCompile Include="app\registration\registration-form.component.ts" />
+    <TypeScriptCompile Include="app\registration\registration-setup.component.ts" />
+    <TypeScriptCompile Include="app\registration\registration.module.ts" />
+    <TypeScriptCompile Include="app\registration\registration.routes.ts" />
+    <TypeScriptCompile Include="app\registration\segmentation-form.component.ts" />
+    <TypeScriptCompile Include="app\registration\services\district-content.service.ts" />
+    <TypeScriptCompile Include="app\registration\services\index.ts" />
+    <TypeScriptCompile Include="app\registration\services\registration-breadcrumbs.service.ts" />
+    <TypeScriptCompile Include="app\registration\services\segmentation-read.service.ts" />
+    <TypeScriptCompile Include="app\registration\services\segmentation-save.service.ts" />
+    <TypeScriptCompile Include="app\registration\services\student-add.service.ts" />
+    <TypeScriptCompile Include="app\registration\services\student-list.service.ts" />
+    <TypeScriptCompile Include="app\registration\services\user-create.service.ts" />
+    <TypeScriptCompile Include="app\registration\services\user-duplication-check.service.ts" />
+    <TypeScriptCompile Include="app\shared\components\accordion\accordion.component.ts" />
+    <TypeScriptCompile Include="app\shared\components\accordion\accordion.module.ts" />
+    <TypeScriptCompile Include="app\shared\components\page-loading\page-loading.component.ts" />
+    <TypeScriptCompile Include="app\shared\components\page-loading\page-loading.module.ts" />
+    <TypeScriptCompile Include="app\shared\components\page-loading\page-loading.service.ts" />
+    <TypeScriptCompile Include="app\shared\components\page-not-found\page-not-found.component.ts" />
+    <TypeScriptCompile Include="app\shared\components\popover\popover-password-validator.component.ts" />
+    <TypeScriptCompile Include="app\shared\components\popover\popover.component.ts" />
+    <TypeScriptCompile Include="app\shared\components\popover\popover.module.ts" />
+    <TypeScriptCompile Include="app\shared\components\purchase-banner\purchase-banner.component.ts" />
+    <TypeScriptCompile Include="app\shared\components\purchase-banner\purchase-banner.service.ts" />
+    <TypeScriptCompile Include="app\shared\components\simple-dialog\simple-dialog.component.ts" />
+    <TypeScriptCompile Include="app\shared\components\simple-dialog\simple-dialog.module.ts" />
+    <TypeScriptCompile Include="app\shared\components\simple-dialog\simple-dialog.service.ts" />
+    <TypeScriptCompile Include="app\shared\components\suspend-payment-warning\suspend-payment-warning.component.ts" />
+    <TypeScriptCompile Include="app\shared\components\suspend-payment-warning\suspend-payment-warning.module.ts" />
+    <TypeScriptCompile Include="app\shared\components\suspend-payment-warning\suspend-payment-warning.service.ts" />
+    <TypeScriptCompile Include="app\shared\directives\equal-validator.directive.ts" />
+    <TypeScriptCompile Include="app\shared\model\api-url.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\application.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\callback-emitter.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\date-range-selector.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\district-view.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\district.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\index.ts" />
+    <TypeScriptCompile Include="app\shared\model\meal-account.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\state-province.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\student-meal.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\studentMealPurchase.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\studentMealPurchaseSearch.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\ue-options.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\user-context.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\user-demographics.model.ts" />
+    <TypeScriptCompile Include="app\shared\model\user-payment.model.ts" />
+    <TypeScriptCompile Include="app\shared\services\auth-guard.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\authenticate.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\change-password.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\date-range-selector.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\district-list.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\district-login-derived.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\get-session.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\index.ts" />
+    <TypeScriptCompile Include="app\shared\services\message-processor.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\request-password-change.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\state-province-list.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\support-request.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\utility.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\validate-cookie.service.ts" />
+    <TypeScriptCompile Include="app\site-guard.service.ts" />
+    <TypeScriptCompile Include="app\site\account\account-home.component.ts" />
+    <TypeScriptCompile Include="app\site\account\account.module.ts" />
+    <TypeScriptCompile Include="app\site\account\account.routes.ts" />
+    <TypeScriptCompile Include="app\site\account\alerts\alert-level.component.ts" />
+    <TypeScriptCompile Include="app\site\account\alerts\alerts.component.ts" />
+    <TypeScriptCompile Include="app\site\account\fro\fro-launch.component.ts" />
+    <TypeScriptCompile Include="app\site\account\fro\fro-start.component.ts" />
+    <TypeScriptCompile Include="app\site\account\fro\fro-status.component.ts" />
+    <TypeScriptCompile Include="app\site\account\manage-students\manage-students.component.ts" />
+    <TypeScriptCompile Include="app\site\account\meal-purchases\meal-purchases.component.ts" />
+    <TypeScriptCompile Include="app\site\account\model\alert-input.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\auth-newPassword-put.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\autopay-setup.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\autopay-student.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\autopay.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\balance-alert-input.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\balance-alert.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\fro-app-availability.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\fro-app-status.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\index.ts" />
+    <TypeScriptCompile Include="app\site\account\model\payment-history-post.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\payment-method-ach.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\payment-method-creditcard.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\payment-method-detail.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\payment-method-input.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\payment-method-view.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\payment-method-wallet.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\payment-method.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\profile-email-preference-put.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\profile-profile-core-put.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\profile-relationship-put.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\profile-userprofile-get.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\student-autopay-view.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\student-balancealert-input.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\student-balancealert-view.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\studentMealPurchase.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\studentMealPurchaseSearch.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\user-context.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\user-payment.model.ts" />
+    <TypeScriptCompile Include="app\site\account\model\userPaymentSearch.model.ts" />
+    <TypeScriptCompile Include="app\site\account\payment-history\payment-history.component.ts" />
+    <TypeScriptCompile Include="app\site\account\payment-method\autopay.component.ts" />
+    <TypeScriptCompile Include="app\site\account\payment-method\payment-method-autopay.component.ts" />
+    <TypeScriptCompile Include="app\site\account\payment-method\payment-method.component.ts" />
+    <TypeScriptCompile Include="app\site\account\pipes\credit-card-format.pipe.ts" />
+    <TypeScriptCompile Include="app\site\account\pipes\index.ts" />
+    <TypeScriptCompile Include="app\site\account\profile\profile.component.ts" />
+    <TypeScriptCompile Include="app\site\account\services\auth-new-password.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\creditcard-validation.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\expired-card.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\fro-app-availability.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\fro-app-status.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\index.ts" />
+    <TypeScriptCompile Include="app\site\account\services\payment-add.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\payment-history.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\payment-method.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\payment-utility.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\profile-email-preference.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\profile-profile-core.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\profile-relationship.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\profile-user-profile.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\student-autopay.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\student-balancealert.service.ts" />
+    <TypeScriptCompile Include="app\site\account\services\student-meal-purchases.service .ts" />
+    <TypeScriptCompile Include="app\site\account\services\user-context.service.ts" />
+    <TypeScriptCompile Include="app\site\checkout\cart\cart-item.component.ts" />
+    <TypeScriptCompile Include="app\site\checkout\cart\cart.component.ts" />
+    <TypeScriptCompile Include="app\site\checkout\checkout.module.ts" />
+    <TypeScriptCompile Include="app\site\checkout\checkout.routes.ts" />
+    <TypeScriptCompile Include="app\site\checkout\review-cart\payment-method-dialog.component.ts" />
+    <TypeScriptCompile Include="app\site\checkout\review-cart\review-cart.component.ts" />
+    <TypeScriptCompile Include="app\site\checkout\view-cart\view-cart.component.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\dashboard-home.component.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\dashboard.module.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\dashboard.routes.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\district-message\district-message.component.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\district-message\mobile-district-message.component.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\feedback\feedback-dialog.component.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\feedback\feedback.component.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\meals\meals-empty.component.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\meals\meals-list-add-to-cart-mobile.component.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\meals\meals-list-add-to-cart.component.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\meals\meals-list.component.ts" />
+    <TypeScriptCompile Include="app\site\dashboard\meals\meals.component.ts" />
+    <TypeScriptCompile Include="app\site\model\cart-item-detail-model.ts" />
+    <TypeScriptCompile Include="app\site\model\cart-response-model.ts" />
+    <TypeScriptCompile Include="app\site\model\feedback.model.ts" />
+    <TypeScriptCompile Include="app\site\model\index.ts" />
+    <TypeScriptCompile Include="app\site\model\sale-transaction-response.model.ts" />
+    <TypeScriptCompile Include="app\site\model\sale-transaction.model.ts" />
+    <TypeScriptCompile Include="app\site\model\student-meal.model.ts" />
+    <TypeScriptCompile Include="app\site\services\add-cart-item.service.ts" />
+    <TypeScriptCompile Include="app\site\services\cart-checkout-items.service.ts" />
+    <TypeScriptCompile Include="app\site\services\cart-checkout.service.ts" />
+    <TypeScriptCompile Include="app\site\services\dashboard-district-message.service.ts" />
+    <TypeScriptCompile Include="app\site\services\feedback-dialog.service.ts" />
+    <TypeScriptCompile Include="app\site\services\feedback.service.ts" />
+    <TypeScriptCompile Include="app\site\services\index.ts" />
+    <TypeScriptCompile Include="app\site\services\payment-method-dialog.service.ts" />
+    <TypeScriptCompile Include="app\site\services\student-meals.service-remote.ts" />
+    <TypeScriptCompile Include="app\site\services\student-meals.service.ts" />
+    <TypeScriptCompile Include="app\site\site-home.component.ts" />
+    <TypeScriptCompile Include="app\site\site.module.ts" />
+    <TypeScriptCompile Include="app\site\site.routes.ts" />
+    <TypeScriptCompile Include="app\supplemental\model\contact-offline-view.model.ts" />
+    <TypeScriptCompile Include="app\supplemental\model\index.ts" />
+    <TypeScriptCompile Include="app\supplemental\model\support-request-detail.model.ts" />
+    <TypeScriptCompile Include="app\supplemental\supplemental-about.component.ts" />
+    <TypeScriptCompile Include="app\supplemental\supplemental-email.component.ts" />
+    <TypeScriptCompile Include="app\supplemental\supplemental-privacy.component.ts" />
+    <TypeScriptCompile Include="app\supplemental\supplemental-support.component.ts" />
+    <TypeScriptCompile Include="app\supplemental\supplemental-terms.component.ts" />
+    <TypeScriptCompile Include="app\supplemental\supplemental.component.ts" />
+    <TypeScriptCompile Include="app\supplemental\supplemental.module.ts" />
+    <TypeScriptCompile Include="app\supplemental\supplemental.routes.ts" />
+    <TypeScriptCompile Include="environments\environment.dev.ts" />
+    <TypeScriptCompile Include="environments\environment.prod.ts" />
+    <TypeScriptCompile Include="environments\environment.qc.ts" />
+    <TypeScriptCompile Include="environments\environment.ts" />
+    <TypeScriptCompile Include="main.ts" />
+    <TypeScriptCompile Include="polyfills.ts" />
+    <TypeScriptCompile Include="test.ts" />
+    <TypeScriptCompile Include="typings.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".vs\ng-mpp\v15\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>

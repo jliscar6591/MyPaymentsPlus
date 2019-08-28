@@ -1,0 +1,152 @@
+
+#meals {
+  // width:100%;
+  // min-width: 850px;
+  @media all and (min-width: 1024px) {
+    //#meals {
+    min-width: 850px !important;
+    // }
+  }
+}
+
+.card-spacing {
+  display: block;
+  width: auto;
+}
+
+#right-column {
+  width: 33%;
+  margin-top: 72px;
+}
+
+//////////////////////////////////////////////////////SPINNERS
+
+.spinner-inline {
+  height: 15px !important;
+  width: 15px !important;
+}
+
+.spinner-button svg path {
+  stroke: white !important;
+}
+
+.spinner-button {
+  height: 20px !important;
+  margin: 5px;
+}
+
+.spinner-button-center {
+  display: inline-block !important;
+  vertical-align: middle;
+}
+
+.tile {
+  display: flex;
+  flex-flow: column;
+  border: 1px solid rgba(224,224,224,1);
+}
+
+.grid-list {
+  padding-top: 10px;
+}
+
+.feedback-tile {
+  padding-top: 7px;
+}
+
+.tile:hover {
+  cursor: pointer;
+}
+
+.mat-card-actions, .mat-card-content, .mat-card-subtitle, .mat-card-title {
+  display: block;
+  margin-bottom: 0px !important;
+}
+
+.tile{
+  touch-action: pan-y !important;
+  -webkit-user-drag: auto !important;
+}
+
+.tile-pic {
+  margin-top: -20px;
+  height: 35px;
+  width: 35px;
+}
+
+.tile-pic-orientation {
+  margin-top: -35px;
+  height: 40px;
+  width: 40px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 24px;
+}
+
+.picture {
+  height: 85%;
+  width: 85%;
+}
+
+.mat-card-header {
+  .mat-card-header-text {
+    .mat-card-title {
+      font-size: 24px !important;
+    }
+  }
+}
+
+.mobile-logo {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+
+.mat-grid-tile .mat-grid-tile-footer, .mat-grid-tile .mat-grid-tile-header {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  color: rgba(25,118,210,1);
+  background: #fafafa;
+  justify-content: center;
+  padding: 0 16px;
+  left: 0;
+  right: 0;
+}
+
+@media all and (max-width: 480px) {
+  .padding-leftright-20 {
+    padding: 0 10px 7px;
+  }
+
+  .mat-grid-tile .mat-grid-tile-footer, .mat-grid-tile .mat-grid-tile-header {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    color: rgba(25,118,210,1);
+    background: #fafafa;
+    justify-content: center;
+    padding: 0px 0px;
+    font-size: small;
+    left: 0;
+    right: 0;
+  }
+
+  .feedback-tile {
+    margin-top: 8px;
+  }
+}
+
+@media all and (min-width: 960px) {
+  #right-column {
+    width: 28%;
+  }
+}

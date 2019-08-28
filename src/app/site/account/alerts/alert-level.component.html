@@ -1,0 +1,32 @@
+<div [formGroup]="form" class="input-container alert-level-container">
+  <span class="mobile-notify">Notify me when this account drops below </span>
+  <div class="flex">
+    <mat-form-field class="alert-level-select">
+      <mat-select (selectionChange)="update(model[index].alertLevel)"
+                  aria-label="Select when to notify"
+                  formControlName="alertLevel"
+                  [(ngModel)]="model[index].alertLevel"
+                  class="alert-select"
+                  placeholder="Choose an amount">
+        <mat-option [value]="0">Do not notify</mat-option>
+        <mat-option [value]="5">{{5 | currency }}</mat-option>
+        <mat-option [value]="10">{{10 | currency }}</mat-option>
+        <mat-option [value]="20">{{20 | currency }}</mat-option>
+        <mat-option [value]="30">{{30 | currency }}</mat-option>
+        <mat-option [value]="40">{{40 | currency }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="alert-level-select custom">
+      <input matInput (change)="update(model[index].alertLevel) "            
+             name="custom"
+             class="custom-amount"
+             pattern="^[0-9]*?[.]??[0-9]*$"
+             placeholder="Enter a Custom Amount"
+             value="0"
+             formControlName="alertLevel"
+             [(ngModel)]="model[index].alertLevel">
+      <!--<mat-hint id="hint">Must be greater than zero!</mat-hint>-->
+      <!--<mat-error *ngIf="alertLevel.invalid">{{getErrorMessage()}}</mat-error>-->
+    </mat-form-field>
+  </div>
+</div>

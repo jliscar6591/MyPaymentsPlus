@@ -1,0 +1,76 @@
+<div class="page-container">
+  <mat-card class="card-spacing">
+    <div fxLayout="row" class="transfer-history-title"><mat-card-title>My Balance Transfer History</mat-card-title></div>
+    <div class="transfer-history" fxLayout="column">
+      <div *ngIf="!isTransferHistory" fxLayout="row" class="transfer-history-notfound">
+        <span>No Balance Transfer History available</span>
+      </div>
+      <div *ngIf="isTransferHistory" fxLayout="row" class="transfer-history-found">
+        <div class="transfer-history-table">
+          <div class="header-row" fxLayout="row">
+            <div class="header-col col-1">Payment Date</div>
+            <div class="header-col col-2">Account From</div>
+            <div class="header-col col-3">Account To</div>
+            <div class="header-col col-5">Status</div>
+            <div class="header-col col-4">Amount</div>
+          </div>
+          <div class="transfer-history-content" *ngIf="xferHistoryData">
+            <div class="row-container" *ngFor="let transfer of xferHistoryData">
+              <div fxLayout="row" class="content-row">
+                <span class="col-1">{{transfer.requestDate}}</span>
+                <span class="col-2 content-col">{{transfer.from}}</span>
+                <span class="col-3 content-col">{{transfer.to}}</span>
+                <span class="col-5 content-col" [ngClass]="transfer.status | lowercase">{{transfer.status}}</span>
+                <span class="col-4 content-col">{{transfer.amount  | currency }}</span>
+                <!--<span class="col-6 content-col">{{transfer.confirmationNo}}</span>-->
+
+
+              </div>
+
+
+              
+
+            </div>
+
+
+            
+
+          </div>
+        </div>
+      </div>
+      <!--<div *ngIf="isTransferHistory" fxLayout="row" class="transfer-history-found">
+      <mat-table #table [dataSource]="dataSource">
+        <ng-container matcolumnDef="requestDate">
+          <mat-header-cell *matHeaderCellDef>Payment Date </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{xferHistoryData.requestDate}} </mat-cell>
+        </ng-container>
+
+        <ng-container matcolumnDef="from">
+          <mat-header-cell *matHeaderCellDef>Account From </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{xferHistoryData.from}} </mat-cell>
+        </ng-container>
+
+        <ng-container matcolumnDef="to">
+          <mat-header-cell *matHeaderCellDef>Account To </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{xferHistoryData.to}} </mat-cell>
+        </ng-container>
+
+        <ng-container matcolumnDef="status">
+          <mat-header-cell *matHeaderCellDef>Status </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{xferHistoryData.status}} </mat-cell>
+        </ng-container>
+
+        <ng-container matcolumnDef="amount">
+          <mat-header-cell *matHeaderCellDef>Amount </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{xferHistoryData.amount}} </mat-cell>
+        </ng-container>
+
+        <ng-container matcolumnDef="requestID">
+          <mat-header-cell *matHeaderCellDef>Reference Number </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{xferHistoryData.requestID}} </mat-cell>
+        </ng-container>
+      </mat-table>
+     </div>-->
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,202 @@
+@import '../../../../colors.less';
+
+#review-cart {
+  flex-grow: 2;
+}
+
+#summary {
+  flex-grow: 1;
+  align-self: flex-start;
+
+  #summary-list {
+    text-align: left;
+    padding-left: 0;
+
+    li {
+      margin: 15px 0;
+
+      &:last-child {
+        border-top: 1px solid lightgray;
+        padding-top: 20px;
+        font-size: 16px;
+
+        #total {
+          font-size: 26px;
+        }
+      }
+    }
+  }
+}
+
+#paymentsList {
+  max-width: 550px;
+
+  .paymentList-row {
+    min-height: 60px;
+    display: flex;
+    flex-flow: row;
+    flex: 0 1 auto;
+    width: 100%;
+  }
+
+  .paymentslist-col1 {
+    display: flex;
+    flex-flow: column;
+    flex: 0 1 auto;
+    width: 46%;
+    align-items: center;
+  }
+
+  .payment-radio {
+    width: 100%;
+    min-width: 117px;
+    justify-content: center;
+  }
+
+  .payment-details {
+    flex-grow: 1;
+  }
+
+  .payment-name {
+    display: flex;
+    flex-flow: column;
+    flex: 0 1 auto;
+    width: 23%;
+    align-items: flex-end;
+    margin: 0px auto;
+    padding-left: 13px;
+  }
+
+  .payment-expiration {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+    margin: 0px auto;
+    flex: 0 1 auto;
+    width: 28%;
+  }
+
+  .payment-card-image {
+    min-width: 84px;
+  }
+
+  .single-cardtype {
+    width: 40px;
+  }
+
+  .payment-nickname {
+    color: gray;
+    font-size: 12px;
+    margin: 5px 0;
+  }
+
+  .payment-row {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .payment-row-selected {
+    /*background-color: @primaryColorHighlight;*/
+    min-height: 57px;
+  }
+
+  &.md-table {
+    thead th {
+      text-align: left;
+    }
+  }
+}
+
+.md-caption {
+  display: flex;
+}
+
+#merchantInfo {
+  color: dimgrey;
+  height: 30px;
+  cursor: pointer;
+}
+
+#newPaymentMethod {
+  margin-top: 24px;
+
+  a:hover {
+    cursor: pointer;
+  }
+}
+
+.discountError {
+  color: red;
+}
+
+.discountsApplied {
+  color: @successColor;
+  display: flex;
+  align-items: center;
+}
+
+@media(max-width: 959px) {
+  #summary {
+    align-self: stretch;
+  }
+}
+
+@media all and (min-width: 960px) {
+  .paymentslist-header-row {
+    font-weight: bold;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+
+    .paymentlist-col2 {
+      width: 37%;
+    }
+  }
+
+  .payment-name {
+    max-width: 131px;
+    align-items: flex-start !important;
+  }
+}
+
+@media all and (min-width: 1040px) {
+  .paymentslist-header-row {
+    .paymentlist-col2 {
+      width: 38%;
+    }
+  }
+}
+
+.inactive {
+  opacity: 0.50;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+#newPaymentMethod {
+  margin-top: 24px;
+
+  a:hover {
+    cursor: pointer;
+  }
+}
+
+.live-chat {
+  margin-bottom: 10px;
+}
+
+@media all and (max-width: 1024px) {
+  .page-loading-container {
+    display: flex;
+    flex-flow: column;
+    flex: 0 1 auto;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    margin: 0px auto;
+  }
+}

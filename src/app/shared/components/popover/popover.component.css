@@ -1,0 +1,32 @@
+﻿.popover {
+    position: relative;
+}
+
+
+.popover-content  {
+    position: absolute;
+    margin: 0;
+    bottom: 15px;
+    left: 0;
+    background-color: white;
+    box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.21);
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    padding: 16px;
+    z-index: 1;
+}
+.popover-content::after{
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin-left: -0.5em;
+    bottom: -2em;
+    left: 50%;
+    box-sizing: border-box;
+    border: 1em solid black;
+    border-color: transparent transparent white white;
+    transform-origin: 0 0;
+    transform: rotate(-45deg);
+    box-shadow: -3px 3px 3px 0 rgba(0, 0, 0, 0.21);
+  }

@@ -1,0 +1,74 @@
+@primaryColor: rgb(56,131,208);
+@darkSidenavColor: rgb(53, 64, 83);
+
+.bg-primarycolor {
+    background-color: @primaryColor !important;
+}
+
+#supplemental-card {
+    margin: 20px;
+}
+
+
+
+@media(max-width: 599px){
+    #supplemental-card {
+        margin: 20px 0 0 0;
+    }
+}
+
+.faq-contact-tile {
+    padding: 20px;
+    margin: 10px 0;  
+    border: 1px solid lightgray;
+
+    .faq-contact-title {
+        font-size: 16px;
+    }
+
+    .faq-contact-text {
+        margin: 0 10px;
+    }
+}
+
+#supplemental-about {
+    .supplemental-security-graphic {
+        width: 20%;
+        max-width: 185px;
+        padding-right: 15px; 
+
+        img {
+            max-width: 160px;
+            width: 100%;
+        }
+    }
+
+    .supplemental-security {
+        margin-bottom: 25px; 
+
+        .material-icons {
+            color: forestgreen;
+            font-weight: bold;
+        }
+    }
+    
+}
+
+.page-container {
+  max-width: 1280px;
+  margin: 0px !important;
+}
+
+@media(max-width: 599px){
+
+    #supplemental-about { 
+        .supplemental-security-graphic {
+            width: 100%;
+            padding-right: 0;
+            text-align: center;
+            margin: auto;
+            margin-bottom: 10px;
+        }
+
+    }
+}

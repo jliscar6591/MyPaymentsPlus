@@ -1,0 +1,245 @@
+<page-loading></page-loading>
+<div *ngIf="!isSimulate">
+  <mat-toolbar id="app-toolbar" class="theme-light toolbar relative">
+    <span id="nav-logo">
+      <img src="../../../assets/images/mpp-logo.png" alt="My Payment's Plus logo" class="logo" />
+    </span>
+    <span id="nav" class="nav-wrap">
+      <span id="nav-options">
+        <a href="./welcome#whyMPP" class="toolbar-links">Why MyPaymentsPlus?</a>
+        <a href="./welcome#howitworks" class="toolbar-links">How it Works</a>
+        <a routerLink="/support" routerLinkActive="active" class="toolbar-links">Contact Us</a>
+      </span>
+      <button id="nav-signin" (click)="showSignIn(true)" mat-raised-button color="primary">Sign In</button>
+    </span>
+    <span id="nav-social" class="hide-sm hide-xs">
+      <a href="https://www.facebook.com/MyPaymentsPlus/" target="_blank" class="cursor-pointer">
+        <img src="../../../assets/images/icons/facebook.png" alt="Follow us on Facebook" class="nav-social-icon">
+      </a>
+      <a href="https://www.pinterest.com/mypaymentsplus/" target="_blank" class="cursor-pointer">
+        <img src="../../../assets/images/icons/pinterest.png" alt="Follow us on Pinterest" class="nav-social-icon">
+      </a>
+      <a href="https://twitter.com/mypaymentsplus?lang=en" target="_blank" class="cursor-pointer">
+        <img src="../../../assets/images/icons/twitter.png" alt="Follow us on Twitter" class="nav-social-icon">
+      </a>
+      <a href="https://www.instagram.com/mypaymentsplus/" target="_blank" class="cursor-pointer">
+        <img id="instagram" src="../../../assets/images/icons/instagram.png" alt="Follow us on Instagram" class="nav-social-icon">
+      </a>
+    </span>
+  </mat-toolbar>
+  <section id="home-banner" [ngClass]="{'home-notification': homeNotification}" class="flex-row flex-fill relative">
+    <div id="home-banner-marketing" class="flex-column">
+      <section id="home-banner-title" class="flex-self-center" [ngClass]="{'iphone-modal-noshow' : isModal == true}">
+        <div class="banner-title">Peace of mind at your fingertips</div>
+        <div class="banner-subtitle">Delivering convenience for all your student's school payment needs. Never miss a beat with MyPaymentsPlus.</div>
+        <div id="home-banner-registration" class="text-center">
+          <button routerLink="/register" mat-raised-button color="accent" aria-label="Register Now" class="xlarge-button">Register Now</button>
+        </div>
+      </section>
+      <section id="home-banner-graphic" [ngClass]="{'iphone-modal-noshow' : isModal == true}">
+        <img src="../../../assets/images/home/splash-banner.png" alt="Computer surrounded by calendars, events, notifications, deadlines and more to depict the busyness of a parent. MyPaymentsPlus brings peace of mind by having all their student's school-related activities through a single website." />
+      </section>
+    </div>
+    <section id="home-banner-login" *ngIf="signInAvailable" class="flex-column">
+      <!--<div class="login-modal-conatiner">-->
+        <mat-card id="login-card"  [ngClass]="['iphone-modal']">
+          <button (click)="showSignIn(false)" mat-button class="hide-gt-sm signin-close"><i class="material-icons mat-16 notranslate">close</i></button>
+          <mat-card-title class="text-center">Sign In</mat-card-title>
+          <mat-card-content>
+            <login></login>
+          </mat-card-content>
+        </mat-card>
+      <!--</div>-->
+      <span class="card-triangle hide-sm hide-xs"></span>
+    </section>
+  </section>
+  <section id="home-features" [ngClass]="{'iphone-modal-noshow' : isModal == true}" *ngIf="!isMobileApp">
+    <div class="flex-row-gt-sm flex-column-sm flex-fill page-container">
+      <div class="feature-item flex-row-sm flex-row-xs">
+        <div class="feature-item-img">
+          <img src="../../../assets/images/home/feature-meals.png" alt="Apple to depict the feature for paying for meals and setting up auto pay" />
+        </div>
+        <div class="feature-item-text">
+          <div class="mat-subhead">Meals &amp; Autopay</div>
+          <p class="mat-caption">Pay for meals, view cafeteria purchases, receive low balance alerts, or enroll in autopay.</p>
+        </div>
+      </div>
+      <div class="feature-item flex-row-sm flex-row-xs">
+        <div class="feature-item-img">
+          <img src="../../../assets/images/home/feature-student.png" alt="Bookbag to depict the feature for managing student accounts" />
+        </div>
+        <div class="feature-item-text">
+          <div class="mat-subhead">Student Account Management</div>
+          <p class="mat-caption">Gain 24/7 access to school payments &amp; history for all your students in one place.</p>
+        </div>
+      </div>
+      <div class="feature-item flex-row-sm flex-row-xs">
+        <div class="feature-item-img">
+          <img src="../../../assets/images/home/feature-products.png" alt="Shopping cart and online shopping to depict availability of an online store for products and events" />
+        </div>
+        <div class="feature-item-text">
+          <div class="mat-subhead">Products &amp; Events</div>
+          <p class="mat-caption">Browse products available for purchase and sign your student up for school events.</p>
+        </div>
+      </div>
+      <div class="feature-item flex-row-sm flex-row-xs">
+        <div class="feature-item-img">
+          <img src="../../../assets/images/home/feature-exams.png" alt="Computer to depict eliminating paperwork and the ability to complete forms online" />
+        </div>
+        <div class="feature-item-text">
+          <div class="mat-subhead">Digital Forms</div>
+          <p class="mat-caption">Eliminate paperwork by completing forms and signing school documents online.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="whyMPP" class="home-section" [ngClass]="{'iphone-modal-noshow' : isModal == true}" *ngIf="!isMobileApp">
+    <div id="whyMyPaymentsPlus" class="page-container flex-row-gt-sm flex-column-sm flex-column-xs flex-fill equal-gt-sm">
+      <div class="marketing-img flex-self-center">
+        <img src="../../../assets/images/home/howitworks-image.png" alt="Parent's to-do list showing that these items are complete: adding lunch money, sign school forms, browse events, pay for after-school care, and schedule AP exams." />
+      </div>
+      <div class="flex-self-center home-section-paragraph right">
+        <h2 class="mat-display-1">Why MyPaymentsPlus</h2>
+        <p>
+          We understand that every parent has enough to worry about; staying in the loop with their student’s school accounts should be simple. MyPaymentsPlus is trusted by over 2 million parents to help streamline payments for school meals, fees, and activities.
+          <br /><br />
+          In addition to peace of mind, parents gain the added convenience of having all school-related payments in one place. Best of all, creating an account is simple and absolutely free.
+          <br /><br />
+          We look forward to helping you knock out that to-do list. Sign up today!
+          <br /><br />
+          <button routerLink="/register" mat-raised-button color="primary">Register Now</button>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section id="howitworks" class="home-section" [ngClass]="{'iphone-modal-noshow' : isModal == true}" *ngIf="!isMobileApp">
+    <div class="page-container flex-row-gt-sm flex-column-sm flex-column-xs flex-fill equal-gt-sm">
+      <div class="flex-self-center home-section-paragraph left">
+        <h2 class="mat-display-1">How it Works</h2>
+        <p>
+          MyPaymentsPlus is linked directly to your school’s student information system (SIS), enabling us to show real-time balances and invoices, and eliminating the need to call or visit your school in search of information.
+          <br /><br />
+          Whether you’re viewing what your 2nd grader ate for lunch, renting a locker for your middle schooler, or purchasing a parking permit for that new driver in your family, MyPaymentsPlus ensures you never miss a beat, from Pre-K to graduation day.
+          <br /><br />
+          Simply create a free MyPaymentsPlus account to get started today.
+
+        </p>
+      </div>
+      <div class="marketing-img flex-self-center">
+        <img src="../../../assets/images/home/whympp-image.png" alt="Laptop showing that through MyPaymentsPlus parents can pay for school meal and student fees, sign forms, buy school products, and more!">
+      </div>
+    </div>
+  </section>
+  <section id="testimonials" class="home-section" [ngClass]="{'iphone-modal-noshow' : isModal == true}" *ngIf="!isMobileApp">
+    <div class="page-container">
+      <h2 class="mat-display-1 text-center">Testimonials</h2>
+      <div class="flex-row-gt-sm flex-column-sm flex-fill equal-gt-sm">
+        <div class="testimonial-item flex-self-center">
+          <p class="quote">
+            &quot;I love this program and how easy it is to put money in my son’s account. I also appreciate the email reminders about a low balance.&quot;
+          </p>
+          <br />
+          <hr class="hr-lightgray" />
+          <br />
+          <div class="flex-row">
+            <img src="../../../assets/images/home/testimonial-1.png" class="testimonial-img">
+            <div class="testimonial-signature flex-self-center">
+              <b>Susan</b>
+              <div>Mesa County Valley School District, Colorado</div>
+            </div>
+          </div>
+          <span class="triangle"></span>
+        </div>
+        <div class="testimonial-item flex-self-center">
+          <p class="quote">
+            &quot;It is so easy to use and I don't have to worry about sending cash money to school with my 6 year old.&quot;
+          </p>
+          <br />
+          <hr class="hr-lightgray" />
+          <br />
+          <div class="flex-row">
+            <img src="../../../assets/images/home/testimonial-0.png" class="testimonial-img">
+            <div class="testimonial-signature flex-self-center">
+              <b>Nikki</b>
+              <div>Los Angeles Unified School District, California</div>
+            </div>
+          </div>
+          <span class="triangle"></span>
+        </div>
+        <div class="testimonial-item flex-self-center">
+          <p class="quote">
+            &quot;I love that I can setup auto deposit so I never have to worry about an account going negative.&quot;
+          </p>
+          <br />
+          <hr class="hr-lightgray" />
+          <br />
+          <div class="flex-row">
+            <img src="../../../assets/images/home/testimonial-2.png" class="testimonial-img">
+            <div class="testimonial-signature flex-self-center">
+              <b>Tracey</b>
+              <div>Alpine School District, Utah</div>
+            </div>
+          </div>
+          <span class="triangle"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer id="home-footer" [ngClass]="{'iphone-modal-noshow' : isModal == true}">
+    <section id="footer-info" class="page-container flex-row-gt-sm flex-column-sm flex-column-xs flex-fill equal-gt-sm">
+      <div class="flex-self-center-sm flex-self-center-xs">
+        <div>
+          <a href="https://www.horizonsoftware.com/" target="_blank" class="link">
+            <img src="../../../assets/images/Horizon_Software_TealLogoMark_WhiteWordMark_Landscape.png" class="footer-logo" alt="Horizon Software's logo" />
+          </a>
+        </div>
+        <ul class="footer-list">
+          <li><a routerLink="/about" routerLinkActive="active" class="link">About MyPaymentsPlus</a></li>
+          <li><a href="https://www.horizonsoftware.com/" target="_blank" class="link">About Horizon Software</a></li>
+          <li><a routerLink="/privacy-policy" routerLinkActive="active" class="link">Privacy Statement</a></li>
+          <li><a routerLink="/terms" routerLinkActive="active" class="link">Terms of Use</a></li>
+        </ul>
+      </div>
+      <div class="flex-self-center-sm flex-self-center-xs">
+        <div class="footer-section-title">HELP CENTER</div>
+        <ul class="footer-list">
+          <li>
+            <a routerLink="/support" routerLinkActive="active" class="link">
+              <mat-icon class="mat-36 hide-sm hide-xs notranslate">question_answer</mat-icon>
+              <div class="footer-icon-list-item">
+                <div>Support</div>
+                <span class="mat-caption">FAQs &amp; Contact Info</span>
+              </div>
+            </a>
+          </li>
+          <li>
+            <div class="footer-icon-list-item">
+              <div id="google_translate_element" class="translate"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="flex-self-center-sm flex-self-center-xs">
+        <div class="footer-section-title">FOLLOW US</div>
+        <ul class="footer-list">
+          <li>
+            <a href="https://www.facebook.com/MyPaymentsPlus/" target="_blank" class="cursor-pointer">
+              <img src="../../../assets/images/icons/facebook.png" alt="Follow us on Facebook">
+            </a>
+            <a href="https://www.pinterest.com/mypaymentsplus/" target="_blank" class="cursor-pointer">
+              <img src="../../../assets/images/icons/pinterest.png" alt="Follow us on Pinterest">
+            </a>
+            <a href="https://twitter.com/mypaymentsplus?lang=en" target="_blank" class="cursor-pointer">
+              <img src="../../../assets/images/icons/twitter.png" alt="Follow us on Twitter">
+            </a>
+            <a href="https://www.instagram.com/mypaymentsplus/" target="_blank" id="instagram" class="cursor-pointer">
+              <img id="instagram" src="../../../assets/images/icons/instagram.png" alt="Follow us on Instagram">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section id="footer-copyright" class="text-center mat-caption">Copyright 2019 Horizon Software</section>
+  </footer>
+  <toaster-container></toaster-container>
+</div>

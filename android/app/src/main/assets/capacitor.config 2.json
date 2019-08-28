@@ -1,0 +1,7 @@
+{
+  "appId": "com.horizonsoftware.MPPMobile",
+  "appName": "MyPaymentsPlus",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+
+}

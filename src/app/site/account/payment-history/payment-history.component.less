@@ -1,0 +1,101 @@
+.page-container {
+  .history-spinner-container {
+    display: flex;
+   
+    z-index: 100;
+    background-color: white;
+    //opacity: .9;
+  flex-flow: column;
+    flex: 0 1 auto;
+    width: 100%;
+    font-size: 1.2em;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+     .spinner-text{
+      font-style: italic;
+      display: flex;
+    }
+  }
+
+  .receipt-history-contianer {
+    width: 93%;
+    margin: 0px 1%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    max-width: 1200px;
+  }
+}
+.payment-amount {
+    text-align: right;
+}
+
+.pagination {
+  display: flex;
+  justify-content:flex-end;
+}
+
+.activity-period {
+  padding-right:20px;
+}
+
+.filters {
+  display:flex;
+}
+
+.start {
+  padding-right: 20px;
+  max-width: 125px;
+}
+
+.end {
+  padding-right: 20px;
+  max-width: 125px;
+}
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: #2962ff;
+  opacity: 1;
+  display: block;
+  width: 10px;
+  height: 6px;
+  border-width: thin;
+}
+
+@media all and (max-width: 600px) {
+  .page-container {
+    .receipt-history-container {
+      margin: -22px auto;
+      top: 0px;
+      left: -9px;
+    }
+  }
+
+  .ngx-pagination {
+    padding-left: 0px !important;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: -40px;
+    min-width: 60px;
+  }
+}
+
+@media(max-width: 959px){
+  .payment-amount {
+    text-align: left;
+    font-size: 20px;
+  }
+}
+
+.link {
+  cursor:pointer;
+}

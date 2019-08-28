@@ -1,0 +1,32 @@
+<div id="feedback-dialog">
+    <div class="mat-headline main-title">
+        <span *ngIf="!returnToClassic">Send Feedback</span>
+        <span *ngIf="returnToClassic">Return to Classic MyPaymentsPlus</span>
+        <button mat-icon-button (click)="dialogRef.close(false)" class="float-right"><mat-icon class="notranslate">close</mat-icon></button>
+    </div>
+    <p *ngIf="returnToClassic">
+        <b>We're sad to see you leave our New MyPaymentsPlus experience... </b>
+    </p>
+    <p>
+        Please let us know what we can do to improve our new look. Your feedback is extremely important to us and a key indicator of how we shape our future updates. 
+    </p>
+    <p>
+        We thank you for partnering with us to make your online experience more efficient.
+    </p>
+    <form [formGroup]="feedbackForm">
+        <textarea id="feedback-message" autofocus formControlName="message"></textarea>
+        <div *ngIf="formErrors.message || sendingFeedbackError" class="form-inline-validation error">
+            <span *ngIf="formErrors.message">{{ formErrors.message }}</span><span *ngIf="sendingFeedbackError">{{ sendingFeedbackErrorMsg }}</span>
+          </div>
+    </form>
+    <br/><br/><br/>
+    <div>
+        <div class="float-right">
+            <button mat-button (click)="dialogRef.close(false)">Cancel</button>
+            <button mat-raised-button (click)="send()" color="primary">
+                <span *ngIf="!sendingFeedback">Send<span *ngIf="returnToClassic"> &amp; Return to Classic</span></span>
+                <mat-spinner strokeWidth="1" diameter="25" *ngIf="sendingFeedback" class="spinner-button spinner-button-center notranslate">Loading..</mat-spinner> 
+            </button>
+        </div>
+    </div>
+</div>

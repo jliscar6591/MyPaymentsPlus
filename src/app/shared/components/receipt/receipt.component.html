@@ -1,0 +1,318 @@
+<div *ngIf="displayReceipt" class="receipt-container">
+  <div class="header-row row-border receipt-margin">
+    <span><img src="../../assets/images/mpp-logo.png" /></span>
+    <div class="close-button">
+      <!--<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fwww2.mypaymentsplus.com%2Fwelcome&layout=button&size=large&width=73&height=28&appId" width="73" height="28" style="border:none;overflow:hidden;padding-right:5px;" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>-->
+      <button mat-icon-button title="Print Receipt" (click)="printReceipt()" aria-label="Print Receipt">
+        <mat-icon class="close">print</mat-icon>
+      </button>
+      <button mat-icon-button title="Close Receipt" (click)="closeReceipt()" aria-label="Close Receipt">
+        <mat-icon class="close">close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="reciept-content-container">
+    <div class="hello-container">
+      <!--<h3>Hi Test Name, </h3>-->
+      <h3>Hi {{ receiptService?.receiptDetail.userFirstName }}, </h3>
+      <p>Thank you for your MyPaymentPlus purchase!</p>
+    </div>
+    <div *ngFor="let receipttwo of transactions; let i = index">
+      <div class="order-details receipt-margin">
+        <h3>Order Details</h3>
+      </div>
+      <div class="receipt-content receipt-margin">
+        <span class="item-height"> Confirmation #: <b>{{  receipttwo.payorReferenceNum }}</b></span>
+        <span class="item-height">Order Date: <b>{{  receipttwo.transactionDate | date: 'shortDate'}}</b> at
+          {{  receipttwo.transactionDate | date: 'shortTime'}}</span>
+      </div>
+      <mat-card>
+        <div class="item-details" fxLayout="row">
+          <div class="item-header-row item-height">
+            <div class="item-details-col1" fxLayout="column">
+              <span><b>Name</b></span>
+            </div>
+            <div class="item-details-col2" fxLayout="column">
+              <span><b>Description</b></span>
+            </div>
+            <div class="item-details-col3" fxLayout="column" *ngIf="">
+              <span><b>Bonus</b></span>
+            </div>
+            <div class="item-details-col4" fxLayout="column">
+              <span><b>Amount</b></span>
+            </div>
+          </div>
+          <div class="row-border"></div>
+        </div>
+        <div *ngFor="let areas of receipttwo.areas">
+          <div class="item-details" fxLayout="column" *ngFor="let student of areas.students">
+            <div class="item-number-row item-height" fxLayout="row">
+            </div>
+            <div class="item-details-col1" fxLayout="column">
+              <span><b><u>{{ student.studentFirstName }}</u></b></span>
+            </div>
+            <!--Row1-->
+            <div class="item-list" *ngFor="let item of student.items, let k = index">
+              <div class="item-subtotal-row item-height">
+                <div class="item-details-col2" fxLayout="column">
+                  <span>{{ item.transactionDesc }}</span>
+                </div>
+                <div class="item-details-col3" fxLayout="column">
+                  <span *ngIf="item.bonusAmount > 0"> {{ item.bonusAmount | currency }} </span>
+                </div>
+                <div class="item-detials-col4" fxLayout="column">
+                  <span>{{ item.itemAmount | currency }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+      <!--End of ngFor-->
+      <mat-card>
+        <div class="payment-details-container" fxLayout="column">
+          <div class="row-border"></div>
+          <div class="item-subtotal-row item-height">
+            <div class="item-details-col2" fxLayout="column">
+              <span>Subtotal</span>
+            </div>
+            <div class="item-detials-col3" fxLayout="column">
+              <span>{{  receipttwo.subtotalAmount | currency }}</span>
+            </div>
+          </div>
+
+          <!--Row2-->
+          <div class="item-fee-row item-height">
+            <div class="item-details-col1" fxLayout="column">
+              <span class="space-filler"></span>
+            </div>
+            <div class="item-details-col2" *ngIf="receipttwo.convenienceFee > 0" fxLayout="column">
+              <span>Program Fee</span>
+            </div>
+            <div class="item-detials-col3" fxLayout="column" *ngIf="receipttwo.convenienceFee > 0">
+              <span>{{ receipttwo.convenienceFee | currency }}</span>
+            </div>
+          </div>
+          <!--Row3-->
+          <div class="item-total-row item-height" *ngIf="receipttwo.totalTax">
+            <div class="item-details-col1" fxLayout="column">
+              <span class="space-filler"></span>
+            </div>
+            <div *ngIf="receipttwo.totalTax > 0" class="item-details-col2" fxLayout="column">
+              <span>Sales Tax</span>
+            </div>
+            <div *ngIf="receipttwo.totalTax > 0" class="item-detials-col3" fxLayout="column">
+              <span>{{ receipttwo.totalTax | currency }}</span>
+            </div>
+          </div>
+          <!--Row4-->
+          <div class="item-total-row  item-height">
+            <div class="item-details-col1" fxLayout="column">
+              <span class="space-filler"></span>
+            </div>
+            <div class="item-details-col2" fxLayout="column">
+              <span>Grand Total</span>
+            </div>
+            <div class="item-detials-col3" fxLayout="column">
+              <span><b>{{ receipttwo.totalAmount | currency }}</b></span>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+      <!--Row5-->
+      <mat-card>
+        <div class="bonus-details-container" *ngIf="receipttwo.bonusTotal > 0">
+          <span>You've earned a total bonus of <span><b>{{ receipttwo.bonusTotal | currency }}</b></span> for this
+            payment!</span>
+        </div>
+        <div class="payment-details-container">
+          <div class="details-header-row">
+            <span>Payment Details</span>
+          </div>
+          <div class="row-border"></div>
+          <div class="details-name-row">
+            <span>{{ receipttwo.nameOnPayment }}</span>
+          </div>
+          <div class="details-payLabel-row item-height">
+            <span>{{ receipttwo.cardType }}</span> - <span>{{ receipttwo.accountTail }}</span>
+          </div>
+          <div class="details-header-row-paid">
+            <span>Paid To</span>
+          </div>
+          <div class="row-border"></div>
+          <div class="details-dba-row">
+            <span>{{ receipttwo.dba }}</span>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div class="row-border bottom-divider"></div>
+    <div class="reciept-footer">
+      <p>
+        If you need assistance, feel free to reach us through online chat on our <a href="#">site</a>, email at
+        <a href="mailto:support@mypaymentsplus.com">support@mypaymentsplus.com</a>, or phone at <a
+          href="tel:18772370946">(877)-237-0946</a>
+        (Available Monday - Friday 7:30am - 5:30pm EST).
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
+<!--End of Purchase Receipt-->
+
+
+<div *ngIf="displayHistoryReceipt" class="receipt-container">
+  <div class="header-row row-border receipt-margin">
+    <span><img src="../../assets/images/mpp-logo.png" /></span>
+    <div class="close-button">
+      <button class="printBtn" mat-icon-button title="Print Receipt" (click)="printReceipt()"
+        aria-label="Print Receipt">
+        <mat-icon class="close">print</mat-icon>
+      </button>
+      <button mat-icon-button title="Close Receipt" (click)="closeHistoryReceipt()" aria-label="Close Receipt">
+        <mat-icon class="close">close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="reciept-content-container">
+    <!--*ngFor="let receipttwo of receiptService.receiptDetail"-->
+    <div class="hello-container">
+      <!--<h3>Hi Test Name, </h3>-->
+      <h3>Hi {{ receiptService.receiptDetail.userFirstName }}, </h3>
+      <p>Thank you for your MyPaymentPlus purchase!</p>
+    </div>
+    <div class="order-details receipt-margin">
+      <h3>Order Details</h3>
+    </div>
+    <div class="receipt-content receipt-margin">
+      <span class="item-height"> Confirmation #: <b>{{  receiptService.receiptDetail.payorReferenceNum }}</b></span>
+      <span class="item-height">Order Date:
+        <b>{{  receiptService.receiptDetail.transactionDate | date: 'shortDate'}}</b> at
+        {{  receiptService.receiptDetail.transactionDate | date: 'shortTime'}}</span>
+    </div>
+    <mat-card>
+      <div class="item-details" fxLayout="row">
+        <div class="item-header-row item-height">
+          <div class="item-details-col1" fxLayout="column">
+            <span><b>Name</b></span>
+          </div>
+          <div class="item-details-col2" fxLayout="column">
+            <span><b>Description</b></span>
+          </div>
+          <div class="item-details-col3" fxLayout="column">
+            <span><b>Bonus</b></span>
+          </div>
+          <div class="item-details-col4" fxLayout="column">
+            <span><b>Amount</b></span>
+          </div>
+        </div>
+        <div class="row-border"></div>
+      </div>
+      <div class="item-details" fxLayout="column"
+        *ngFor="let student of receiptService.receiptDetail.areas[0].students">
+        <div class="item-number-row item-height" fxLayout="row">
+        </div>
+        <div class="item-details-col1" fxLayout="column">
+          <span><b><u>{{ student.studentFirstName }}</u></b></span>
+        </div>
+        <!--Row1-->
+        <div *ngFor="let item of student.items">
+          <div class="item-subtotal-row item-height">
+            <div class="item-details-col2" fxLayout="column">
+              <span>{{ item.transactionDesc }}</span>
+            </div>
+            <div class="item-details-col3" fxLayout="column">
+              <span *ngIf="item.bonusAmount > 0"> {{ item.bonusAmount | currency }} </span>
+            </div>
+            <div class="item-detials-col4" fxLayout="column">
+              <span>{{ item.itemAmount | currency }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <!--End of ngFor-->
+    <mat-card>
+      <div class="payment-details-container" fxLayout="column">
+        <div class="row-border"></div>
+        <div class="item-subtotal-row item-height">
+          <div class="item-details-col1" fxLayout="column">
+            <span class="space-filler"></span>
+          </div>
+          <div class="item-details-col2" fxLayout="column">
+            <span>Subtotal</span>
+          </div>
+          <div class="item-detials-col3" fxLayout="column">
+            <span>{{  receiptService.receiptDetail.subtotalAmount | currency }}</span>
+          </div>
+        </div>
+        <!--Row2-->
+        <div class="item-fee-row item-height">
+          <div class="item-details-col1" fxLayout="column">
+            <span class="space-filler"></span>
+          </div>
+          <div class="item-details-col2" fxLayout="column">
+            <span>Program Fee</span>
+          </div>
+          <div class="item-detials-col3" fxLayout="column">
+            <span>{{ receiptService.receiptDetail.convenienceFee | currency }}</span>
+          </div>
+        </div>
+        <!--Row3-->
+        <div class="row-border"></div>
+        <div class="item-total-row  item-height">
+          <div class="item-details-col1" fxLayout="column">
+            <span class="space-filler"></span>
+          </div>
+          <div class="item-details-col2" fxLayout="column">
+            <span>Grand Total</span>
+          </div>
+          <div class="item-detials-col3" fxLayout="column">
+            <span><b>{{ receiptService.receiptDetail.totalAmount | currency }}</b></span>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <!--Row4-->
+    <mat-card>
+      <div class="bonus-details-container" *ngIf="receiptService.receiptDetail.bonusTotal > 0">
+        <span>You've earned a total bonus of
+          <span><b>{{ receiptService.receiptDetail.bonusTotal | currency }}</b></span>
+          for this payment!</span>
+      </div>
+      <div class="payment-details-container">
+        <div class="details-header-row">
+          <span>Payment Details</span>
+        </div>
+        <div class="row-border"></div>
+        <div class="details-name-row">
+          <span>{{ receiptService.receiptDetail.nameOnPayment }}</span>
+        </div>
+        <div class="details-payLabel-row item-height">
+          <span>{{ receiptService.receiptDetail.cardType }}</span> -
+          <span>{{ receiptService.receiptDetail.accountTail }}</span>
+        </div>
+        <div class="details-header-row-paid">
+          <span>Paid To</span>
+        </div>
+        <div class="details-dba-row">
+          <span>{{ receiptService.receiptDetail.dba }}</span>
+        </div>
+      </div>
+    </mat-card>
+    <div>
+    </div>
+    <div class="row-border bottom-divider"></div>
+    <div class="reciept-footer">
+      <p>
+        If you need assistance, feel free to reach us through online chat on our <a href="#">site</a>, email at
+        <a href="mailto:support@mypaymentsplus.com">support@mypaymentsplus.com</a>, or phone at <a
+          href="tel:18772370946">(877)-237-0946</a>
+        (Available Monday - Friday 7:30am - 5:30pm EST).
+      </p>
+    </div>
+  </div>
+</div>
+<!--End of History Receipt-->

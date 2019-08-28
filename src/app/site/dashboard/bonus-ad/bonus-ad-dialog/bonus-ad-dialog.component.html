@@ -1,0 +1,34 @@
+<mat-card class="card-spacing">
+  <mat-card-title class="flex-row text-center">Bonus Structure for {{dashboardDistrictMessageService.districtName}}</mat-card-title>
+  <mat-card-content>
+    <table #table *ngFor="let bonusSchedule of BonusSchedule" class="mat-table">
+      <thead class="hide-sm hide-xs name">
+        {{bonusSchedule.planName}}
+      </thead>
+      <thead class="hide-sm hide-xs description">
+        {{bonusSchedule.description}}
+      </thead>
+      <tbody>
+        <tr class="headers text-center">
+          <td>Spend From</td>
+          <td>To</td>
+          <td>Get Back</td>
+        </tr>
+        <tr class="values text-center" *ngFor="let tier of bonusSchedule.tiers">
+          <td>
+            {{tier.beginValue}}
+          </td>
+          <td>
+            {{tier.endValue}}
+          </td>
+          <td>
+            <span *ngIf="tier.strategy === 'Flat'">$</span> {{tier.value}} <span *ngIf="tier.strategy === 'Percent'">%</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+  <mat-card-actions class="card-footer-action text-center">
+    <button mat-raised-button color="primary" (click)="onCloseConfirm()">Close</button>
+  </mat-card-actions>
+</mat-card>

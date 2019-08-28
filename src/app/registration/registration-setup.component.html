@@ -1,0 +1,35 @@
+<mat-toolbar id="app-toolbar" class="theme-light relative">
+    <span id="nav-logo">
+        <a class="logo cursor-pointer" routerLink="/welcome" routerLinkActive="active">
+            <img src="../../assets/images/mpp-logo.png" alt="My Payment's Plus logo" class="logo">
+        </a>
+    </span>
+</mat-toolbar>
+<div id="container" class="relative">
+    <section id="container-content" class="page-container">
+        <registration-breadcrumbs class="flex-row registration-breadcrumbs"></registration-breadcrumbs>
+        <mat-card id="registration-setup-card">
+            <router-outlet></router-outlet>
+        </mat-card>
+    </section>
+    <footer id="footer">
+        <ul class="footer-list">
+            <li>
+                Copyright 2016
+                <a href="https://www.horizonsoftware.com/" target="_blank" class="link">Horizon Software</a>
+            </li>
+            <li>
+                <a routerLink="/about" routerLinkActive="active" class="link">About</a>
+            </li>
+            <li>
+                <a routerLink="/privacy-policy" routerLinkActive="active" class="link">Privacy Policy</a>
+            </li>
+            <li>
+                <a routerLink="/terms" routerLinkActive="active" class="link">Terms of Use</a>
+            </li>
+            <li>
+                <a routerLink="/support" routerLinkActive="active" class="link">Support</a>
+            </li>
+        </ul>
+    </footer>
+</div>

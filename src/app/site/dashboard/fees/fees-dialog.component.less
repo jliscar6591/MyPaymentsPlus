@@ -1,0 +1,133 @@
+
+
+.fee-title-container {
+  display: flex;
+
+  .fee-title {
+    width:400px;
+  }
+
+  .close-btn-conatiner {
+    display:flex;
+    align-self:flex-end;
+    padding: 0 0 0 175px;
+    margin:-9px;
+
+     .close-btn {
+      color: black;
+      background-color: white;
+    }
+  }
+}
+
+.dialogFeesForm{
+  width:45%;
+  padding-bottom: 20px;
+}
+
+.fee-amount-wrapper{
+  width:85%;
+  font-size:medium;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mat-form-field-infix {
+  border-top: 0em !important;
+}
+
+.inCart{
+  display:flex;
+}
+
+.inCartAmount{
+  color:limegreen;
+  font-size: large;
+}
+
+.inCartAmountPartial {
+  color: limegreen;
+  font-size:large;
+}
+
+.sub-title {
+  display: flex;
+  padding-bottom: 15px;
+
+  .child-name {
+    font-weight: bold;
+    font-size: 20px;
+    padding:6px 0px 0px 0px;
+    color: #1976D2;
+  }
+
+  .due-date {
+    font-size: 15px;
+    padding-top: 9px;
+  }
+}
+
+#newChip {
+  display: flex;
+  background-color: #4CAF50;
+  color: white;
+  width: 60px;
+  justify-content: center;
+}
+
+#dueSoonChip {
+  background-color: #FBC02D;
+}
+
+.fee-description {
+  font-size: 12pt;
+  padding-bottom:25px;
+}
+
+.footer{
+  display:flex;
+  justify-content:flex-end;
+
+    .cancel-btn{
+      margin-right:10px;
+    }
+}
+
+.partial-pay-details{
+  display:flex;
+  flex-flow:column;
+  text-align:center;
+  font-size:small;
+  padding-bottom:5px;
+}
+
+@media (max-width:600px){
+  .fee-title-container{
+    padding-bottom:20px;
+  }
+
+  .feeTitle{
+    width:auto;
+  }
+
+  .sub-title{
+    flex-flow:column;
+  }
+
+  .close-btn-conatiner {
+    padding:0px 0px 0px 0px !important;
+  }
+
+  .footer{
+    display:flex;
+    justify-content:center;
+  }
+
+  .partial-pay-details {
+    padding-bottom: 5px;
+  }
+}

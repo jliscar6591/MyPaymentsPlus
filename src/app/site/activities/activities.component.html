@@ -1,0 +1,46 @@
+<!--loading the page-->
+<div *ngIf="!activitiesReady" class="loading">
+  <div class="activityLoadMessage">
+    Loading Events & Activities...
+  </div>
+  <mat-spinner class="activityLoadSpinner" color="primary"></mat-spinner>
+</div>
+
+<!--desktop markup-->
+<div *ngIf="!mobile && activitiesReady" class="page-container">
+  <div class="mat-headline flex-grow-1">
+    <div class="flex-row">
+      <div>
+        Events & Activities
+      </div>
+      <mat-icon id="icon">local_activity</mat-icon>
+    </div>
+  </div><div class="flex-row">
+    <div class="flex-grow-1">
+      <app-activities-list *ngIf="activitiesReady"></app-activities-list>
+    </div>
+  </div>
+</div>
+
+<!--mobile markup-->
+<div *ngIf="mobile && activitiesReady" class="mobile-page-container">
+  <div *ngIf="mobile" class="top-nav">
+    <a routerLink="/dashboard" routerLinkActive="active" class="link">Dashboard</a>
+    <mat-icon class="nav-arrow">navigate_next</mat-icon>
+    <a>Events & Activites</a>
+  </div>
+  <div class="mat-headline">
+    <div class="flex-row">
+      <div>
+        Events & Activities
+      </div>
+      <mat-icon id="icon">local_activity</mat-icon>
+    </div>
+  </div>
+  <!--<app-mobile-filters></app-mobile-filters>-->
+  <div class="list-container">
+    <app-activities-list></app-activities-list>
+  </div>
+</div>
+
+

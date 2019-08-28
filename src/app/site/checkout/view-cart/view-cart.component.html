@@ -1,0 +1,12 @@
+<page-loading></page-loading>
+<div class="page-container">
+  <div class="padding-20 mobile-padding">
+    <div class="headline-group flex-grow-1 hide-sm hide-xs">
+      <span class="md-headline">Review Cart</span>
+    </div>
+    <shopping-cart></shopping-cart>
+    <div id="checkout-footer">
+      <button *ngIf="showProceed" mat-raised-button (click)="proceed()" color="primary" aria-label="Proceed to Checkout" class="proceed">Proceed to Checkout</button>
+    </div>
+  </div>
+</div>

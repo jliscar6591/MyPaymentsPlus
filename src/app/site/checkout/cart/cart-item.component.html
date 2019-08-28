@@ -1,0 +1,277 @@
+<div class="cart-item flex-row">
+  <div class="cart-item-graphic">
+    <img *ngIf="!mobile && isMeal(model.liteItemType)" src="../../../assets/images/cart/utensils.PNG" />
+    <img *ngIf="!mobile && isFee(model.liteItemType)" src="../../../assets/images/cart/clipboard.png" />
+    <img *ngIf="!mobile && isActivity(model.liteItemType) && !model.s3UriFull" src="../../../assets/images/cart/activities.png" />
+    <img *ngIf="!mobile && isActivity(model.liteItemType) && model.s3UriFull" (click)="openPictureDialog()" src="{{model.s3UriFull}}" />
+  </div>
+  <div *ngIf="mobile" class="cart-item-description-review">
+    <div class="item-name" *ngIf="!isTransfer">
+      {{model.studentName}}'s
+      <span *ngIf="isMeal(model.liteItemType)">meal plan</span>
+      <span *ngIf="isFee(model.liteItemType)">fees</span>
+      <span *ngIf="isActivity(model.liteItemType)">activity</span>
+    </div>
+    <div class="item-description">
+      <div class="itemName">{{model.itemName}}</div>
+      <div *ngIf="mobile && isReview" class="item-additional">
+        <div *ngIf="model.isQuantity">
+          Qty: &nbsp;
+          <div *ngIf="model.isQuantity">
+            {{model.quantity}}
+            <!--<form [formGroup]="quantityForm" class="quantity-form">
+        <mat-form-field class="cart-item-quantity flex-row flex-children-center">
+          <input matInput type="number" max="30" min="1" value="{{model.quantity}}" formControlName="quantity" (blur)="update(model)" (focus)="focusAmount($event)" required>
+          <mat-hint *ngIf="invalidQuantity">Quantity must be at least 1.</mat-hint>
+        </mat-form-field>
+      </form>-->
+          </div>
+        </div>
+        <a *ngIf="isReview" routerLink="/checkout" aria-label="Change" class="link cart-link">
+          Change
+        </a>
+        <div *ngIf="model.liteItemType === 'userFee'" class="review-price hide-gt-sm">
+          {{ model.amountInCart | currency }}
+        </div>
+        <div *ngIf="isFee(model.liteItemType)" class="review-price hide-gt-sm">
+          {{ model.amountInCart | currency }}
+        </div>
+        <div *ngIf="isMeal(model.liteItemType)" class="review-price hide-gt-sm">
+          {{ model.itemAmount | currency }}
+        </div>
+        <div *ngIf="model.liteItemType === 'activity' && !model.isPartialPayEligible && !model.isVariable" class="review-price">
+          {{ model.itemAmount | currency }}
+        </div>
+        <div *ngIf="model.liteItemType === 'activity' && model.isPartialPayEligible || model.isVariable" class="review-price">
+          {{ model.amountInCart | currency }}
+        </div>
+      </div>
+      <div *ngIf="!mobile && isReview" class="item-additional">
+        <span *ngIf="model.isQuantity"> Qty: <span *ngIf="model.isQuantity">{{model.quantity}}</span></span>
+        <a routerLink="/checkout" aria-label="Change" class="link cart-link">
+          Change
+        </a>
+        <div *ngIf="model.liteItemType === 'userFee'" class="review-price">
+          {{ model.amountInCart | currency }}
+        </div>
+        <div *ngIf="model.liteItemType === 'meal'" class="review-price">
+          {{ model.itemAmount | currency }}
+        </div>
+        <div *ngIf="model.liteItemType === 'fee'" class="review-price">
+          {{ model.amountInCart | currency }}
+        </div>
+        <div *ngIf="model.liteItemType === 'activity' && !model.isPartialPay" class="review-price">
+          {{ model.itemAmount | currency }}
+        </div>
+        <div *ngIf="model.liteItemType === 'activity' && model.isPartialPay" class="review-price">
+          {{ model.amountInCart | currency }}
+        </div>
+      </div>
+    </div>
+    <div class="item-bonus-container" *ngIf="model.bonusAmount > 0"><span class="item-bonus">+{{model.bonusAmount | currency }} Bonus</span><span class="item-bonus-text">applied after checkout</span></div>
+  </div>
+  <div *ngIf="!mobile" class="cart-item-description">
+    <div class="item-name" *ngIf="!isTransfer">
+      {{model.studentName}}'s
+      <span *ngIf="isMeal(model.liteItemType)">meal plan</span>
+      <span *ngIf="isFee(model.liteItemType)">fees</span>
+      <span *ngIf="isActivity(model.liteItemType)">activity</span>
+    </div>
+    <div class="item-description">
+      <div class="itemName">{{model.itemName}}</div>
+      <div *ngIf="mobile && isReview" class="item-additional">
+        <div *ngIf="model.isQuantity">
+          Qty: &nbsp;
+          <div *ngIf="model.isQuantity">
+            {{model.quantity}}
+            <!--<form [formGroup]="quantityForm" class="quantity-form">
+        <mat-form-field class="cart-item-quantity flex-row flex-children-center">
+          <input matInput type="number" max="30" min="1" value="{{model.quantity}}" formControlName="quantity" (blur)="update(model)" (focus)="focusAmount($event)" required>
+          <mat-hint *ngIf="invalidQuantity">Quantity must be at least 1.</mat-hint>
+        </mat-form-field>
+      </form>-->
+          </div>
+        </div>
+        <a *ngIf="isReview" routerLink="/checkout" aria-label="Change" class="link cart-link">
+          Change
+        </a>
+        <div *ngIf="model.liteItemType === 'userFee'" class="review-price hide-gt-sm">
+          {{ model.amountInCart | currency }}
+        </div>
+        <div *ngIf="isFee(model.liteItemType)" class="review-price hide-gt-sm">
+          {{ model.amountInCart | currency }}
+        </div>
+        <div *ngIf="isMeal(model.liteItemType)" class="review-price hide-gt-sm">
+          {{ model.itemAmount | currency }}
+        </div>
+        <div *ngIf="model.liteItemType === 'activity'" class="review-price">
+          {{ model.amountInCart | currency }}
+        </div>
+      </div>
+      <div *ngIf="!mobile && isReview" class="item-additional">
+        <span *ngIf="model.isQuantity"> Qty: <span *ngIf="model.isQuantity">{{model.quantity}}</span></span>
+        <a routerLink="/checkout" aria-label="Change" class="link cart-link">
+          Change
+        </a>
+        <div *ngIf="model.liteItemType === 'userFee'" class="review-price">
+          {{ model.amountInCart | currency }}
+        </div>
+        <div *ngIf="model.liteItemType === 'meal'" class="review-price">
+          {{ model.itemAmount | currency }}
+        </div>
+        <div *ngIf="model.liteItemType === 'fee'" class="review-price">
+          {{ model.amountInCart | currency }}
+        </div>
+        <div *ngIf="model.liteItemType === 'activity'" class="review-price">
+          {{ model.amountInCart | currency }}
+        </div>
+      </div>
+    </div>
+    <div class="item-bonus-container" *ngIf="model.bonusAmount > 0"><span class="item-bonus">+{{model.bonusAmount | currency }} Bonus</span><span class="item-bonus-text">applied after checkout</span></div>
+  </div>
+  <div *ngIf="!isReview && !mobile" class="cart-item-quantity flex-row flex-children-center hide-sm hide-xs">
+    <a (click)="confirmRemove(model)" aria-label="Remove cart item" class="link cart-link">
+      Remove
+    </a>
+    <div *ngIf="model.isQuantity" class="quantity-container">
+      Qty: &nbsp;
+      <div *ngIf="model.isQuantity">
+        {{model.quantity}}
+        <!--<form [formGroup]="quantityForm" class="quantity-form">
+          <mat-form-field class="cart-item-quantity flex-row flex-children-center">
+            <input matInput type="number" max="30" min="1" value="{{model.quantity}}" formControlName="quantity" (blur)="update(model)" (focus)="focusAmount($event)" required>
+            <mat-hint *ngIf="invalidQuantity">Quantity must be at least 1.</mat-hint>
+          </mat-form-field>
+        </form>-->
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!isReview && mobile" class="cart-item-quantity flex-row flex-children-center">
+    <span *ngIf="model.isQuantity"> Qty: {{model.quantity}}</span>
+    <a (click)="confirmRemove(model)" aria-label="Remove cart item" class="link cart-link">
+      Remove
+    </a>
+  </div>
+  <div *ngIf="!isReview && !mobile" [formGroup]="form" class="edit-Form">
+    <mat-form-field *ngIf="isMeal(model.liteItemType)" class="review-price-checkout">
+      <input matInput title="{{'Enter amount for ' + model.studentName}}" formControlName="editAmount{{insideIndex}}"
+             value="{{ model.itemAmount | currency }}"
+             [attr.aria-label]="'Amount ' + model.itemAmount" (blur)="update(model, insideIndex)" (focus)="focusAmount($event)" required />
+    </mat-form-field>
+    <div *ngIf="model.liteItemType === 'userFee'" class="review-price">
+      {{ model.amountInCart | currency }}
+    </div>
+    <div *ngIf="isFee(model.liteItemType) && !model.isPartialPayEligible" class="review-price flex-row flex-children-center hide-sm hide-xs">
+      {{  model.amountInCart | currency }}
+    </div>
+    <div *ngIf="model.liteItemType === 'activity' && !model.isQuantity && !model.isPartialPayEligible && !model.isVariable" class="review-price flex-row flex-children-center hide-sm hide-xs">
+      {{  model.itemAmount | currency }}
+    </div>
+    <div *ngIf="model.liteItemType === 'activity' && model.isQuantity && !model.isPartialPayEligible && !model.isVariable" class="review-price flex-row flex-children-center hide-sm hide-xs">
+      {{  model.amountInCart | currency }}
+    </div>
+    <div *ngIf="isFee(model.liteItemType) && model.isPartialPayEligible " class="cart-item-price-partial">
+      <div class="input-container" *ngIf="isFee(model.liteItemType) && model.isPartialPayEligible">
+        <mat-form-field class="cart-item-display-partial">
+          <input [attr.disabled]="isTransfer?'':null" matInput class="text-right" title="{{'Enter amount for ' + model.studentName}}" formControlName="editAmount{{insideIndex}}"
+                 value="{{ model.amountInCart | currency }}"
+                 [attr.aria-label]="'Amount ' + model.amountInCart" (blur)="update(model, insideIndex)" (focus)="focusAmount($event)" required />
+        </mat-form-field>
+        <div *ngIf="form.status.valid === INVALID" class="form-inline-validation error">
+          {{ formErrors.editAmount }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="model.liteItemType === 'activity' && model.isPartialPayEligible && !model.isVariable" class="cart-item-price-partial">
+      <div class="input-container">
+        <mat-form-field class="cart-item-display-partial">
+          <input [attr.disabled]="isTransfer?'':null" matInput class="text-right" title="{{'Enter amount for ' + model.studentName}}" formControlName="editAmount{{insideIndex}}"
+                 value="{{ model.amountInCart | currency }}"
+                 [attr.aria-label]="'Amount ' + model.amountInCart" (blur)="update(model, insideIndex)" (focus)="focusAmount($event)" required />
+        </mat-form-field>
+        <div *ngIf="form.status.valid === INVALID" class="form-inline-validation error">
+          {{ formErrors.editAmount }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="model.liteItemType === 'activity' && model.isVariable" class="cart-item-price-partial">
+      <div class="input-container">
+        <mat-form-field class="cart-item-display-partial">
+          <input [attr.disabled]="isTransfer?'':null" matInput class="text-right" title="{{'Enter amount for ' + model.studentName}}" formControlName="editAmount{{insideIndex}}"
+                 value="{{ model.amountInCart | currency }}"
+                 [attr.aria-label]="'Amount ' + model.amountInCart" (blur)="update(model, insideIndex)" (focus)="focusAmount($event)" required />
+        </mat-form-field>
+        <div *ngIf="form.status.valid === INVALID" class="form-inline-validation error">
+          {{ formErrors.editAmount }}
+        </div>
+      </div>
+    </div>
+    <!--NOT MVP GOING TO CONTINUE TRYING TO FIX THIS FEATURE-->
+    <!-- <div *ngIf="model.liteItemType === 'activity' && model.formResponse.length > 0" class="form-wrapper">
+    <button mat-icon-button (click)="populateForm(model.activityFormId, model.formResponses);" title="Click here to edit forms">
+      <mat-icon aria-label="form icon">insert_drive_file</mat-icon>
+    </button>
+  </div> -->
+  </div>
+  <div *ngIf="!isReview && mobile" [formGroup]="form" class="edit-Form">
+    <mat-form-field *ngIf="isMeal(model.liteItemType)" class="cart-item-display-partial">
+      <input matInput title="{{'Enter amount for ' + model.studentName}}" formControlName="editAmount{{insideIndex}}"
+             value="{{ model.itemAmount | currency }}"
+             [attr.aria-label]="'Amount ' + model.itemAmount" (blur)="update(model, insideIndex)" (focus)="focusAmount($event)" required />
+    </mat-form-field>
+    <div *ngIf="!isReview && model.liteItemType === 'userFee'" class="review-price">
+      {{ model.amountInCart | currency }}
+    </div>
+    <div *ngIf="!isReview && isFee(model.liteItemType) && !model.isPartialPayEligible" class="review-price flex-row flex-children-center ">
+      {{  model.amountInCart | currency }}
+    </div>
+    <div *ngIf="!isReview && model.liteItemType === 'activity' && !model.isQuantity && !model.isPartialPayEligible && !model.isVariable" class="review-price flex-row flex-children-center ">
+      {{  model.itemAmount | currency }}
+    </div>
+    <div *ngIf="!isReview && model.liteItemType === 'activity' && model.isQuantity && !model.isPartialPayEligible && !model.isVariable" class="review-price flex-row flex-children-center ">
+      {{  model.amountInCart | currency }}
+    </div>
+    <div *ngIf="!isReview && isFee(model.liteItemType) && model.isPartialPayEligible" class="cart-item-price-partial">
+      <div class="input-container">
+        <mat-form-field class="cart-item-display-partial">
+          <input [attr.disabled]="isTransfer?'':null" matInput class="text-right" title="{{'Enter amount for ' + model.studentName}}" formControlName="editAmount{{insideIndex}}"
+                 value="{{ model.amountInCart | currency }}"
+                 [attr.aria-label]="'Amount ' + model.amountInCart" (blur)="update(model, insideIndex)" (focus)="focusAmount($event)" required />
+        </mat-form-field>
+        <div *ngIf="form.status.valid === INVALID" class="form-inline-validation error">
+          {{ formErrors.editAmount }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="model.liteItemType === 'activity' && model.isPartialPayEligible && !model.isVariable" class="cart-item-price-partial">
+      <div class="input-container">
+        <mat-form-field class="cart-item-display-partial">
+          <input [attr.disabled]="isTransfer?'':null" matInput class="text-right" title="{{'Enter amount for ' + model.studentName}}" formControlName="editAmount{{insideIndex}}"
+                 value="{{ model.amountInCart | currency }}"
+                 [attr.aria-label]="'Amount ' + model.amountInCart" (blur)="update(model, insideIndex)" (focus)="focusAmount($event)" required />
+        </mat-form-field>
+        <div *ngIf="form.status.valid === INVALID" class="form-inline-validation error">
+          {{ formErrors.editAmount }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="model.liteItemType === 'activity' && model.isVariable" class="cart-item-price-partial">
+      <div class="input-container">
+        <mat-form-field class="cart-item-display-partial">
+          <input [attr.disabled]="isTransfer?'':null" matInput class="text-right" title="{{'Enter amount for ' + model.studentName}}" formControlName="editAmount{{insideIndex}}"
+                 value="{{ model.amountInCart | currency }}"
+                 [attr.aria-label]="'Amount ' + model.amountInCart" (blur)="update(model, insideIndex)" (focus)="focusAmount($event)" required />
+        </mat-form-field>
+        <div *ngIf="form.status.valid === INVALID" class="form-inline-validation error">
+          {{ formErrors.editAmount }}
+        </div>
+      </div>
+    </div>
+    <!-- NOT MVP ADDING IN LATER -->
+    <!--<div *ngIf="model.liteItemType === 'activity' && model.formResponse.length > 0" class="form-wrapper">
+    <button mat-icon-button (click)="populateForm(model.formId);" title="Click here to edit forms">
+      <mat-icon aria-label="form icon">insert_drive_file</mat-icon>
+    </button>
+  </div>-->
+  </div>
+</div>

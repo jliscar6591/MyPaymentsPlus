@@ -1,0 +1,153 @@
+<div *ngIf="showSpinner" class="headline-group flex-row">
+  <div class="md-headline flex-grow-2">Loading Students...&nbsp;&nbsp;</div>
+  <div class="flex-row flex-children-center"><mat-spinner class="spinner-inline">Loading...</mat-spinner></div>
+</div>
+<div class="page-container">
+  <mat-card class="card-spacing">
+    <mat-card-title-group>
+      <mat-card-title>Manage Students</mat-card-title>
+    </mat-card-title-group>
+    <mat-card-content>
+      <div>
+        <div *ngIf="!hasStudents && !showAddStudent">
+          <p class="well">You have 0 students added to your account.</p>
+        </div>
+        <div *ngIf="failedtoDelete" class="form-inline-validation error student-error-message">Failed to delete student.</div>
+        <div *ngIf="hasStudents && !showAddStudent && studentListService.result" class="padding-20">
+          <table class="md-table manage-students-table">
+            <thead>
+              <tr>
+                <td>Student</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of studentListService.students">
+                <td class="student-table-border capitalize">
+                  <p>
+                    <b>{{student.firstName}} {{student.lastName}}</b>
+                    <span *ngIf="!student.isActive">
+                      <a aria-label="This student is not active"
+                         title="This student is not active"
+                         class="logo cursor-pointer">
+                        <i class="material-icons meals-amount-warning warn meal-info-small">
+                          warning
+                        </i>
+                      </a>
+                      Not active in the district. Deposits are not accepted.
+                    </span>
+                    <span class="show-sm show-xs hide float-right">
+                      <button aria-label="More Actions" mat-icon-button [mat-menu-trigger-for]="menu">
+                        <i class="material-icons md-dark notranslate">more_vert</i>
+                      </button>
+                      <mat-menu x-position="before" #menu="matMenu">
+                        <button mat-menu-item (click)="showDeleteDialog(student.firstName, student.lastName, student.districtName, student.accountBalanceId)" aria-label="Delete"> Delete </button>
+                      </mat-menu>
+                    </span>
+                    <br />
+                    {{student.districtName}}
+                  </p>
+                </td>
+                <td class="show-gt-sm hide-sm hide-xs">
+                  <p>
+                    <a class="link cursor-pointer" (click)="showDeleteDialog(student.firstName, student.lastName, student.districtName, student.accountBalanceId)">Delete</a>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="showAddStudent && studentListService.result">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <h4 class="accordion-title">
+                Add Student
+              </h4>
+            </div>
+            <div class="accordion-body accordion-open">
+              <div class="padding-20">
+                <form [formGroup]="addStudentForm" novalidate>
+                  <div class="flex-row-gt-sm flex-column-sm flex-column-xs flex-fill equal">
+                    <section>
+                      <div class="input-container">
+                        <div class="field-column-space">
+                          <mat-form-field class="add-student-width">
+                            <mat-select class="notranslate" placeholder="Select State" aria-label="Select State" [(ngModel)]="loginResponse.state" (selectionChange)="getDistrict(loginResponse.state)" formControlName="state" required>
+                              <mat-option *ngFor="let text of stateProvinceListService.stateProvinceList" [value]="text.stateCode">{{text.displayName}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div *ngIf="formErrors.state" class="form-inline-validation error">
+                          {{ formErrors.state }}
+                        </div>
+                      </div>
+                      <div class="input-container">
+                        <div class="field-column-space">
+                          <mat-spinner strokeWidth="1" diameter="25" *ngIf="loadingDistricts" color="primary">
+                            Loading..
+                          </mat-spinner>
+                          <mat-form-field class="add-student-width">
+                            <mat-select class="notranslate" placeholder="Select District" aria-label="Select District" [(ngModel)]="studentAddDetail.districtKey" (selectionChange)="overrideDerivedDistrict(studentAddDetail.districtKey)" formControlName="district" required>
+                              <mat-option *ngFor="let text of districtList" [value]="text.districtKey">{{text.districtName}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div *ngIf="!showDistrictDdl && showNoDistrictWarning">
+                        There are no available districts for this state
+                      </div>
+                      <div *ngIf="formErrors.district" class="form-inline-validation error">
+                        {{ formErrors.district }}
+                      </div>
+                    </section>
+                    <section class="student-column">
+                      <div class="input-container">
+                        <mat-form-field class="students-width">
+                          <input matInput
+                                 [(ngModel)]="studentAddDetail.studentID"
+                                 placeholder="Student ID"
+                                 aria-label="Student ID"
+                                 formControlName="id"
+                                 required />
+                        </mat-form-field>
+                        <div *ngIf="formErrors.id" class="form-inline-validation error">{{ formErrors.id }}</div>
+                        <a class="link cursor-pointer text-center" aria-label="Where to find Student ID?" (click)="getDistrictContent()">
+                          Where to find Student ID?
+                        </a><br />
+                      </div>
+                      <div class="input-container">
+                        <mat-form-field class="students-width">
+                          <input matInput
+                                 [(ngModel)]="studentAddDetail.lastName"
+                                 placeholder="Student's Last Name'"
+                                 aria-label="Student's Last Name"
+                                 formControlName="lastname"
+                                 class="width-100"
+                                 required />
+                        </mat-form-field>
+                        <div *ngIf="formErrors.lastname" class="form-inline-validation error">
+                              {{ formErrors.lastname }}
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                  <div class="card-footer-action text-right">
+                    <button mat-raised-button aria-label="Cancel" (click)="showAddStudent = false">Cancel</button>
+                    <button mat-raised-button color="primary" aria-label="Add" [disabled]="isAdding" (click)="addStudent()">
+                      <span *ngIf="!isAdding">Add Student</span>
+                      <mat-spinner strokeWidth="1" diameter="25" *ngIf="isAdding" class="spinner-button spinner-button-center">Loading...</mat-spinner>
+                    </button>
+                  </div>
+                  <div *ngIf="failedtoAdd" class="form-inline-validation error student-error-message">{{failedtoAddMsg}}</div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!showAddStudent" class="card-footer-action">
+          <button mat-raised-button color="primary" (click)="showAddStudent = true" aria-label="Add Student">Add Student</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

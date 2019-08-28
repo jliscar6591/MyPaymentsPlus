@@ -1,0 +1,234 @@
+@import "../../../colors.less";
+
+.container {
+  padding-left: 15px;
+  padding-bottom: 20px;
+  display: flex;
+}
+
+.content {
+  width: 95%;
+}
+
+.actInCartPanelDesc {
+  justify-content: flex-end;
+}
+
+#title {
+  margin-top: 9px;
+  font-size: large;
+  color: @primaryColor;
+}
+
+
+
+#inCart {
+  font-size: large;
+  background-color: @accentColor;
+  color: white;
+}
+
+.activityInCart {
+  padding: 5px;
+  display: flex;
+  width: 100%;
+  flex-flow: column;
+
+  .activityInCartDetails {
+    width: 100%;
+
+    .mat-list-text {
+      display: flex;
+      flex-flow: row;
+      justify-content: space-between;
+      padding: 0px;
+    }
+  }
+
+  .leftInCart {
+    display: flex;
+  }
+
+  .studentInCart {
+    background-color: @accentColor;
+    color: white;
+  }
+
+  .activityName {
+    color: @primaryColor;
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+  }
+
+  .activityName:hover {
+    cursor: pointer;
+  }
+}
+
+.buttonFlex {
+  display: flex;
+  justify-content: flex-end;
+
+  .removeButton {
+    background-color: @primaryColor;
+    color: white;
+  }
+}
+
+
+.search {
+  width: 90%;
+  margin-left: 38px !important;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.searchClear {
+  margin-top: 13px;
+  padding-right: 5px;
+}
+
+.clearChip:hover {
+  cursor: pointer;
+}
+
+#icon {
+  color: #78909C;
+  padding-right: 6px;
+  margin-top: -3px;
+}
+
+.closeBtn {
+  width: 22px;
+  height: 24px;
+  line-height: normal;
+  padding-bottom: 10px;
+}
+
+.closeChip {
+  font-size: 15px;
+}
+
+.filters {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.filterTitle {
+  color: @primaryColor;
+}
+
+.students {
+  display: flex;
+  padding-top: 10px;
+}
+
+.sort {
+  width: 70%;
+}
+
+.accordion {
+  margin: 0px !important;
+}
+
+
+.title {
+  color: @primaryColor;
+  padding: 5px;
+}
+
+.subTitle {
+  color: @primaryColor;
+}
+
+.mat-expansion-panel-header {
+  display: flex !important;
+}
+
+.panelDesc {
+  justify-content: flex-end;
+}
+
+.subPanelDesc {
+  justify-content: flex-end;
+}
+
+.studentsSelected {
+  padding-bottom: 5px;
+  width: 200px;
+  display: flex;
+  flex-flow: column;
+}
+
+.searchForm {
+  padding-bottom: 10px;
+}
+
+@media(max-width:600px) {
+  .container {
+    padding-left: 15px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-flow: column;
+  }
+
+  .actDetails {
+    width: 90%;
+  }
+
+  .content {
+    width: 96%;
+  }
+
+  .search {
+    margin-left: 20px !important;
+    width: 90%;
+  }
+
+  .filterPanelTitle {
+    height: 30px !important;
+  }
+
+  .mat-expansion-panel-header-title {
+    color: @primaryColor;
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0 5px !important;
+    color: @primaryColor;
+  }
+
+  .mat-selection-list {
+    padding-top: 0px !important;
+  }
+
+  .mat-panel-content {
+    .mat-expansion-panel-body {
+      padding: 0px !important;
+    }
+  }
+
+  .mat-card {
+    padding: 0 !important;
+  }
+}
+
+@media (min-width:600px)and (max-width:959px){
+  .container{
+      width: 100%;
+  }
+}
+
+@media (max-width: 667px) and (min-width: 375px) {
+  #inCart {
+    width: unset !important;
+  }
+
+  .mat-list .mat-list-item .mat-list-item-content {
+    padding: 0px;
+  }
+}

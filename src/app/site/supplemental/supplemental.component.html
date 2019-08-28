@@ -1,0 +1,156 @@
+<toaster-container></toaster-container>
+  <!--<app-toolbar></app-toolbar>-->
+  <mat-toolbar id="app-toolbar" class="theme-light relative">
+    <span id="nav-logo">
+      <a class="logo cursor-pointer" (click)="nav()">
+        <img src="../../assets/images/mpp-logo.png" alt="My Payment's Plus logo" class="logo">
+      </a>
+    </span>
+
+    <span id="nav">
+      <span id="nav-options">
+        <button mat-raised-button color="primary" (click)="nav()">Home</button>
+      </span>
+    </span>
+  </mat-toolbar>
+
+<mat-sidenav-container id="sidenav-module-layout relative">
+    <mat-sidenav #sidenav [opened]="sidenavState" mode="side" class="sidenav sidenav-tile-mobile sidenav-dark">
+        <ul class="sidenav-list hide-xs">
+            <li class="sidenav-list-option">
+                <button routerLink="/about" routerLinkActive="sidenav-option-active" aria-label="About" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">info</i><span class="option-text">About</span></button>
+            </li>
+            <li class="sidenav-list-option">
+                <button routerLink="/privacy-policy" routerLinkActive="sidenav-option-active" aria-label="Privacy Policy" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">lock</i><span class="option-text">Privacy Policy</span></button>
+            </li>
+            <li class="sidenav-list-option">
+                <button routerLink="/terms" routerLinkActive="sidenav-option-active" aria-label="Terms of Use" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">note</i><span class="option-text">Terms of Use</span></button>
+            </li>
+            <li class="sidenav-list-option">
+                <button routerLink="/support" routerLinkActive="sidenav-option-active" aria-label="Support" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">help</i><span class="option-text">Support</span></button>
+            </li>
+        </ul>
+        <ul class="sidenav-grid-list hide-gt-xs show-xs">
+            <li class="flex-row flex-fill equal text-center">
+                <button mat-button (click)="sidenav.close()" routerLink="/about" aria-label="About" routerLinkActive="sidenav-option-active" class="sidenav-grid-option bg-lightgray">
+                    <div class="option-graphic">
+                        <img src="../../assets/images/supplemental/about.png" />
+                    </div>
+                    <div class="option-text">About</div>
+                </button>
+                <button mat-button (click)="sidenav.close()" routerLink="/privacy-policy" aria-label="Privacy Policy" routerLinkActive="sidenav-option-active" class="sidenav-grid-option bg-lightgray">
+                    <div class="option-graphic">
+                        <img src="../../assets/images/supplemental/privacy.png" />
+                    </div>
+                    <div class="option-text">Privacy Policy</div>
+                </button>
+            </li>
+            <li class="flex-row flex-fill equal text-center">
+                <button mat-button (click)="sidenav.close()" routerLink="/terms" aria-label="Terms of Use" routerLinkActive="sidenav-option-active" class="sidenav-grid-option bg-lightgray">
+                    <div class="option-graphic">
+                        <img src="../../assets/images/supplemental/terms.png" />
+                    </div>
+                    <div class="option-text">Terms of Use</div>
+                </button>
+                <button mat-button (click)="sidenav.close()" routerLink="/support" aria-label="Support" routerLinkActive="sidenav-option-active" class="sidenav-grid-option bg-lightgray">
+                    <div class="option-graphic">
+                        <img src="../../assets/images/supplemental/support.png" />
+                    </div>
+                    <div class="option-text">Support</div>
+                </button>
+            </li>
+            <li class="flex-row flex-fill equal text-center">
+                <button *ngIf="supportAvailable" mat-button class="sidenav-grid-option bg-lightgray" aria-label="Live Chat Now" onclick="window.location.href='https://lc.chat/now/6285751/'">
+                    <div class="option-graphic">
+                        <img src="../../assets/images/supplemental/livechat.png" />
+                    </div>
+                    <div class="option-text">
+                        Live Chat Now!
+                    </div>
+                    <div class="option-subtext">Mon - Fri 7:30 AM - 5:30 PM EST</div>
+                </button>
+                <button *ngIf="!supportAvailable" routerLink="/contact-offline" mat-button aria-label="Live Chat Offline" class="sidenav-grid-option bg-lightgray">
+                    <div class="option-graphic">
+                        <img src="../../assets/images/supplemental/email.png" />
+                    </div>
+                    <div class="option-text">
+                        Email Support
+                    </div>
+                    <div class="option-subtext">Live Chat Offline</div>
+                </button>
+
+                <a href="tel:1-877-237-0946" aria-label="Phone" class="sidenav-grid-option grid-option-link flex-column flex-children-center bg-lightgray">
+                    <div class="option-graphic">
+                        <img src="../../assets/images/supplemental/call.png" />
+                    </div>
+                    <div class="width-100 flex-grow-1 flex-column equal flex-fill">
+                        <div class="option-text">1-877-237-0946</div>
+                        <div class="option-subtext">Mon - Fri 7:30 AM - 5:30 PM EST</div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="sidenav-list hide-xs">
+            <li class="sidenav-title">
+                Contact Us
+            </li>
+            <li class="sidenav-list-option">
+                <button *ngIf="supportAvailable" aria-label="Live Chat Now" mat-button class="sidenav-option sidenav-option-subtext" onclick="window.open('https://lc.chat/now/6285751/', '', 'width=200,height=100')">
+                    <i class="material-icons mat-18 notranslate">chat_bubble</i>
+                    <span class="flex-column">
+                        <span class="option-text">
+                            Live Chat Now!
+                        </span>
+                        <span class="option-subtext">Mon - Fri 7:30 AM - 5:30 PM EST</span>
+                    </span>
+                </button>
+            </li>
+            <li *ngIf="!supportAvailable" class="sidenav-list-option">
+                <button mat-button routerLink="/contact-offline" aria-label="Live Chat Offline" class="sidenav-option sidenav-option-subtext">
+                    <i class="material-icons mat-18 notranslate">email</i>
+                    <span class="flex-column">
+                        <span class="option-text">
+                            Email Support
+                        </span>
+                        <span class="option-subtext">Live Chat Offline</span>
+                    </span>
+                </button>
+            </li>
+        </ul>
+
+
+        <br>
+        <!--<button mat-button #mybutton (click)="start.close()">Close</button>-->
+    </mat-sidenav>
+
+
+    <div id="container">
+        <section id="container-content" class="page-container flex-grow-1">
+            <a (click)="sidenav.open()" class="link cursor-pointer hide-gt-xs show-xs"><br /><span class="padding-20">Back to Support Menu</span></a>
+            <mat-card id="supplemental-card">
+                <router-outlet></router-outlet>
+            </mat-card>
+        </section>
+        <footer id="footer">
+            <ul class="footer-list">
+                <li>
+                    Copyright 2019
+                    <a href="https://www.horizonsoftware.com/" target="_blank" class="link">Horizon Software</a>
+                </li>
+                <li>
+                    <a routerLink="/about" aria-label="About" routerLinkActive="active" class="link">About</a>
+                </li>
+                <li>
+                    <a routerLink="/privacy-policy" aria-label="Privacy Policy" routerLinkActive="active" class="link">Privacy Policy</a>
+                </li>
+                <li>
+                    <a routerLink="/terms" aria-label="Terms of Use" routerLinkActive="active" class="link">Terms of Use</a>
+                </li>
+                <li>
+                    <a routerLink="/support" aria-label="Support" routerLinkActive="active" class="link">Support</a>
+                </li>
+            </ul>
+        </footer>
+    </div>
+</mat-sidenav-container>

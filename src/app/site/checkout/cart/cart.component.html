@@ -1,0 +1,146 @@
+<div *ngIf="showCartItems" class="shopping-cart-card">
+  <mat-card class="card-spacing none">
+    <mat-card-title>
+        <div class="title-flex">
+          Shopping Cart
+          <span *ngIf="isCartItemsGetting && !isUpdating" class="md-caption">Retrieving your cart</span>
+          <span *ngIf="isUpdating" class="md-caption">Deleting item</span>
+          <mat-spinner style="display:flex" strokeWidth="1" diameter="25" *ngIf="isCartItemsGetting || isUpdating">
+            Loading...
+          </mat-spinner>
+        </div>
+      <div *ngIf="getCartItemsErr" class="error md-caption">
+        {{ getCartItemsErrMsg }}
+      </div>
+      <div *ngIf="failedToUpdate" class="error md-caption">
+        {{ failedToUpdateMsg }}
+      </div>
+    </mat-card-title>
+    <mat-card-content *ngIf="!isCartItemsGetting">
+      <ul id="cart-list" *ngIf="cartItem.items">
+        <li id="cart-list-titles" class="flex-row hide-sm hide-xs">
+          <div class="cart-item-graphic">&nbsp;</div>
+          <div class="cart-item-description">&nbsp;</div>
+          <!--<div class="cart-item-quantity"><b *ngIf="!isReview">Quantity</b></div>
+          <div class="cart-item-price" [ngClass]="{'review-price-title': isReview}"><b>Price</b></div>-->
+        </li>
+        <li *ngFor="let cartItem of cartItem.items; let i = index; ">
+          <cart-item 
+                     [insideIndex]="i"
+                     [model]="cartItem"
+                     [checkout]="checkoutItem"
+                     [isMobile]="checkMobile"
+                     (remove)="removeItem($event)"
+                     (updated)="updateItem($event)"
+                     class="cart-item-col">
+          </cart-item>
+        </li>
+      </ul>
+      <!-- Totals -->
+      <ul id="total" *ngIf="cartItem.items" [ngClass]="{'review-total': isReview}">
+        <!--<li class="flex-row flex-children-center">-->
+          <!--<label>Subtotal</label>-->
+          <!--<span class="subtotal" *ngIf="cartItem.amountInCart > 0">${{cartItem.subTotal | number:'1.2-2'}}</span>-->
+          <!--<span classs="subtotal" *ngIf="cartItem.amountInCart == 0 && cartItem.amountInCart > 0">${{cartItem.amountInCart}}</span>-->
+          <!--</li>-->
+        <li *ngIf="isReview" class="flex-row flex-children-center">
+          <label>Program Fee</label>
+          <span class="fee">{{cartItem.consumerFeeTotal | currency}}</span>
+        </li>
+        <li class="flex-row flex-fill equal" *ngIf="isReview && cartItem.totalTax > 0">
+          <label>Sales Tax</label>
+          <span>{{cartItem.totalTax | currency}}</span>
+        </li>
+        <li *ngIf="isReview" class="flex-row flex-children-center">
+          <label>Grand Total</label>
+          <span class="grandtotal" *ngIf="cartItem.amountInCart > 0">{{cartItem.total | currency}}</span>
+
+          <span classs="grandtotal" *ngIf="cartItem.amountInCart == 0 && cartItem.amountInCart > 0">{{cartItem.amountInCart | currency}}</span>
+        </li>
+      </ul>
+      <div *ngIf="cartItem.items.length === 0" class="well">
+        There are 0 items in your cart.
+        <div class="flex-row flex-children-center return-btn-row">
+          <button mat-raised-button color="primary" (click)="goBackToDashboard()" aria-label="Return to Dashboard" class="">Return to Dashboard</button>
+        </div>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<!--Checkout-->
+<div *ngIf="showCheckOutItems">
+  <mat-card class="card-spacing none">
+    <mat-card-title>
+      <div>
+        Shopping Cart
+        <span *ngIf="isChekoutItemsGetting && isUpdating" class="md-caption">Retrieving your cart</span>
+        <span *ngIf="isUpdating  && isDelete" class="md-caption">Deleting item</span>
+        <mat-spinner strokeWidth="1" diameter="25" *ngIf="showSpinner" class="spinner-inline spinner-title">
+          Loading...
+        </mat-spinner>
+        <div *ngIf="getCartItemsErr" class="error md-caption">
+          {{ getCartItemsErrMsg }}
+        </div>
+        <div *ngIf="failedToUpdate" class="error md-caption">
+          {{ failedToUpdateMsg }}
+        </div>
+      </div>
+    </mat-card-title>
+    <mat-card-content *ngIf="isChekoutItemsGetting">
+      <ul id="cart-list" *ngIf="checkoutItems.merchants[0].itemGroups[0].items.length > 0">
+        <li id="cart-list-titles" class="flex-row hide-sm hide-xs">
+          <div class="cart-item-graphic">&nbsp;</div>
+          <div class="cart-item-description">&nbsp;</div>
+          <div class="cart-item-quantity"><b *ngIf="!isReview">Quantity</b></div>
+          <div class="cart-item-price" [ngClass]="{'review-price-title': isReview}"><b>Price</b></div>
+        </li>
+        <li *ngFor="let cartItem of cartItem.items; let insideIndex = index;">
+          <cart-item 
+                     [insideIndex]="insideIndex"
+                     [model]="cartItem"
+                     [checkout]="checkoutItems"
+                     [isMobile]="checkMobile"
+                     (remove)="removeItem($event)"
+                     (updated)="updateItem($event)"
+                     class="cart-item-col">
+          </cart-item>
+        </li>
+      </ul>
+      <!-- Totals -->
+      <div *ngIf="checkoutItems">
+        <ul id="total" *ngIf="checkoutItems.merchants[0].itemGroups[0].items.length > 0" [ngClass]="{'review-total': isReview}">
+          <li class="flex-row flex-children-center" *ngIf="checkoutItems.discountTotal && isReview">
+            <label>Discount Applied</label>
+            <span class="subtotal"> - {{checkoutItems.discountTotal | currency}}</span>
+          </li>
+          <li class="flex-row flex-children-center">
+            <label>Subtotal</label>
+            <span class="subtotal">{{checkoutItems.subTotal | currency}}</span>
+          </li>
+          <li class="flex-row flex-children-center">
+            <label>Program Fee</label>
+            <span class="fee">{{checkoutItems.consumerFeeTotal | currency}}</span>
+            <!--<span class="fee">{{cartItem.consumerFeeTotal | currency}}</span>-->
+          </li>
+          <li class="flex-row flex-children-center" *ngIf="checkoutItems.totalTax > 0">
+            <label>Sales Tax</label>
+            <span class="fee">{{checkoutItems.totalTax | currency}}</span>
+          </li>
+          <li class="flex-row flex-children-center">
+            <label>Grand Total</label>
+            <span class="grandtotal">{{checkoutItems.total | currency}}</span>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="cartItem.items.length === 0" class="well">
+        There are 0 items in your cart.
+        <div class="flex-row flex-children-center return-btn-row">
+          <button mat-raised-button color="primary" (click)="goBackToDashboard()" aria-label="Return to Dashboard" class="">Return to Dashboard</button>
+        </div>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+

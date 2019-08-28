@@ -1,0 +1,99 @@
+<div class="page-container">
+    <form [formGroup]="studentBalanceAlertForm">
+        <mat-card class="card-spacing">
+            <mat-card-title-group >
+                <mat-card-title id="lbTitle">Low Balance Alerts <mat-spinner strokeWidth="1" diameter="25" *ngIf="isGettingBalance" >Loading...</mat-spinner></mat-card-title>
+                <div class="card-title-action">
+                    <button mat-raised-button 
+                            *ngIf="hasStudents && !showEditAlerts && loginResponse.isAlertsAllowedDistrict" 
+                            (click)="showEditAlerts = true" 
+                            aria-label="Edit"
+                            color="primary">Edit</button>
+                    <div *ngIf="showEditAlerts" class="card-footer-action-top text-right">
+                      <button mat-raised-button aria-label="Cancel" id="cancelLBNTopBtn" (click)="toggleEditAlerts()">Cancel</button>
+                      <button mat-raised-button color="primary" id="saveLBNTopBtn" (click)="saveStudentBalanceAlerts()" aria-label="Save">
+                        <span *ngIf="savingBalances">
+                          <mat-spinner strokeWidth="1" diameter="25" *ngIf="savingBalances" class="spinner-button spinner-button-center">
+                            Loading..
+                          </mat-spinner>
+                        </span>
+                        <span *ngIf="!savingBalances">Save</span>
+                      </button>
+                      <div id="alertMsgTop"></div>
+                    </div>
+                    <div class="error card-spacing" *ngIf="saveBalanceErr">
+                        {{saveBalanceErrMsg}}
+                    </div>
+                </div>
+            </mat-card-title-group>
+            <div *ngIf="!isGettingBalance && getBalanceErr" class="error card-spacing">
+                {{getBalanceErrMsg}}
+            </div>
+          <!--<suspend-payment-warning *ngIf="isSuspendPayment"></suspend-payment-warning>-->
+
+            <mat-card-content>
+                <div *ngIf="!isGettingBalance && !getBalanceErr">
+                    <div *ngIf="!hasStudents">
+                        <p class="well">You have 0 students added to your account. You must have students to setup low balance alerts.</p>
+                        <div class="card-footer-action">
+                            <button mat-raised-button color="primary" routerLink="/account/manage-students" routerLinkActive="active" aria-label="Add Students">Add Students</button>
+                        </div>
+                    </div>
+                    <div *ngIf="hasStudents">
+                        <div *ngFor="let student of studentBalanceAlertService.studentBalanceAlerts; let outsideIndex = index;" class="accordion-group">
+                            <div class="accordion-heading">
+                                <h4 class="accordion-title">
+                                    {{student.firstName | uppercase}} {{student.lastName | uppercase}}
+                                </h4>
+                            </div>
+                            <div class="accordion-body accordion-open">
+                                <div class="padding-20">
+                                   <div fxLayout="column"  fxFlex="100" fxFlex.xs="90"  fxLayoutAlign.gt-sm="center start" class="alert-setup-table"  [formArrayName]="'alertsArray' + outsideIndex">
+                                     <div fxLayout="column" fxLayout.gt-sm="row wrap" fxFlex="100" class="alert-contianer {{plan.categoryName}}" *ngFor="let plan of student.balanceAlerts; let insideIndex = index;">
+                                       <div class="alert-selection" *ngIf="plan.categoryName != 'Bonus'">
+                                         <div fxLayout.gt-sm="column" fxLayoutAlign="start">
+                                           <p><b>{{plan.categoryName}}</b></p>
+                                         </div>
+                                         <div fxLayout="row wrap" fxLayout.xs="row nowrap" fxLayout.gt-sm="column" fxLayoutAlign="center start" fxLayoutAlign.xs="start center" class="alert-message">
+                                           <!--!showEditAlerts-->
+                                           <div *ngIf="!showEditAlerts" class="alert-info-container">
+                                             <span class="mobile-notify">Notify me when this account drops below: </span>
+                                             <span *ngIf="plan.isActive" [ngClass]="{'alert-amount': plan.isActive}">{{plan.alertLevel | currency }}</span>
+                                             <span *ngIf="!plan.isActive" [ngClass]="{'alert-amount': plan.isActive}">Do not notify</span>
+                                           </div>
+                                           <!--showEditAlerts-->
+                                           <div *ngIf="showEditAlerts" class="alert-info-container">
+                                             <alert-level-selector [form]="studentBalanceAlertForm.controls['alertsArray' + outsideIndex].controls[insideIndex]"
+                                                                   [index]="insideIndex"
+                                                                   (changed)="setValue($event, outsideIndex, insideIndex)"
+                                                                   [model]="student.balanceAlerts"></alert-level-selector>
+                                           </div>
+                                         </div>
+                                         <!--<hr />-->
+                                       </div>
+                                     </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="showEditAlerts" class="card-footer-action text-right">
+                          <button mat-raised-button aria-label="Cancel" id="cancelLBNBottomBtn" (click)="toggleEditAlerts()">Cancel</button>
+                          <button mat-raised-button color="primary" id="saveLBNBottomBtn" (click)="saveStudentBalanceAlerts()" aria-label="Save">
+                            <span *ngIf="savingBalances">
+                              <mat-spinner strokeWidth="1" diameter="25" *ngIf="savingBalances">
+                                Loading..
+                              </mat-spinner>
+                            </span>
+                            <span *ngIf="!savingBalances">Save</span>
+                          </button>
+                          <div id="alertMsgBtm"></div>
+                        </div>
+                        <div class="error card-spacing" *ngIf="saveBalanceErr">
+                            {{saveBalanceErrMsg}}
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+</div>

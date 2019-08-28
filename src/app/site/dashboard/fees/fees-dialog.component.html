@@ -1,0 +1,86 @@
+<mat-card-title>
+  <div class="fee-title-container">
+    <span class="fee-title">
+      {{data.feeName}}
+    </span>
+    <div class="close-btn-conatiner">
+      <button mat-icon-button class="close-btn"><mat-icon (click)="onNoClick()">close</mat-icon></button>
+    </div>
+  </div>
+</mat-card-title>
+<mat-card-content>
+  <div class="inCart">
+    <form *ngIf="!data.isInCart" [formGroup]="dialogFeesForm" class="dialogFeesForm">
+      <mat-form-field *ngIf="data.supportsPartialPay" class="fee-amount-wrapper">
+        <input type="number"
+               matInput
+               value=""
+               class="fee-amount-input"
+               placeholder="{{data.amountToPay | currency }} remaining"
+               formControlName="feeAmount" />
+        <mat-hint id="hint" align="start">Amount must be atleast {{data.minimumPayment | currency}}</mat-hint>
+      </mat-form-field>
+    </form>
+    <div *ngIf="data.isInCart && !data.supportsPartialPay" class="inCartAmount">
+      <i>({{data.amountInCart | currency}} in cart)</i>
+    </div>
+    <div *ngIf="data.isInCart && data.supportsPartialPay" class="inCartAmountPartial">
+      <i>({{data.amountInCart | currency}} in cart)</i>
+    </div>
+  </div>
+  <span *ngIf="!data.supportsPartialPay" class="fee-amount">
+    {{data.amount | currency}}
+  </span>
+  <div class="sub-title">
+    <div class="child-name">
+      {{data.name}}
+    </div>
+    &nbsp;
+    <div class="due-date" *ngIf="data.dueDate !== null">
+      <b>Due by {{data.dueDate}}</b>
+    </div>
+    <div class="due-date" *ngIf="data.dueDate === null">
+      <b>Due by {{data.partialPayDue}}</b>
+    </div>
+    &nbsp;
+    <div *ngIf="data.notificationType === 0"></div>
+    <mat-chip-list>
+      <mat-chip *ngIf="data.notificationType === 1" id="newChip">New</mat-chip>
+      <mat-chip *ngIf="data.notificationType === 2" id="dueSoonChip" selected>Due soon</mat-chip>
+      <mat-chip *ngIf="data.notificationType === 3" color="warn" selected>Past Due</mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="fee-description">
+    {{data.description}}
+  </div>
+  <div *ngIf="data.supportsPartialPay" class="partial-pay-details">
+    <div>
+      This fee allows partial payments. The total amount due can be paid in full or in seperate installments.
+    </div>
+    <div>
+      The minimum payment accepted for this fee is
+    </div>
+    <div>
+      <b>{{data.minimumPayment | currency}}</b>
+    </div>
+    <div>
+      The final payment due date is
+    </div>
+    <div>
+      <b>{{data.partialPayDue}}</b>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button mat-raised-button *ngIf="!data.isInCart && data.supportsPartialPay" class="cancel-btn" (click)="onNoClick()">Cancel</button>
+    <div *ngIf="data.isInCart && data.supportsPartialPay" class="edit">
+      <button mat-raised-button class="add-button" color="primary" (click)="editAmount(i,j)" type="submit">Edit</button>
+    </div>
+    <div *ngIf="!data.isInCart && data.supportsPartialPay" class="add2cart">
+      <button mat-raised-button class="add-button" color="primary" (click)="addCartItemPartial(i, j)" type="submit">Add to Cart</button>
+    </div>
+    <div *ngIf="!data.isInCart && !data.supportsPartialPay" class="add2cart">
+      <button mat-raised-button class="add-button" color="primary" (click)="addCartItem(i, j)" type="submit">Add to Cart</button>
+    </div>
+  </div>
+</mat-card-content>

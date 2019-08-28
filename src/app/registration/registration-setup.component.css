@@ -1,0 +1,26 @@
+﻿#container-content {
+    margin: auto;
+    align-self: center;
+    padding-top: 64px;
+}
+
+#registration-setup-card {
+    max-width: 700px;
+    margin: auto;
+    position: initial;
+}
+
+@media(max-width: 599px){
+    #registration-setup-card {
+        min-width: inherit;
+    }
+}
+
+@media(max-height: 800px){
+    #container-content {
+        align-self: center;
+        margin-top: 64px;
+        padding-top: 0;
+    }
+
+}

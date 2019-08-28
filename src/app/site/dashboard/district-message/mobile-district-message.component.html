@@ -1,0 +1,6 @@
+<div class="padding-leftright-20">
+    <div (click)="showMessage = true" *ngIf="!showMessage" class="note note-primary-all cursor-pointer">
+        <a aria-label="View district announcements" class="link">&nbsp;<i class="material-icons vertical-middle notranslate">message</i>&nbsp;&nbsp;View District Announcements!</a>
+    </div>
+</div>
+<district-message id="district-message" *ngIf="showMessage"></district-message>

@@ -1,0 +1,307 @@
+<!--MOBILE-->
+<div *ngIf="isMobile" class="top-nav">
+  <a routerLink="/dashboard" routerLinkActive="active" class="link">Dashboard</a>
+  <mat-icon class="nav-arrow">navigate_next</mat-icon>
+  <a>Documents</a>
+</div>
+<div *ngIf="isMobile" class="orientation-container">
+  <div class="mat-headline flex-grow-1">
+    Documents
+    <mat-icon>rate_review</mat-icon>
+    <span class="mat-caption" *ngIf="gettingOrientation">
+      Getting MPP orientations
+      <mat-spinner mode="indeterminate" strokeWidth="1" diameter="25">
+        Loading...
+      </mat-spinner>
+    </span>
+  </div>
+  <div>
+    <ul class="orientations">
+      <li class="incomplete" *ngIf="hasUnsigned">
+        <mat-toolbar>
+          <div>
+            Documents To Review
+          </div>
+        </mat-toolbar>
+        <mat-tab-group>
+          <mat-tab *ngFor="let student of unsignedOrientationList,let i = index ">
+            <ng-template mat-tab-label>
+              <span matBadge="{{student.orientation.unsignedDocuments.length}}" matBadgeOverlap="false"
+                matBadgeColor="accent" *ngIf="student.orientation.unsignedDocuments.length > 0">{{student.name}}</span>
+            </ng-template>
+            <div class="orientations" *ngIf="student.orientation.unsignedDocuments.length > 0">
+              <div class="orientation-message">
+                <div class="orientation-title">
+                  {{student.orientation.title}}
+                </div>
+                <div class="orientation-description">
+                  {{student.orientation.description}}
+                </div>
+              </div>
+              <mat-accordion class="accordion">
+                <mat-expansion-panel hideToggle
+                  *ngFor="let document of student.orientation.unsignedDocuments, let j = index" [expanded]="step === j"
+                  (opened)="setStep(j)">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="mat-title">
+                      <div class="name">
+                        {{document.name}}
+                      </div>
+                      <div *ngIf="document.required" class="required">
+                        (Required)
+                      </div>
+                      <div *ngIf="document.checked && document.itemType === 'CHECKBOX'">
+                        <mat-icon class="check">check_circle_outline</mat-icon>
+                      </div>
+                      <div
+                        *ngIf="document.signed && document.itemType === 'YES/NO' || document.signed && document.itemType === 'AGREE/DISAGREE'">
+                        <mat-icon class="check">check_circle_outline</mat-icon>
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="description">
+                    <div>
+                      {{document.description}}
+                    </div>
+                    <a class="link" href="{{document.link}}" target="_blank">
+                      Follow link for more info</a>
+                  </div>
+                  <mat-action-row class="action-row">
+                    <div *ngIf="document.itemType === 'CHECKBOX'" class="checkbox">
+                      <mat-checkbox [checked]="document.signed"
+                        (change)="onCheckBoxChange($event, i, j, document, student)">Agree</mat-checkbox>
+                    </div>
+                    <mat-radio-group class="radio-group" (change)="onChangeAgree($event,i , j, document, student)"
+                      *ngIf="document.itemType === 'AGREE/DISAGREE'">
+                      <mat-radio-button value="1">Agree</mat-radio-button>
+                      <mat-radio-button value="2">Disagree</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-radio-group class="radio-group" (change)="onChangeYes($event,i , j , document, student)"
+                      *ngIf="document.itemType === 'YES/NO'">
+                      <mat-radio-button value="1">Yes</mat-radio-button>
+                      <mat-radio-button value="2">No</mat-radio-button>
+                    </mat-radio-group>
+                    <div class="action-row-right">
+                      <button mat-button color="warn" *ngIf="step !== 0" (click)="prevStep()">Previous</button>
+                      <button mat-button color="primary"
+                        *ngIf="step !== student.orientation.unsignedDocuments.length - 1"
+                        (click)="nextStep()">Next</button>
+                    </div>
+                  </mat-action-row>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </li>
+      <mat-divider></mat-divider>
+      <li class="completed" *ngIf="hasSigned">
+        <mat-toolbar>
+          <div>
+            Signed Documents
+          </div>
+        </mat-toolbar>
+        <mat-tab-group>
+          <mat-tab *ngFor="let student of signedOrientationList,let i = index ">
+            <ng-template mat-tab-label>
+              <span matBadge="{{student.orientation.signedDocuments.length}}" matBadgeOverlap="false"
+                matBadgeColor="accent">{{student.name}}</span>
+            </ng-template>
+            <div class="orientations" *ngIf="student.orientation.signedDocuments.length > 0">
+              <div class="orientation-message">
+                <div class="orientation-title">
+                  {{student.orientation.title}}
+                </div>
+                <div class="orientation-description">
+                  {{student.orientation.description}}
+                </div>
+              </div>
+              <mat-accordion class="accordion">
+                <mat-expansion-panel hideToggle
+                  *ngFor="let document of student.orientation.signedDocuments, let j = index" [expanded]="step === j"
+                  (opened)="setStep(j)">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="mat-title">
+                      <div class="name">
+                        {{document.name}}
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="description">
+                    <div>
+                      {{document.description}}
+                    </div>
+                    <a class="link" href="{{document.link}}" target="_blank">
+                      Follow link for more info</a>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </li>
+    </ul>
+  </div>
+</div>
+<button class="mdc-fab mdc-fab--extended floating-button" *ngIf="showButton && isMobile" (click)="hideSubmit()"
+  id="mobileDocuments">
+  <div class="round">
+    <span class="mdc-fab__label doc-quantity">{{responses.length}}</span>
+  </div>
+  <span class="mdc-fab__label">Sign Documents</span>
+</button>
+
+
+<!--NOT MOBILE-->
+<div class="page-container" *ngIf="!isMobile">
+  <div class="orientation-container">
+    <div class="mat-headline flex-grow-1">
+      Documents
+      <mat-icon>announcement</mat-icon>
+      <span class="mat-caption" *ngIf="gettingOrientation">
+        Getting MPP orientations
+        <mat-spinner mode="indeterminate" strokeWidth="1" diameter="25">
+          Loading...
+        </mat-spinner>
+      </span>
+    </div>
+    <div>
+      <ul class="orientations">
+        <li class="incomplete" *ngIf="hasUnsigned">
+          <mat-toolbar class="toolbar">
+            <div>
+              Documents To Review
+            </div>
+            <div *ngIf="!isMobile && responses.length > 0">
+              <button mat-raised-button color="primary" (click)="hideSubmit()">Sign {{responses.length}} Documents</button>
+            </div>
+          </mat-toolbar>
+          <mat-tab-group>
+            <mat-tab *ngFor="let student of unsignedOrientationList,let i = index ">
+              <ng-template mat-tab-label>
+                <span matBadge="{{student.orientation.unsignedDocuments.length}}" matBadgeOverlap="false"
+                  matBadgeColor="accent"
+                  *ngIf="student.orientation.unsignedDocuments.length > 0">{{student.name}}</span>
+              </ng-template>
+              <div class="orientations" *ngIf="student.orientation.unsignedDocuments.length > 0">
+                <div class="orientation-message">
+                  <div class="orientation-title">
+                    {{student.orientation.title}}
+                  </div>
+                  <div class="orientation-description">
+                    {{student.orientation.description}}
+                  </div>
+                </div>
+                <mat-accordion class="accordion">
+                  <mat-expansion-panel hideToggle
+                    *ngFor="let document of student.orientation.unsignedDocuments, let j = index"
+                    [expanded]="step === j" (opened)="setStep(j)">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="mat-title">
+                        <div class="name">
+                          {{document.name}}
+                        </div>
+                        <div *ngIf="document.checked && document.itemType === 'CHECKBOX'">
+                          <mat-icon class="check">check_circle_outline</mat-icon>
+                        </div>
+                        <div
+                          *ngIf="document.signed && document.itemType === 'YES/NO' || document.signed && document.itemType === 'AGREE/DISAGREE'">
+                          <mat-icon class="check">check_circle_outline</mat-icon>
+                        </div>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="description">
+                      <div>
+                        {{document.description}}
+                      </div>
+                      <a class="link" href="{{document.link}}" target="_blank">
+                        Follow link for more info</a>
+                    </div>
+                    <mat-action-row class="action-row">
+                      <div *ngIf="document.itemType === 'CHECKBOX'" class="checkbox">
+                        <mat-checkbox [checked]="document.signed"
+                          (change)="onCheckBoxChange($event, i, j, document, student)">Agree</mat-checkbox>
+                      </div>
+                      <mat-radio-group class="radio-group" (change)="onChangeAgree($event, i, j, document, student)"
+                        *ngIf="document.itemType === 'AGREE/DISAGREE'">
+                        <mat-radio-button value="1">Agree</mat-radio-button>
+                        <mat-radio-button value="2">Disagree</mat-radio-button>
+                      </mat-radio-group>
+                      <mat-radio-group class="radio-group" (change)="onChangeYes($event, i, j, document, student)"
+                        *ngIf="document.itemType === 'YES/NO'">
+                        <mat-radio-button value="1">Yes</mat-radio-button>
+                        <mat-radio-button value="2">No</mat-radio-button>
+                      </mat-radio-group>
+                      <div class="action-row-right">
+                        <button mat-button color="warn" *ngIf="step !== 0" (click)="prevStep()">Previous</button>
+                        <button mat-button color="primary" (click)="nextStep()"
+                          *ngIf="step !== student.orientation.unsignedDocuments.length - 1">Next</button>
+                      </div>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </li>
+        <mat-divider></mat-divider>
+        <li class="completed" *ngIf="hasSigned">
+          <mat-toolbar>
+            <div>
+              Signed Documents
+            </div>
+          </mat-toolbar>
+          <mat-tab-group>
+            <mat-tab *ngFor="let student of signedOrientationList,let i = index ">
+              <ng-template mat-tab-label>
+                <span matBadge="{{student.orientation.signedDocuments.length}}" matBadgeOverlap="false"
+                  matBadgeColor="accent">{{student.name}}</span>
+              </ng-template>
+              <div class="orientations" *ngIf="student.orientation.signedDocuments.length > 0">
+                <div class="orientation-message">
+                  <div class="orientation-title">
+                    {{student.orientation.title}}
+                  </div>
+                  <div class="orientation-description">
+                    {{student.orientation.description}}
+                  </div>
+                </div>
+                <mat-accordion class="accordion">
+                  <mat-expansion-panel hideToggle
+                    *ngFor="let document of student.orientation.signedDocuments, let j = index" [expanded]="step === j"
+                    (opened)="setStep(j)">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="mat-title">
+                        <div class="name">
+                          {{document.name}}
+                        </div>
+                        <div>
+                          <!-- <mat-icon *ngIf="!showButton">check_box_outline_blank</mat-icon>
+                            <mat-icon *ngIf="showButton" class="check">check_box</mat-icon> -->
+                        </div>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="description">
+                      <div>
+                        {{document.description}}
+                      </div>
+                      <a class="link" href="{{document.link}}" target="_blank">
+                        Follow link for more info</a>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="docs-to-sign" *ngIf="!isMobile && showInCart">
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let response of detailedResponses, let i = index">
+
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

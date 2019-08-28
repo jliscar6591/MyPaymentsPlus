@@ -1,0 +1,61 @@
+
+#account-profile .material-icons {
+    margin-right: 10px;
+}
+
+#account-profile .mat-title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#profileTitle{
+  display: flex;
+}
+
+form{
+  width:  100%;
+}
+
+@media all and (max-width: 599px) {
+   .mobile-label {
+    font-size: 14px;
+    /*font-weight: 900;*/
+  }
+ 
+  .checkbox-list {
+    display: flex;
+    flex-flow: column;
+    flex: 0 1 auto;
+    width: 100%;
+    min-width: 317px;
+
+  }
+}
+
+@media all and (max-width: 480px){
+  .mat-checkbox-inner-container {
+    margin-top: 3px;
+  }
+
+  mat-checkbox {
+    width: 90%;
+    font-size: .95em;
+  }
+  .checkbox-fix {
+    display: -webkit-box;
+  }
+}
+
+.student-table-border {
+  border-bottom: 1px solid lightgray;
+}
+
+
+
+
+   
+ 
+
+
+
+

@@ -1,0 +1,30 @@
+<div class="flex-column filters" *ngIf="activitiesReady">
+  <form [formGroup]="filters">
+    <div class="filterTitle filters">
+      Students
+    </div>
+    <div class="students">
+      <mat-selection-list class="flex-column" formControlName="student" (selectionChange)="studentSelection()">
+        <mat-list-option
+         *ngFor="let account of uniqueStudents"
+         class="student"
+         [value]="account.studentFirstName"
+        [selected]="account.studentFirstName"
+         >
+          {{account.studentFirstName}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+  </form>
+  <div *ngIf="studentsSelected">
+    Students Selected:
+  </div>
+  <mat-chip-list>
+    <mat-chip *ngFor="let student of studentsSelected">
+      {{student.value}}
+      <button mat-icon-button class="closeBtn">
+        <mat-icon class="closeChip" aria-label="close chip" click="removeStudent()">close</mat-icon>
+      </button>
+    </mat-chip>
+  </mat-chip-list>
+</div>

@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+}
+
+.right {
+  padding: 20px;
+}
+
+.value {
+  display: flex;
+  padding-top: 5px;
+}
+
+.picture {
+  max-width: 400px;
+  max-height: 400px;
+}
+
+.close-btn-conatiner {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 0 0 175px;
+  margin: -9px;
+
+  .close-btn {
+    color: black;
+    background-color: white;
+  }
+}
+
+@media(max-width: 599px) {
+  .picture {
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  .right{
+    padding: 0px;
+    font-size:small;
+  }
+}

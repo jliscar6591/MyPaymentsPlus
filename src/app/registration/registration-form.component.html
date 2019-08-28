@@ -1,0 +1,167 @@
+<mat-toolbar id="app-toolbar" class="theme-light relative">
+  <span id="nav-logo">
+    <a class="logo cursor-pointer" routerLink="/welcome" routerLinkActive="active">
+      <img src="../../assets/images/mpp-logo.png" alt="My Payment's Plus logo" class="logo">
+    </a>
+  </span>
+  <span id="nav">
+    <span id="nav-options">
+      <button mat-raised-button color="primary" routerLink="/welcome" routerLinkActive="active">Home</button>
+    </span>
+  </span>
+</mat-toolbar>
+<div id="container" class="relative">
+  <section id="container-content" class="page-container">
+    <mat-card id="register-card">
+      <mat-card-title>
+        <div class="mat-headline">Register</div>
+      </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="registrationForm" novalidate class="flex-column">
+          <p class="mat-subhead">Search for School District</p>
+          <div class="flex-row form-icon-field">
+            <i class="material-icons mat-16 mat-dark form-icon notranslate">search</i>
+            <div class="flex-row-gt-sm flex-column-sm flex-column-xs flex-grow-1 flex-fill equal">
+              <div class="input-container">
+                <mat-form-field>
+                  <mat-select placeholder="Select State" aria-label="Select State" [(ngModel)]="registrationView.state" (selectionChange)="getDistrict(registrationView.state)" formControlName="state" class="width-100 notranslate" required>
+                    <mat-option *ngFor="let text of stateProvinceListService.stateProvinceList" [value]="text.stateCode">{{text.displayName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="formErrors.state" class="form-inline-validation error">
+                  {{ formErrors.state }}
+                </div>
+              </div>
+              <div style="display:inline; margin-top:18px;">
+                <mat-spinner mode="determinate" strokeWidth="1" diameter="25" *ngIf="stateLoading" class="spinner-inline">Loading..</mat-spinner>
+              </div>
+              <span></span>
+            </div>
+          </div>
+          <div *ngIf="showDistrictDdl" class="flex-row form-icon-field">
+            <i class="material-icons mat-16 mat-dark form-icon notranslate">school</i>
+            <div class="input-container">
+              <mat-form-field>
+                <mat-select placeholder="Select School District" aria-label="Select School District" [(ngModel)]="registrationView.district" formControlName="district" required class="width-100 notranslate">
+                  <mat-option *ngFor="let text of districtListService.districtList" [value]="text.districtKey">{{text.districtName}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div *ngIf="formErrors.district" class="form-inline-validation error">
+                {{ formErrors.district }}
+              </div>
+            </div>
+          </div>
+          <div id="noDistrictsForState" *ngIf="showNoDistrictWarning" class="form-inline-validation error">
+            We’re sorry, there are no available districts for this state.
+          </div>
+          <br />
+          <div class="mat-subhead">Create Account</div>
+          <div class="create-account-message">Enter your personal information.  You will add students at a later step.</div>
+          <div class="flex-row form-icon-field form-field-width">
+            <i class="material-icons mat-16 mat-dark form-icon notranslate">person</i>
+            <div class="flex-row-gt-sm flex-column-sm flex-column-xs flex-grow-1">
+              <div class="input-container">
+                <mat-form-field class="form-field width-100">
+                  <input matInput placeholder="First Name" [(ngModel)]="registrationView.firstName" formControlName="firstName" type="text" aria-label="First Name" required />
+                </mat-form-field>
+                <div *ngIf="formErrors.firstName" class="form-inline-validation error">
+                  {{ formErrors.firstName }}
+                </div>
+              </div>
+
+              <div class="input-container">
+                <mat-form-field class="form-field width-100">
+                  <input matInput placeholder="Last Name" [(ngModel)]="registrationView.lastName" formControlName="lastName" type="text" aria-label="Last Name" required />
+                </mat-form-field>
+                <div *ngIf="formErrors.lastName" class="form-inline-validation error">
+                  {{ formErrors.lastName }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-row form-icon-field icon-align form-field-width">
+            <i class="material-icons mat-16 mat-dark form-icon notranslate">email</i>
+            <div class="input-container">
+              <mat-form-field class="form-field width-100">
+                <input matInput (blur)="checkDup()" placeholder="Email" [(ngModel)]="registrationView.email" formControlName="email" type="email" aria-label="Email" required />
+              </mat-form-field>
+              <div *ngIf="formErrors.email" class="form-inline-validation error">
+                {{ formErrors.email }}
+              </div>
+              <div *ngIf="duplicationError == true" class="form-inline-validation error">{{duplicationErrorMessage}}<a routerLink="/reset-password" routerLinkActive="active" class="link">Forgot Password?</a></div>
+            </div>
+          </div>
+          <div class="flex-row form-icon-field icon-align form-field-width">
+            <i class="material-icons mat-16 mat-dark form-icon notranslate">lock</i>
+            <div class="flex-column flex-grow-1">
+              <popover-password-validator #passwordValidator></popover-password-validator>
+              <div class="input-container">
+                <mat-form-field class="form-field width-100">
+                  <input matInput 
+                         (focus)="passwordValidator.show()"
+                         (blur)="passwordValidator.hide()"
+                         [(ngModel)]="registrationView.newPassword"
+                         (selectionChange)="passwordValidator.change($event)"
+                         placeholder="Password"
+                         formControlName="newPassword"
+                         type="password"
+                         aria-label="Password"
+                         required />
+                </mat-form-field>
+                <div *ngIf="formErrors.newPassword" class="form-inline-validation error">
+                  {{ formErrors.newPassword }}
+                </div>
+              </div>
+              <div class="input-container">
+                <mat-form-field class="form-field width-100">
+                  <input matInput
+                         placeholder="Confirm Password"
+                         formControlName="confirmPassword"
+                         (focus)="passwordOnFocus()"
+                         (blur)="passwordOnBlur()"
+                         type="password"
+                         aria-label="Confirm Password"
+                         required />
+                </mat-form-field>
+                <div *ngIf="formErrors.confirmPassword" class="form-inline-validation error">
+                  {{ formErrors.confirmPassword }}
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <br />
+          <div class="agreement">By clicking Register, you agree to our <a class="link" (click)="openPrivacyDialog()">Privacy Policy</a> and <a class="link" (click)="openTermsDialog()">Terms of Use</a>.</div>
+          <div class="text-right">
+            <button mat-raised-button color="primary" aria-label="Register Button" (click)="createUser()">
+              <span *ngIf="!isLoading"> Register</span>
+              <mat-spinner strokeWidth="1" diameter="25" *ngIf="isLoading" class="spinner-button spinner-button-center">Loading..</mat-spinner>
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </section>
+  <footer id="footer">
+    <ul class="footer-list">
+      <li>
+        Copyright 2016
+        <a href="https://www.horizonsoftware.com/" target="_blank" class="link">Horizon Software</a>
+      </li>
+      <li>
+        <a routerLink="/about" routerLinkActive="active" class="link">About</a>
+      </li>
+      <li>
+        <a routerLink="/privacy-policy" routerLinkActive="active" class="link">Privacy Policy</a>
+      </li>
+      <li>
+        <a routerLink="/terms" routerLinkActive="active" class="link">Terms of Use</a>
+      </li>
+      <li>
+        <a routerLink="/support" routerLinkActive="active" class="link">Support</a>
+      </li>
+    </ul>
+  </footer>
+
+</div>

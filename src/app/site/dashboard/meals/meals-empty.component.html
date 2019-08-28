@@ -1,0 +1,26 @@
+<div  *ngIf="!mealsComponent.loginResponse.isDisableMealPaymentsDistrict">
+  <div *ngIf="(mealsComponent.isStudentsGetting || mealsComponent.isStudentsRemoteGetting)" class="dheadline-groupflex-row">
+    <div class="mat-headline flex-grow-1">
+      Cafeteria Accounts<mat-spinner strokeWidth="1" diameter="25" >Loading...</mat-spinner>
+    </div>
+  </div>
+  <div *ngIf="!(mealsComponent.isStudentsGetting || mealsComponent.isStudentsRemoteGetting)" class="headline-group flex-row">
+    <div id="loading-meals" class="mat-headline flex-grow-1">
+      Cafeteria Accounts
+    </div>
+  </div>
+  <div *ngIf="!(mealsComponent.isStudentsGetting || mealsComponent.isStudentsRemoteGetting) && mealsComponent.getStudentErr" class="error card-spacing">
+    {{mealsComponent.getStudentErrMsg}}
+  </div>
+  <div *ngIf="!(mealsComponent.isStudentsGetting || mealsComponent.isStudentsRemoteGetting) && !mealsComponent.getStudentErr" id="empty-meals" class="card-spacing none">
+    <h3 class="mat-subhead">You have 0 students on your account.</h3>
+    <p>
+      <button mat-raised-button aria-label="Add Students"
+              color="primary"
+              class="meals-footer-button"
+              routerLink="/account/manage-students">
+        Add Students
+      </button>
+    </p>
+  </div>
+</div>

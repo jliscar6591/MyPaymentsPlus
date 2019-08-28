@@ -1,0 +1,128 @@
+<div class="page-container">
+  <div class="show-sm show-xs hide padding-20" *ngIf="mobile">
+    <app-receipt *ngIf="showReceipt" [displayReceipt]="showReceipt"></app-receipt>
+    <div class="mobile-logo">
+      <img src="../../../assets/images/mpp-logo.png" >
+    </div>
+    <mobile-district-message></mobile-district-message>
+    <mat-grid-list cols="2" rowHeight="103px" class="grid-list" gutterSize="15px">
+      <mat-grid-tile routerLink="/meals" routerLinkActive="active" *ngIf="!openMeals" class="tile" matTooltip="Show Cafeteria Accounts">
+        <div>
+          <img src="../../../assets/images/icons/icons8-fork-and-knife-crossed-64.png" class="tile-pic">
+        </div>
+        <mat-grid-tile-footer>
+          Cafeteria Accounts
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      <mat-grid-tile routerLink="/account" routerLinkActive="active" class="tile" matTooltip="Show My Account">
+        <div>
+          <img src="../../../assets/images/icons/icons8-customer-64.png" class="tile-pic">
+        </div>
+        <mat-grid-tile-footer>
+          My Account
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      <mat-grid-tile routerLink="/fees" routerLinkActive="active" *ngIf="districtHasActivities && districtHasFees" class="tile" matTooltip="Show Fees"> 
+        <div>
+          <img src="../../../assets/images/icons/icons8-survey-64.png" class="tile-pic">
+        </div>
+        <mat-grid-tile-footer>
+          Fees
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      <mat-grid-tile routerLink="/fees" routerLinkActive="active" *ngIf="!districtHasActivities && districtHasFees" class="tile" matTooltip="Show Fees" [colspan]="1" [rowspan]="1">
+        <div>
+          <img src="../../../assets/images/icons/icons8-survey-64.png" class="tile-pic">
+        </div>
+        <mat-grid-tile-footer>
+          Fees
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      <mat-grid-tile routerLink="/activities" routerLinkActive="active" *ngIf="districtHasFees && districtHasActivities && showActivities" class="tile" matTooltip="Show Events & Activities">
+        <div>
+          <img src="../../../assets/images/icons/icons8-health-calendar-64.png" class="tile-pic">
+        </div>
+        <mat-grid-tile-footer>
+          Events & Activities
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      <mat-grid-tile routerLink="/activities" routerLinkActive="active" *ngIf="!districtHasFees && districtHasActivities && showActivities" class="tile" matTooltip="Show Events & Activities" [colspan]="1" [rowspan]="1">
+        <div>
+          <img src="../../../assets/images/icons/icons8-health-calendar-64.png" class="tile-pic">
+        </div>
+        <mat-grid-tile-footer>
+          Events & Activities
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      <mat-grid-tile routerLink="/orientations" class="tile" matTooltip="Show Documents" *ngIf="districtHasOrientations" [colspan]="1" [rowspan]="1">
+        <div>
+          <img src="../../../assets/images/icons/icons8-preview-file-64.png" class="tile-pic">
+        </div>
+        <mat-grid-tile-footer>
+          Documents
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      <mat-grid-tile routerLink="/exams" class="tile" matTooltip="Show Exams" *ngIf="districtHasExams" [colspan]="1" [rowspan]="1">
+        <div>
+          <img src="../../../assets/images/icons/icons8-task-planning-64.png" class="tile-pic">
+        </div>
+        <mat-grid-tile-footer>
+          AP Exams
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      <mat-grid-tile routerLink="/feedback" *ngIf=" !districtHasFees && districtHasActivities" class="tile" matTooltip="Show Feedback Options" [colspan]="1" [rowspan]="1">
+        <div>
+          <img src="../../../assets/images/icons/icons8-comments-64.png" class="tile-pic">
+        </div>
+        <mat-grid-tile-footer>
+          Give Us Feedback!
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      <mat-grid-tile routerLink="/feedback" *ngIf=" !districtHasActivities && districtHasFees" class="tile" matTooltip="Show Feedback Options" [colspan]="1" [rowspan]="1">
+        <div>
+          <img src="../../../assets/images/icons/icons8-comments-64.png" class="tile-pic">
+        </div>
+        <mat-grid-tile-footer>
+          Give Us Feedback!
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      <!-- <mat-card routerLink="/nutrislice" routerLinkActive="active" *ngIf="!openNutrislice" class="tile" matTooltip="Show Nutrislice Menus">
+    <mat-card-header class="header">
+      <mat-card-title class="title">
+        Nutrislice Menus
+      </mat-card-title>
+      <mat-icon>shutter_speed</mat-icon>
+    </mat-card-header>
+    <mat-card-content>
+  </mat-card-content>
+  </mat-card> -->
+      <!--<app-nutrislice *ngIf="openNutrislice"></app-nutrislice>-->
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="103px" gutterSize="15px" class="feedback-tile">
+      <mat-grid-tile routerLink="/feedback" *ngIf="(districtHasFees && districtHasActivities) || (!districtHasFees && !districtHasActivities) && !openFeedback" class="tile" matTooltip="Show Feedback Options" [colspan]="2" [rowspan]="1">
+        <!--Give Us Feedback!
+    <mat-icon>feedback</mat-icon>-->
+        <div>
+          <img src="../../../assets/images/icons/icons8-comments-64.png" class="tile-pic">
+          <!--<img src="https://img.icons8.com/ultraviolet/40/000000/feedback.png">-->
+        </div>
+        <mat-grid-tile-footer>
+          Give Us Feedback!
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  <div class="flex-row padding-20" *ngIf="!mobile">
+    <!--<app-receipt *ngIf="showReceipt" [displayReceipt]="showReceipt"></app-receipt>-->
+    <div>
+      <meals id="meals" class="flex-grow-1 show-gt-sm hide"></meals>
+      <fees *ngIf="districtHasFees && showFees"></fees>
+    </div>
+    <div id="right-column" class="show-gt-sm hide">
+      <district-message></district-message>
+      <div *ngIf="isBonusSchedule"><app-bonus-ad></app-bonus-ad></div>
+      <!--<app-nutrislice></app-nutrislice>-->
+      <feedback></feedback>
+    </div>
+  </div>
+</div>

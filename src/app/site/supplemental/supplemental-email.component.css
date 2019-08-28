@@ -1,0 +1,43 @@
+﻿#offline-email-message {
+    margin: 16px 0 0 0;
+    padding: 7px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.textarea {
+    min-height: 100px;
+}
+
+#container-content {
+    margin: auto;
+    width: 100%;
+}
+
+@media(min-width: 600px) and (max-width: 959px) {
+    #offline-email-card {
+        width: 90vw;
+        min-height: 100px;
+    }
+}
+
+@media(max-width: 960px) {
+    #container-content {
+        margin-top: 64px;
+    }
+}
+
+@media(min-width: 960px) {
+    #offline-email-card {
+        width: 700px;
+        min-height: 100px;
+        margin: auto;
+    }
+}
+
+@media(max-height: 900px) and (min-width: 960px){
+    #container-content {
+        padding-top: 64px;
+    }
+}

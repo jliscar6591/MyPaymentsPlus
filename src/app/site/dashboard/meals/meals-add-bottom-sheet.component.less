@@ -1,0 +1,94 @@
+.name {
+  font-size: x-large;
+  padding-top: 15px;
+}
+
+.name-line{
+  display: flex;
+  justify-content: space-between;
+}
+
+.category-name {
+  font-size: medium;
+}
+
+.balances {
+  font-size: x-large;
+}
+
+.text-balance-date {
+  padding-bottom: 40px;
+}
+
+.error-message {
+  color: red;
+  display: flex;
+  justify-content: center;
+
+}
+
+.grid-list {
+  padding-bottom: 10px;
+}
+
+.grid-tile {
+  height: 93%;
+  width: 93%;
+  color: rgba(46,125,50,1);
+  background-color: rgba(197,225,165,1);
+}
+
+.quick-pay-button {
+  height: 95%;
+  width: 95%;
+}
+
+.add-to-cart {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.balance-list {
+  display: flex;
+  flex-flow: column;
+}
+
+.pending-chips {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-to-cart-button {
+  width: 100%;
+}
+
+.quick-pay-message {
+  display: flex;
+  justify-content: center;
+  color: rgba(33,150,243,1);
+}
+
+.add-card {
+  padding-bottom: 30px;
+  margin-bottom: 50px;
+}
+
+@media(max-height: 750px) {
+
+  .text-balance-date {
+    padding-bottom: 10px;
+  }
+
+  .add-card {
+    padding-bottom: 30px;
+    margin-bottom: unset;
+  }
+}
+
+@media (min-width:600px) and (max-width:900px){
+  form {
+    display: flex;
+    justify-content: space-evenly;
+}
+}

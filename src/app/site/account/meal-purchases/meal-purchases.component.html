@@ -1,0 +1,122 @@
+<div class="page-container">
+  <mat-card class="card-spacing" *ngIf="isStudentGetting">
+    <mat-card-title id="smpTitle">
+      Student Meal Purchases
+      <mat-spinner strokeWidth="1" diameter="25">Loading... </mat-spinner>
+    </mat-card-title>
+  </mat-card>
+  <mat-card class="card-spacing" *ngIf="!isStudentGetting">
+    <mat-card-title>
+      Student Meal Purchases
+      <div *ngIf="!isStudentGetting && getStudentErr" class="error card-spacing">
+        {{getStudentErrMsg}}
+      </div>
+    </mat-card-title>
+    <!-- Student Tabs -->
+    <mat-card-content *ngIf="!isStudentGetting && !getStudentErr">
+      <div *ngIf="!isStudent">
+        <p class="well">You have 0 students added to your account. You must have students to view meal purchases.</p>
+        <div class="card-footer-action">
+          <button aria-label="Add Students" mat-raised-button color="primary" routerLink="/account/manage-students" routerLinkActive="active">Add Students</button>
+        </div>
+      </div>
+      <!-- There are some students -->
+      <mat-tab-group *ngIf="isStudent && !isMultiDistrict" [selectedIndex]="selectedIndex" (selectedTabChange)="processSelection($event)">
+        <mat-tab *ngFor="let student of activeStudents">
+          <ng-template mat-tab-label>
+            <a aria-label="Student Name" class="link-clearwrapper">{{student.firstName}}</a>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+      <mat-tab-group *ngIf="isStudent && isMultiDistrict" [selectedIndex]="selectedIndex" (selectedTabChange)="processSelection($event)">
+        <mat-tab *ngFor="let student of multiDistrictStudents">
+          <ng-template mat-tab-label>
+            <a aria-label="Student Name" class="link-clearwrapper">{{student.firstName}}</a>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+      <div *ngIf="isStudent">
+        <div class="input-container">
+          <div class="filters">
+            <form [formGroup]="activityPeriodForm" novalidate>
+              <mat-form-field class="activity-period">
+                <mat-select (selectionChange)="newSearch();"
+                            placeholder="Select Activity Period"
+                            aria-label="Select Activity Period"
+                            formControlName="activityPeriodSelector"
+                            [(ngModel)]="activityPeriodSelection">
+                  <mat-option *ngFor="let period of dateRangeSelectorService.dateRangeSelectorModel"
+                              [value]="period.value">
+                    {{period.text}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+            <form *ngIf="isCustom" [formGroup]="dateRangeForm" novalidate>
+              <mat-form-field class="start">
+                <input matInput
+                       placeholder="Start date"
+                       formControlName="startDate"
+                       [(ngModel)]="startDate"
+                       class="display-inline-block"
+                       title="Enter a date in this format MM-DD-YYYY"
+                       type="date" />
+              </mat-form-field>
+              <mat-form-field class="end">
+                <input matInput
+                       placeholder="End date"
+                       formControlName="endDate"
+                       [(ngModel)]="endDate"
+                       class="display-inline-block"
+                       title="Enter a date in this format MM-DD-YYYY"
+                       type="date" />
+              </mat-form-field>
+              <span class="alert-message" id="alertMessage"></span>
+              <button mat-raised-button
+                      (click)="dateSearch();"
+                      aria-label="Search"
+                      id="search-btn"
+                      color="primary">
+                Search
+              </button>
+            </form>
+            <mat-spinner strokeWidth="1" diameter="25" *ngIf="isPurchaseGetting">Loading... </mat-spinner>
+          </div>
+          <div *ngIf="!isPurchaseGetting && !getPurchaseErr && !isPurchase">
+            <p class="well">No purchase history available for this date range</p>
+          </div>
+          <div *ngIf="!isPurchaseGetting && getPurchaseErr" class="error card-spacing">
+            {{getPurchaseErrMsg}}
+          </div>
+          <table *ngIf="!isPurchaseGetting && !getPurchaseErr && isPurchase" class="mat-table">
+            <thead class="hide-sm hide-xs">
+              <tr>
+                <td>Payment Date</td>
+                <td>Item Purchased</td>
+                <td class="text-right">Amount</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let activity of studentMealPurchaseSearchModel.student.studentMealPurchases | paginate: { itemsPerPage: 10, currentPage: p }">
+                <td>
+                  <span class="hide-gt-sm">Date: </span>{{activity.date | date:'MM-dd-yyyy'}}
+                </td>
+                <td>
+                  <span class="hide-gt-sm"></span>{{activity.item}}
+                </td>
+                <td class="payment-amount">
+                  {{activity.amount | currency }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls *ngIf="!isPurchaseGetting && !isPurchaseErr && isPurchase"
+                               class="pagination"
+                               (pageChange)="p = $event"
+                               autoHide="true">
+          </pagination-controls>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,54 @@
+<div class="acceptance-contianer">
+  <div *ngIf="hasPaidTransFee">
+    <div class="acceptance-text">
+      <div class="acceptance-text-one">
+        <span>
+          The Balance Transfer feature is an optional feature that allows you to transfer cafeteria funds between your
+          students. It
+          also allows you to transfer funds between General and Meal lunch accounts, if your district utilizes multiple
+          accounts.
+        </span>
+        <br>
+        <span>
+          To unlock the Transfer Funds feature an annual Convenience Fee of
+        </span>
+        <span><b>2.99</b></span>
+        <span> is required. This will enable the feature for the students on your account
+          for the next 12 months, until <b>{{feeExpiresDate}}</b>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="throwTransferFeeError" class="transfer-msg">
+    Adding the transfer fee removes all the items currently in your cart. Would you like to continue?
+  </div>
+  <div class="acceptance-buttons-container" *ngIf="throwTransferFeeError">
+    <button mat-raised-button add-cart-label color="primary" aria-label="Continue" (click)="feeAccepted()">
+      Yes
+    </button>
+    <button mat-raised-button add-cart-label class="acceptance-button-cancel" aria-label="Cancel" (click)="btnClick();">
+      No
+    </button>
+  </div>
+  <div class="acceptance-checkbox-row" *ngIf="hasPaidTransFee && !throwTransferFeeError">
+    <mat-checkbox color="primary" aria-label="Accept Fee" (change)="feeAccepted()">
+      Click to accept convenience fee and proceed to transfer funds.
+    </mat-checkbox>
+  </div>
+  <div class="acceptance-fee-spinner" *ngIf="!hasPaidTransFee">
+    <mat-spinner strokeWidth="2" diameter="35" class="spinner-inline spinner-button spinner-button-center"
+      aria-label="Going To Shopping Cart">
+    </mat-spinner>
+    <span class="acceptance-fee-spinner-text">Going To Shopping Cart.......</span>
+  </div>
+  <br>
+  <div class="acceptance-buttons-container" *ngIf="!throwTransferFeeError">
+    <button mat-raised-button add-cart-label color="primary" aria-label="Continue" [disabled]="!isValid"
+      (click)="updateCart()">
+      Continue
+    </button>
+    <button mat-raised-button add-cart-label class="acceptance-button-cancel" aria-label="Cancel" (click)="btnClick();">
+      Cancel
+    </button>
+  </div>
+</div>

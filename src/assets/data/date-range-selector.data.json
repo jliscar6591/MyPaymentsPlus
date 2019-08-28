@@ -1,0 +1,19 @@
+[
+  {
+    "value": 7,
+    "text": "Last week"
+  },
+  {
+    "value": 30,
+    "text": "Last month"
+  },
+  {
+    "value": 180,
+    "text": "Last 6 months"
+  },
+  {
+    "value": 0,
+    "text": "Custom"
+  }
+
+]

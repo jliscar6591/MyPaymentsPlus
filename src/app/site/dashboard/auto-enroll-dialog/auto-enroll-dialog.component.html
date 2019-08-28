@@ -1,0 +1,80 @@
+<mat-card>
+  <mat-toolbar class="toolbar">
+    Suggested Fees & Activities
+  </mat-toolbar>
+  <div class="message">
+    These items have been recommended for you by your school district. Select items you would like to add to the cart:
+  </div>
+  <!--<div class="select-all">
+  <button mat-raised-button color="primary" (click)="selectAllItems()">Select All</button>
+</div>-->
+  <mat-selection-list *ngIf="listReady && autoFeesList.length > 0" #fees
+    (selectionChange)="onSelectionFees($event, fees.selectedOptions)">
+    <div *ngFor="let item of autoFeesList, let i = index" class="container">
+      <div class="list-option">
+        <div class="left">
+          <div class="left-top" (click)="openBottomSheet(item)">
+            {{item.feeName}}
+          </div>
+          <div class="left-btm">
+            &nbsp;
+            <mat-chip-list>
+              <mat-chip class="chip">
+                {{item.name}}
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="amount">
+          {{item.amount | currency}}
+        </div>
+        <mat-list-option *ngIf="!selectAll" [value]="item" name="option"></mat-list-option>
+        <mat-list-option *ngIf="selectAll" [value]="item" name="option" [selected]="true"></mat-list-option>
+      </div>
+    </div>
+  </mat-selection-list>
+
+  <mat-selection-list *ngIf="listReady && autoCartList.length > 0" #activities
+    (selectionChange)="onSelectionActivities($event, activities.selectedOptions)">
+    <div *ngFor="let item of autoCartList, let i = index" class="container">
+      <div class="list-option">
+        <div class="left">
+          <div class="left-top" (click)="openBottomSheet(item)">
+            {{item.activityName}}
+          </div>
+          <div *ngIf="autoCartList[i].activityFormId" class="required">
+            *Activity requires a form
+          </div>
+          <div class="left-btm">
+            &nbsp;
+            <mat-chip-list>
+              <mat-chip class="chip">
+                {{item.studentName}}
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="amount">
+          {{item.amount | currency}}
+        </div>
+        <mat-list-option *ngIf="!selectAll" [value]="item" name="option"></mat-list-option>
+        <mat-list-option *ngIf="selectAll" [value]="item" name="option" [selected]="true"></mat-list-option>
+      </div>
+    </div>
+  </mat-selection-list>
+</mat-card>
+
+<div *ngIf="selectedAll.length > 0" class="total">
+  Total : {{selectedAllTotal | currency}}
+</div>
+
+<div class="actions" *ngIf="listReady">
+  <!-- <button mat-raised-button color="primary" *ngIf="selectedAll.length > 0" (click)="addAutoEnrolledItems()">Add
+    Selected</button> -->
+  <button mat-raised-button color="primary" (click)="onNoClick()">Continue to
+    Dashboard</button>
+</div>

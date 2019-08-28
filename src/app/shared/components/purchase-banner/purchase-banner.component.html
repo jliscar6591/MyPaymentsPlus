@@ -1,0 +1,13 @@
+<div *ngIf="show" id="purchase-banner-wrapper">
+    <div id="purchase-banner">
+        <div class="float-right">
+            <button mat-icon-button (click)="closeBanner()" aria-label="Close purchase banner"><mat-icon class="close">close</mat-icon></button>
+        </div>
+        <div id="banner-title" class="flex-row">
+            <span><b>Thank you</b> for your purchase</span>
+        </div>
+        <div id="banner-content" *ngFor="let transactions of purchaseBannerService.confirmation">
+            Confirmation #: <b>{{ transactions.confirmationNumber }}</b>
+        </div>
+    </div>
+</div>

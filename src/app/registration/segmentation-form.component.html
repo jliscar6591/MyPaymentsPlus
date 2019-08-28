@@ -1,0 +1,46 @@
+<img mat-card-image  src="../../assets/images/registration/registration-banner-relationship.png" alt="Flag congratulating you for creating an account" class="hide-xs registration-banner">
+<mat-card-title>
+    <div class="mat-headline">Your Account has been Created!</div>
+</mat-card-title>
+<mat-card-content>
+    <p>
+        We've sent a welcome email to the address you provided.
+    </p>
+    <p>
+        This site will work best if we know your relationship with <b>{{districtLoginDerivedService.districtName}}</b><br />(Check all that apply)
+    </p>
+    <form [formGroup]="relationshipForm" novalidate class="flex-column">
+        <!-- Form fields... -->
+        <div>
+            <p>
+                <mat-checkbox formControlName="parent" [(ngModel)]="relationships.isParent" (selectionChange)="checkGuestUser()" color="primary" aria-label="I am a Parent or Guardian with students checkbox">
+                    I am a <b>Parent or Guardian</b> with student(s) in {{districtLoginDerivedService.districtName}}
+                </mat-checkbox>
+            </p>
+            <p>
+                <mat-checkbox formControlName="student" [(ngModel)]="relationships.isStudent" (selectionChange)="checkGuestUser()" color="primary" aria-label="I am a Student in the district checkbox">
+                    I am a <b>Student</b> in the district
+                </mat-checkbox>
+            </p>
+            <p>
+                <mat-checkbox formControlName="staff" [(ngModel)]="relationships.isStaff" (selectionChange)="checkGuestUser()" color="primary" aria-label="I work in the district as a staff member checkbox">
+                    I work in the district (<b>Staff Member</b>)
+                </mat-checkbox>
+            </p>
+            <p>
+                <mat-checkbox formControlName="guest" [(ngModel)]="relationships.isGuest" (selectionChange)="checkGuestUser()" color="primary" aria-label="I am a Guest interested in district activities and/or I want to support the district checkbox">
+                    I'm a <b>Guest</b> interested in district activities and/or I want to support the district
+                </mat-checkbox>
+            </p>
+        </div>
+        <div *ngIf="formError && !relationshipForm.valid" class="form-inline-validation error">
+            At least 1 selection is required.
+        </div>
+        <div class="card-actions-right">
+            <button mat-raised-button color="primary" type="button" aria-label="Next" class="card-button-right" (click)="saveRelationship()">
+                <span *ngIf="!isGuestUser">Next</span>
+                <span *ngIf="isGuestUser">Done</span>
+            </button>
+        </div>
+    </form>
+</mat-card-content>

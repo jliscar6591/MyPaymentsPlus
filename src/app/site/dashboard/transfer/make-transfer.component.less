@@ -1,0 +1,420 @@
+@import "../../../../colors.less";
+.transfer-container {
+  width: 98%;
+  margin: 23px auto 12px auto;
+  max-width: 1024px;
+  //height: 695px;
+ // min-height: 100vh;
+  //border: 2px solid @mppGold;
+}
+.make-transfer-container {
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: 403px;
+  margin: 0px auto;
+
+
+
+  .transfer-account-container {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    flex: 0 1 auto;
+    width: 43%;
+    margin: 5px 10px;
+
+    .transfer-account-name {
+      font-size: 1.25em;
+      font-weight: bold;
+      display: flex;
+      height: 28px;
+    }
+
+    .transfer-account-date {
+      font-size: .95em;
+      color: #989898;
+    }
+  }
+
+  .transfer-title {
+    display: flex;
+    flex-flow: row;
+    flex: 0 1 auto;
+    justify-content: center;
+    width: 100%;
+    font-weight: bold;
+    margin: 10px auto;
+    min-width: 300px;
+  }
+
+  .transfer-from-container {
+    display: flex;
+    flex-flow: row;
+    flex: 0 1 auto;
+    justify-content: space-between;
+    width: 100%;
+    // font-weight: bold;
+    margin: 10px 0px;
+    font-size: .90em;
+    max-width: 291px;
+
+    .transfer-label {
+      color: @primaryColor;
+      font-weight: 400;
+    }
+  }
+
+  .transfer-from-balance {
+    display: flex;
+    flex-flow: row;
+    flex: 0 1 auto;
+    justify-content: space-between;
+    width: 75%;
+    font-weight: bold;
+    margin: 10px 14px;
+
+    .transfer-label {
+      color: @primaryColor;
+    }
+
+    .transfer-from-pending {
+      color: @badMojoColor;
+      font-style: italic;
+      font-weight: bold;
+    }
+  }
+
+  .transfer-divider {
+    border-bottom: 1px solid darkgrey;
+    display: flex;
+    flex-flow: row;
+    flex: 0 1 auto;
+    width: 100%;
+    margin: 25px auto 15px auto;
+    max-width: 280px;
+  }
+
+  .transfer-to-container {
+    display: flex;
+    flex-flow: row;
+    flex: 0 1 auto;
+    justify-content: space-between;
+    width: 100%;
+    // font-weight: bold;
+    margin: 25px 0px;
+    max-width: 383px;
+
+    form {
+      width: 100%;
+    }
+
+    .transfer-to-row {
+      display: flex;
+      flex-flow: row;
+      flex: 0 1 auto;
+      width: 94%;
+      max-width: 299px;
+      justify-content: space-between;
+      align-items: center;
+      margin: -10px 0px 25px 17px;
+
+      .transfer-to-selector {
+        width: 257px !important;
+        font-size: .85em !important;
+
+        .mat-select-value-text {
+          font-size: .95em !important;
+        }
+
+        .transfer-to-option {
+          font-size: .95em;
+        }
+      }
+    }
+
+    .transfer-to-balance {
+      display: flex;
+      flex-flow: row;
+      flex: 0 1 auto;
+      width: 74%;
+      justify-content: space-between;
+    }
+
+    .divider-container {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      flex: 0 1 auto;
+      width: 98%;
+      margin: 38px auto 38px 2%;
+      max-width: 460px;
+
+      .transfer-divider-to {
+        display: flex;
+        width: 100%;
+        border-bottom: 1px solid lightgray;
+      }
+    }
+
+    .transfer-label {
+      color: @primaryColor;
+      font-weight: 400;
+    }
+
+    .transfer-label-padding {
+      padding-right: 10px;
+      font-size: .90em;
+    }
+
+    .transfer-to-pending {
+      font-style: italic;
+      font-weight: bold;
+    }
+
+    .transfer-amount-container {
+      display: flex;
+      flex-flow: column;
+      flex: 0 1 auto;
+      width: 100%;
+      justify-content: flex-end;
+      align-items: center;
+      max-width: 320px;
+      margin: 0px auto;
+      // padding-left: 15px;
+      .transfer-amount-label-to {
+        display: flex;
+        margin: 0px auto;
+        width: 62%;
+      }
+
+      .transfer-amount-input {
+        width: 205px;
+        margin: 0px auto;
+        display: flex;
+        flex: 0 1 auto;
+        text-align: center;
+      }
+    }
+  }
+
+  .transfer-buttons-container {
+    display: flex;
+    flex: 0 1 auto;
+    flex-flow: column;
+    width: 97%;
+    justify-content: space-around;
+    height: 101px;
+    max-width: 274px;
+    margin: 0px 35px;
+
+
+    .transfer-button-cancel {
+      background-color: #ffffff;
+    }
+  }
+
+  .transfer-error {
+    display: flex;
+    flex-flow: row wrap;
+    flex: 0 1 auto;
+    width: 75%;
+    font-size: .80em;
+    margin: 0px auto;
+  }
+}
+
+@media all and (max-width: 767px){
+  .transfer-buttons-container {
+    margin: 0px auto !important;
+  }
+ 
+}
+
+@media all and (min-width: 768px){
+  .transfer-container {
+    margin: 27px auto;
+
+    .make-transfer-container {
+      font-size: 1.25em;
+      max-width: 705px;
+
+
+      .transfer-title {
+        min-width: 745px;
+      }
+
+      .transfer-from-container {
+        //width: 63%;
+        max-width: 405px;
+        font-size: .80em;
+
+
+        .transfer-from-name {
+          margin: 0px auto;
+        }
+      }
+
+      .transfer-divider {
+        margin: 25px 220px 15px 220px;
+        max-width: 311px;
+      }
+
+      .transfer-to-container {
+        // margin: 25px auto;
+        max-width: 401px;
+
+        .transfer-to-row {
+          // width: 69% !important;
+          max-width: 335px !important;
+
+
+          .transfer-to-selector {
+            //width: 302px !important;
+            //font-size: .90em !important;
+          }
+        }
+
+        .transfer-to-option {
+          font-size: .95em;
+        }
+
+        .divider-container {
+          // margin: 38px 143px;
+          // max-width: 315px;
+          display: none;
+        }
+      }
+
+      .transfer-amount-container {
+        max-width: 540px !important;
+        margin: -10px 92px 0px 92px;
+
+        .transfer-amount-input {
+          width: 100%;
+          margin: 0px 0px;
+          font-size: .90em;
+        }
+      }
+
+      .transfer-to-option {
+        font-size: .95em;
+      }
+    }
+
+    .transfer-buttons-container {
+      flex-flow: row;
+      height: 51px;
+      max-width: 274px;
+      margin: 0px 0px 0px auto;
+    }
+  }
+
+  mat-option.transfer-to-option {
+    font-size: .80em;
+  }
+ }
+.option-padding-one {
+  padding-right: 10px;
+}
+
+.option-padding-two {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+@media all and (min-width: 960px){
+  .transfer-container {
+    height: 630px;
+    margin: 10px auto;
+
+    .make-transfer-container {
+      //font-size: 1.25em;
+      max-width: 960px;
+
+
+      .transfer-account-container {
+        flex-flow: column;
+        align-items: flex-start;
+        flex: 0 1 auto;
+        width: 88%;
+
+        .transfer-title {
+          min-width: 804px;
+        }
+      }
+
+      .transfer-from-container {
+      }
+
+      .transfer-from-balance {
+        justify-content: space-between;
+        width: 27%;
+        margin: 59px auto 10px -215px;
+      }
+
+      .transfer-divider, .divider-container {
+        display: none;
+      }
+
+      .transfer-divider-to {
+        display: none !important;
+      }
+
+      .transfer-to-container {
+        // margin: 25px 0px;
+        max-width: 562px;
+
+
+        .transfer-to-row {
+          //margin: -5px 0px 0px 0px;
+          height: 73px;
+          //max-width: 458px !important;
+        }
+      }
+
+      .transfer-amount-container {
+        width: 77% !important;
+      }
+   
+    }
+  }
+}
+
+.transfer-amount-input.mat-focus .mat-form-field-placeholder {
+  // display: none;
+  color: #FFFFFF;
+}
+
+
+
+.transfer-amount-input label.mat-focus .mat-form-field-placeholder {
+  color: #FFFFFF;
+}
+
+
+mat-placeholder:focus {
+  color: #FFFFFF;
+}
+
+mat-placeholder.transfer-placeholder:focus{
+  display: none;
+}
+
+.mat-form-field-placeholder:focus{
+  color: #ffffff;
+}
+.mat-input-element{
+  text-align:  left;
+}
+
+
+.mat-select-value-text  {
+  font-size: .85em;
+}
+
+mat-select .mat-select-value-text {
+  font-size: .85em !important;
+}

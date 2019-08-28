@@ -1,0 +1,56 @@
+@import "../../../../colors.less";
+.transfer-confirmation {
+  max-width: 768px;
+  border: 2px solid @successColor;
+  min-height: 100vh !important;
+  margin: 2px auto;
+
+  .confirmation-row {
+    width: 33%;
+    margin-left: 10px;
+    max-width: 150px;
+
+    .transfer-account-name {
+      font-size: 1.25em;
+      font-weight: bold;
+      display: flex;
+      height: 28px;
+    }
+
+    .transfer-account-date {
+      font-size: .80em;
+      color: #989898;
+    }
+  }
+
+  .confirmation-content-row {
+    width: 82%;
+    margin: 32px auto 10px auto;
+    font-size: 1.25em;
+    color: @darkSidenavColor;
+    max-width: 269px;
+    text-align: center;
+  }
+
+  .confirmation-icon-row {
+    height: 264px;
+
+    .confirmation-icon {
+      font-size: 12em;
+      color: @successColor;
+    }
+  }
+
+  .confirmation-button-row {
+    .confirmation-button {
+      background-color: @primaryColor;
+      color: #ffffff;
+      width: 90%;
+      max-width: 290px;
+    }
+  }
+
+  .center {
+    justify-content: center;
+  }
+}

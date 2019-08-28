@@ -1,0 +1,10 @@
+﻿#sidenav-module-layout {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: -webkit-calc(100% - 64px);
+    height: -moz-calc(100% - 64px);
+    height: calc(100% - 64px);
+    top: 64px; 
+}
+

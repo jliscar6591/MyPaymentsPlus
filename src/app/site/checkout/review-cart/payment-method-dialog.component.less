@@ -1,0 +1,97 @@
+@import "../../../../colors.less";
+
+.supported-cards {
+  height: 25px;
+  vertical-align: bottom;
+}
+
+#paymentMethodForm {
+  margin: 10px 0;
+}
+
+.md-title {
+  margin: 10px 0;
+}
+
+#types {
+  padding: 0 20px 0 0;
+  font-size: 14px;
+
+  .radio-margin {
+    margin: 4px auto;
+  }
+}
+
+#fields {
+  padding: 0 20px;
+  font-size: 14px;
+}
+
+#paymentMethodDialog {
+  min-width: 613px;
+}
+
+.cancel-button {
+  background-color: @lightgray;
+}
+
+.close-button {
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  background-color: lightgray;
+}
+
+.close-icon {
+  margin: 0px auto;
+  display: flex;
+}
+
+.select-month {
+  width: 146px;
+}
+
+.select-year {
+  width: 140px;
+}
+
+.input-margin {
+  margin: 0px !important;
+}
+
+.city-state-container {
+  width: 36%;
+  max-width: 200px;
+}
+
+
+@media(max-width: 599px) {
+  #types, #fields {
+    padding: 0;
+  }
+
+  #types {
+    margin-bottom: 8px;
+  }
+}
+
+@media(max-width: 959px) {
+  #paymentMethodDialog {
+    min-width: inherit;
+    max-height: 450px;
+    overflow-y: scroll;
+  }
+}
+
+#paymentMethodForm {
+  max-width: 800px;
+}
+
+
+#cdk-overlay-0 {
+  overflow: scroll;
+  max-width: 85vw !important;
+}
+
+.my-class {
+  overflow: scroll;
+  max-width: 85vw !important;
+}

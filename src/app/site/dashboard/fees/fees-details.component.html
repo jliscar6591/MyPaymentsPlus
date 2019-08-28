@@ -1,0 +1,65 @@
+
+<mat-card *ngFor="let student of feesList, let i = index" id="fees-list" class="card-spacing none">
+  <div class="child-name">
+    {{student.name}}
+  </div>
+  <div *ngFor="let feeDetails of student.fees, let j = index" class="feeDetails">
+    <mat-card-title class="card-title">
+      <div class="feeTitle">
+        <span (click)="formatFeeDetails(student.studentKey, feeDetails.feeTransactionKey)">{{feeDetails.feeName}}</span>
+      </div>
+      <div class="subtitle">
+        <div class="text-balance-date" *ngIf="feeDetails.dueDate !== null">
+          due by {{feeDetails.dueDate}}
+        </div>
+        <div class="text-balance-date" *ngIf="feeDetails.dueDate === null">
+          due by {{feeDetails.partialPayDue}}
+        </div>
+      </div>
+    </mat-card-title>
+    <mat-card-content class="rightSide">
+      <div class="spacer">
+      </div>
+      <div class="dueSoonWrapper">
+        <div *ngIf="feeDetails.notificationType === 0"></div>
+        <mat-chip-list>
+          <mat-chip *ngIf="feeDetails.notificationType === 1" id="newChip">New</mat-chip>
+          <mat-chip *ngIf="feeDetails.notificationType === 2" id="dueSoonChip" selected>Due soon</mat-chip>
+          <mat-chip *ngIf="feeDetails.notificationType === 3" color="warn" selected>Past Due</mat-chip>
+        </mat-chip-list>
+      </div>
+      <div *ngIf="feeDetails.isInCart && !feeDetails.supportsPartialPay" class="inCartAmount">
+        <i>({{feeDetails.amountInCart | currency }} in cart)</i>
+      </div>
+      <div *ngIf="feeDetails.isInCart && feeDetails.supportsPartialPay" class="inCartAmountPartial">
+        <i>({{feeDetails.amountInCart | currency}} in cart)</i>
+      </div>
+      <div>
+        <form [formGroup]="feesForm">
+          <mat-form-field *ngIf="feeDetails.supportsPartialPay && !feeDetails.isInCart" class="fee-amount-wrapper">
+            <input type="number"
+                   value=""
+                   formControlName="feeAmount"
+                   matInput
+                   class="feeAmount"
+                   placeholder="{{feeDetails.amountToPay | currency }} remaining">
+            <mat-hint id="{{'amount' +i+j}}" align="start"></mat-hint>
+          </mat-form-field>
+        </form>
+      </div>
+      <div *ngIf="!feeDetails.supportsPartialPay && !feeDetails.isInCart" class="feePrice">{{feeDetails.amount | currency }}</div>
+      <div *ngIf="!feeDetails.supportsPartialPay && feeDetails.isInCart" class="feePriceSelected">{{feeDetails.amount | currency}}</div>
+      <div *ngIf="feeDetails.isInCart && feeDetails.supportsPartialPay" class="edit">
+        <button mat-raised-button class="add-button" color="primary" (click)="editAmount(i,j)" type="submit">Edit</button>
+      </div>
+      <div *ngIf="!feeDetails.isInCart && feeDetails.supportsPartialPay" class="add2cart">
+        <button mat-raised-button class="add-button" color="primary" (click)="addCartItemPartial(i, j)" type="submit">Add to Cart</button>
+      </div>
+      <div *ngIf="!feeDetails.isInCart && !feeDetails.supportsPartialPay" class="add2cart">
+        <button mat-raised-button class="add-button" color="primary" (click)="addCartItem(i, j)" type="submit">Add to Cart</button>
+      </div>
+    </mat-card-content>
+  </div>
+</mat-card>
+
+

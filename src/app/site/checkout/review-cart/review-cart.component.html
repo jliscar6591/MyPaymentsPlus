@@ -1,0 +1,154 @@
+<page-loading></page-loading>
+<div class="page-container">
+  <div class="padding-20">
+    <div class="flex-row-gt-sm headline-group flex-grow-1 hide-sm hide-xs">
+      <span class="md-headline">Checkout</span>
+      <span *ngIf="loadingPayments || isCartItemsGetting" class="md-caption">&nbsp;Loading summary <mat-spinner strokeWidth="1" diameter="25">Loading...</mat-spinner></span>
+      <div *ngIf="supportAvailable" class="flex-grow-1 live-chat text-right">
+        <button mat-raised-button color="primary" onclick="window.open('https://lc.chat/now/6285751/', '', 'width=200,height=100')">
+          Live Chat Now!
+        </button>
+      </div>
+      <div *ngIf="!supportAvailable" class="flex-grow-1 text-right">
+        Need help? <a routerLink="/contact-offline" class="link"> Email support now</a>
+      </div>
+    </div>
+    <div class="flex-row-gt-sm flex-column-sm flex-column-xs">
+      <div id="review-cart">
+        <mat-card id="payment-methods" *ngIf="!isCartItemsGetting" class="card-spacing">
+          <mat-card-title-group>
+            <mat-card-title>
+              Payment Methods
+            </mat-card-title>
+            <div *ngIf="!loadingPayments && getWalletsErr" class="error card-spacing">
+              {{getWalletsErrMsg}}
+            </div>
+          </mat-card-title-group>
+          <mat-card-content *ngIf="!getWalletsErr">
+            <!-- Payment method list -->
+            <div *ngIf="!addPayment && !editPayment">
+              <div *ngIf="!hasWallets" class="well">
+                <p>You have 0 payment methods added to your account.</p>
+              </div>
+              <div fxLayout="row" fxLayoutGap="2px" *ngIf="hasWallets && paymentMethodService.result" id="paymentsList" class="md-table review-pay-table">
+                <div fxLayout="row" class="hide-sm hide-xs paymentslist-header-row">
+                  <span class="paymentslist-col1"></span>
+                  <span class="paymentlist-col2">Name</span>
+                  <span>Expiration</span>
+                </div>
+                <div class="paymentsList-body">
+                  <div fxLayout="row" *ngFor="let payment of paymentMethodService.paymentMethods; let i = index"
+                       (click)="selectPayment(payment)"
+                       [ngClass]="{'inactive':payment.isExpired ,'payment-row-selected':payment == this.selectedPaymentMethod}"
+                       class="cursor-pointer paymentList-row">
+                    <div fxLayout="column" fxFlex="40" class="paymentslist-col1">
+                      <div class="flex-row flex-children-center payment-radio">
+                        <mat-radio-button [checked]="payment == selectedPaymentMethod"
+                                          (click)="selectPayment(payment)"
+                                          aria-label="This is the default payment method"
+                                          class="primary-method-cell"
+                                          [disabled]="(payment.walletType == 'CreditCard' && payment.isExpired) || (utilityService.isAchBlocked(loginResponse) && utilityService.isAch(payment.walletKey, paymentMethodService.paymentMethods))">
+
+                        </mat-radio-button>
+                        <div class="payment-details">
+                          <span *ngIf="payment.accountType.toLocaleLowerCase() != 'checking' && payment.accountType.toLocaleLowerCase() != 'savings'" class="flex-row flex-children-center payment-card-image">
+                            <img src="../../../../assets/images/cards/{{payment.accountType.toLocaleLowerCase()}}.jpg" class="single-cardtype"> <span>&nbsp;&nbsp;*<b>{{payment.accountTail}}</b></span>
+                          </span>
+                          <span *ngIf="payment.accountType.toLocaleLowerCase() === 'checking'" class="">
+                            Checking *<b>{{payment.accountTail}}</b>
+                            <span *ngIf="utilityService.isAchBlocked(loginResponse)" class="pill pill-primary">Blocked</span>
+                          </span>
+
+                          <span *ngIf="payment.accountType.toLocaleLowerCase() === 'savings'">
+                            Savings *<b>{{payment.accountTail}}</b>
+                            <span *ngIf="utilityService.isAchBlocked(loginResponse)" class="pill pill-primary">Blocked</span>
+                          </span>
+
+                          <div class="payment-nickname">
+                            {{payment.walletNickname}}
+                          </div>
+                        </div>
+                      </div>
+
+                    </div><!--End of first Col-->
+                    <div fxLayout="column" fxFlex="42" class="payment-name">
+                      {{ payment.accountHolderName }}
+                    </div><!--End of Second Col-->
+                    <div fxLayout="column" fxFlex="33" class="payment-expiration">
+                      <span *ngIf="payment.walletType == 'CreditCard'">
+                        <span *ngIf="!payment.isExpired">
+                          {{ payment.expiryMonth }} / {{ payment.expiryYear }}
+                        </span>
+                        <span *ngIf="payment.isExpired">
+                          Expired
+                        </span>
+                      </span>
+                    </div><!--End of Third Col-->
+                  </div><!--End of Row-->
+                </div><!--End of Table Body-->
+              </div><!--End of table-->
+            </div>
+            <div id="newPaymentMethod">
+              <a (click)="showMethodDialog()" class="link cursor-pointer">+ Pay with another method</a>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <!-- Shopping cart -->
+        <shopping-cart [cartItem]="cartItem" *ngIf="!isCartItemsGetting && isReview"></shopping-cart>
+      </div>
+      <!-- Order summary -->
+
+      <mat-card id="summary" class="card-spacing" *ngIf="!isCartItemsGetting && isReview">
+        <mat-card-title>
+          Order Summary
+        </mat-card-title>
+        <mat-card-content>
+          <ul id="summary-list" *ngIf="checkOutItem && isReview">
+            <li class="flex-row flex-fill equal">
+              <label>Subtotal</label>
+              <span>{{checkOutItem["subTotal"] | currency}}</span>
+            </li>
+            <li class="flex-row flex-fill equal">
+              <label>Program Fee</label>
+              <span>{{checkOutItem["consumerFeeTotal"] | currency}}</span>
+            </li>
+            <li class="flex-row flex-fill equal" *ngIf="checkOutItem['totalTax']">
+              <label>Sales Tax</label>
+              <span>{{checkOutItem["totalTax"] | currency}}</span>
+            </li>
+            <li class="flex-row flex-fill equal">
+              <label>Grand Total</label>
+              <span id="total">{{checkOutItem["total"] | currency }}</span>
+            </li>
+          </ul>
+          <div *ngIf="processPaymentError" class="form-inline-validation error">
+            {{ processErrorMessage }}
+          </div>
+          <div *ngIf="checkOutItem && isReview">
+            <form [formGroup]="discountCodeForm" *ngIf="checkOutItem.isDiscountAvailable && isReview">
+              <mat-form-field class="example-form-field">
+                <input matInput placeholder="Enter discount code" formControlName="discount">
+                <button mat-button matSuffix mat-icon-button aria-label="add" (click)="applyDiscount();">
+                  <mat-icon>add</mat-icon>
+                </button>
+                <mat-hint *ngIf="discountError" class="discountError">{{discountErrorMsg}}</mat-hint>
+                <mat-hint *ngIf="noMoreDiscounts" class="discountError">Only one discount can be applied at a time</mat-hint>
+              </mat-form-field>
+              <div *ngIf="discountsApplied" class="discountsApplied">
+                Discount Applied <mat-icon>check_circle</mat-icon>
+              </div>
+            </form>
+          </div>
+          <br />
+          <button mat-raised-button color="primary" (click)="prepareToPay()" aria-label="Pay for Order" class="xlarge-button button-width-100">Pay for Order</button><br />
+          <br />
+          <div *ngIf="selectPaymentErr" class="form-inline-validation error">
+            {{selectPaymentErrMsg}}
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <app-receipt *ngIf="showReceipt" [displayReceipt]="showReceipt"></app-receipt>
+</div>
+

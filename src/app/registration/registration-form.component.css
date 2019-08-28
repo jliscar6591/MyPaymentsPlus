@@ -1,0 +1,36 @@
+#register-card {
+    width: 500px;
+    margin: auto;
+ }
+
+#container {
+    flex-grow: 1;
+}
+
+#container-content {
+    margin: 64px auto auto auto;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+
+
+@media(max-width: 599px){
+    #register-card {
+        width: auto;
+    }
+
+    #container-content {
+        margin: 64px 0 0 0;
+    }
+
+}
+
+@media(max-height: 700px){
+    #container-content {
+        display: block;
+        flex: none;
+    }
+}

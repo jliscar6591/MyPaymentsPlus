@@ -1,0 +1,199 @@
+@import '../../../colors.less';
+
+.flex {
+  display: flex;
+  justify-content: space-around;
+
+  .ticket {
+    max-width: 250px;
+    max-height: 250px;
+    padding: 0px 6px 6px 0px;
+  }
+
+  .close-btn-conatiner {
+    display: flex;
+    margin: -9px;
+
+    .close-btn {
+      color: black;
+      background-color: white;
+    }
+  }
+}
+
+.activity-amount{
+  font-size: 34px !important;
+}
+
+.ticket-mobile {
+  height: 40px;
+  width: 40px;
+}
+
+.activity-title-container {
+  display: flex;
+  justify-content: space-between;
+
+  .activity-title {
+    font-size: large;
+  }
+}
+
+.mat-form-field-infix {
+  border-top: 0em !important;
+}
+
+.amountForm {
+  display: flex;
+
+  .mat-form-field-wrapper {
+    height: 70% !important;
+  }
+}
+
+.amountInCart {
+  color: #66BB6A;
+}
+
+
+.sub-title {
+  padding-top: 20px;
+  display: flex;
+  font-size: large;
+
+
+  .child-name {
+    font-weight: bold;
+    font-size: 20px;
+    padding: 6px 0px 0px 0px;
+    color: #1976D2;
+  }
+
+  .due-date {
+    font-size: 15px;
+    padding-top: 9px;
+  }
+}
+
+.deadline {
+  font-size: large;
+}
+
+.location {
+  font-size: large;
+  padding-bottom: 10px;
+}
+
+.quantity {
+  font-size: medium
+}
+
+#amount {
+  font-size: x-small;
+}
+
+.resources {
+  display: flex;
+  flex-flow: column;
+  font-size: large;
+  padding-bottom: 10px;
+
+  .link {
+    color: @primaryColor;
+    text-decoration: none;
+  }
+
+  .link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.contactTitle {
+  color: @primaryColor;
+  font-size: large;
+}
+
+.contact {
+  padding-bottom: 10px;
+
+  .contactInfo {
+    font-size: medium;
+  }
+}
+
+.details {
+  color: @primaryColor;
+  font-size: large;
+}
+
+.chip {
+  background-color: @accentColor;
+  color: white;
+  height: 30px;
+}
+
+.activity-description {
+  font-size: 12pt;
+  padding-bottom: 15px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+
+  .cancel-btn {
+    margin-right: 10px;
+  }
+
+  .add-btn{
+    display: flex;
+    justify-content:center;
+  }
+}
+
+.partial-pay-details {
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  font-size: small;
+  padding-bottom: 5px;
+}
+
+@media (max-width:500px) {
+  .activity-title-container {
+    padding-bottom: 20px;
+  }
+
+  .mat-chip-list-wrapper {
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .activity-amount {
+    width: 100%;
+    display: flex;
+    align-content: center;
+  }
+
+  .location {
+    padding-bottom: 10px;
+  }
+
+  .activityTitle {
+    width: auto;
+  }
+
+  .close-btn-conatiner {
+    padding: 0px 0px 0px 0px !important;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .partial-pay-details {
+    padding-bottom: 5px;
+  }
+}

@@ -1,0 +1,42 @@
+<div class="activityContent">
+  <div class="left">
+    <div>
+      <img *ngIf="!mobile && !model['s3URIThumb']" class="ticket" src="../../../assets/images/cart/activities.png" />
+    </div>
+    <div>
+      <img *ngIf="!mobile && model['s3URIThumb']" (click)="openPictureDialog()" class="ticket " src="{{model['s3URIThumb']}}" />
+    </div>
+    <div class="details">
+      <div class="title" (click)="formatActivityDetails()" title="Click to open Activity Details">
+        <b>{{model['activityName']}}</b>
+      </div>
+      <div class="date-time">
+        <b>Dates: </b>{{model['startDate'] | date:'longDate' }} - {{model['endDate'] | date:'longDate' }}
+      </div>
+      <div class="date-time">
+        <b>SignUp Deadline: </b> {{model['signupEndDate'] | date: 'medium'}}
+      </div>
+      <div *ngIf="model['location']" class="location">
+        <b>Location: </b> {{model['location']}}
+      </div>
+      <div class="link">
+        <a href="model['resources']['link']">{{model['resources']['label']}}</a>
+      </div>
+      <mat-chip-list class="studentChips">
+        <mat-chip class="chip">{{model['studentName']}}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <div class="right">
+    <div *ngIf="!model['isInCart']" class="price">
+      {{model['amount'] | currency}}
+    </div>
+    <div *ngIf="model['isInCart']" class="inCartAmount">
+      ({{model['amountInCart'] | currency}} in cart)
+      <div *ngIf="model['amountRemaining']">
+        {{model['amountRemaining'] | currency}} remaining
+      </div>
+    </div>
+    <img *ngIf="mobile && model['s3URIThumb']" (click)="openPictureDialog()" class="ticket-mobile" src="{{model['s3URIThumb']}}" />
+  </div>
+</div>

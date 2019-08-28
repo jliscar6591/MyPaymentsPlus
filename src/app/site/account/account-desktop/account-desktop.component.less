@@ -1,0 +1,47 @@
+#myaccount-container {
+  width: 100%;
+  flex-grow: 1;
+
+  .view-menu-tiles {
+    padding: 20px 10px 10px 10px;
+    font-size: 14px;
+  }
+}
+
+#sidenav-module-layout {
+  min-height: 88.25vh;
+}
+
+.bg-lightgray {
+  background-color: #f6f6f6 !important;
+}
+
+@media(max-width: 599px) {
+  #myaccount-container {
+    padding: 0px;
+  }
+
+  .footer-list {
+    padding: 0;
+  }
+}
+
+.flex-row {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+}
+
+.display-none() {
+  display: none !important;
+}
+
+@media(min-width:1920px) {
+  .hide-lg {
+    .display-none();
+  }
+}
+
+.icon-width {
+  width: 24px;
+}

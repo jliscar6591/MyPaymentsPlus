@@ -1,0 +1,16 @@
+<div *ngIf="mobile" class="top-nav">
+  <a routerLink="/dashboard" routerLinkActive="active" class="link">Dashboard</a>
+  <mat-icon class="nav-arrow">navigate_next</mat-icon>
+  <a>Fees</a>
+  <span *ngIf="!feesList" class="mat-caption">
+    Updating Fees List....
+    <mat-spinner mode="indeterminate" strokeWidth="1" diameter="25">
+      Loading...
+    </mat-spinner>
+  </span>
+</div>
+<div>
+
+  <fees-list *ngIf="isList "></fees-list>
+  <fees-list-empty *ngIf="feesList && feesList.length === 0"></fees-list-empty>
+</div>

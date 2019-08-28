@@ -1,0 +1,680 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+@import './app/app.component.less';
+//@import 'theme.css';
+//@import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.mat-checkbox-layout {
+  white-space: normal !important;
+}
+
+.mat-checkbox-label{
+  min-width:300px;
+}
+
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #eee;
+  padding-top: env(safe-area-inset-top, 20px);
+}
+
+.width-100 {
+    width: 100% !important;
+}
+
+.button-width-100 {
+  width: 100% !important;
+}
+
+.login-width-100 {
+  width: 100% !important;
+}
+
+
+
+.width-10 {
+  width: 10%;
+}
+
+.width-30 {
+    width: 30%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.capitalize {
+   text-transform: capitalize;
+}
+
+.float-right {
+    float: right;
+}
+
+.link {
+    color: @primaryColor;
+}
+
+.link-clearwrapper {
+    text-decoration: none;
+    outline: none;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.cursor-pointer:hover {
+    cursor: pointer;
+}
+
+.padding-10 {
+  padding: 10px;
+}
+
+.padding-20 {
+    padding: 20px;
+}
+
+.padding-leftright-20 {
+    padding: 0 20px;
+}
+
+.margin-20 {
+    margin: 20px;
+}
+
+.vertical-middle {
+    vertical-align: middle;
+}
+
+.page-container {
+    max-width: 1280px;
+    margin: auto;
+}
+
+.display-block() {
+    display: block !important;
+}
+
+.display-none() {
+    display: none !important;
+}
+
+.md-display-2 {
+    font-size: 45px;
+    font-weight: 400;
+    line-height: 64px;
+}
+
+.md-display-1 {
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 40px;
+}
+
+.md-headline {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 32px;
+}
+
+.md-title {
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: .005em;
+}
+
+.md-subhead {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    letter-spacing: .01em;
+}
+
+.md-caption {
+    font-size: 12px;
+    letter-spacing: .02em;
+}
+
+md-card md-card-title .md-subhead {
+    padding-top: 0;
+    font-size: 14px;
+}
+
+.shadedBackground {
+  background-color: @shadedBacdkground;
+}
+///////////////////////////////////////////////////////////////////temporary radio theme, remove once materiallibrary fixes this missing theme
+md-radio-button {
+    &.mat-radio-checked .mat-radio-outer-circle {
+        border-color: @primaryColor;
+    }
+
+    .mat-radio-inner-circle {
+        background-color: @primaryColor;
+    }
+
+    .mat-radio-ripple .mat-ripple-element {
+        background-color: @primaryColorRipple;
+    }
+}
+
+///////////////////////////////////////////////////////////////////sidenav
+
+.sidenav {
+  width: 270px;
+
+  .sidenav-list {
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
+
+  .sidenav-list-option {
+    list-style: none;
+  }
+
+  .sidenav-option {
+    border-radius: 0;
+    color: #ececec;
+    cursor: pointer;
+    display: block;
+    align-items: inherit;
+    line-height: 55px;
+    margin: 0;
+    max-height: 55px;
+    overflow: hidden;
+    padding: 0px 16px;
+    text-align: left;
+    text-decoration: none;
+    white-space: normal;
+    width: 100%;
+    background-color: transparent;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    padding-left: 32px;
+
+    .material-icons {
+      vertical-align: text-top;
+    }
+
+    .option-text {
+      padding-left: 9px;
+    }
+
+    
+  }
+
+  .sidenav-option-subtext {
+    .mat-button-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .option-text {
+      line-height: 35px;
+      height: 30px;
+    }
+
+    .option-subtext {
+      line-height: 10px;
+      height: 18px;
+      padding-left: 15px;
+      font-size: 10px;
+      font-weight: 300;
+    }
+  }
+
+  .sidenav-title {
+    font-size: 12px;
+    padding: 10px 30px;
+  }
+
+  .sidenav-option-active {
+    font-weight: bold;
+    padding: 0 23px;
+  }
+}
+
+#sidenav-module-layout {
+    top: 64px;
+
+    .mat-sidenav-content {
+        display: flex;
+    }
+
+    #container {
+        height: inherit;
+        min-height: auto;
+
+        #container-content {
+            margin-top: 0;
+            flex-shrink: 0;
+        }
+    }
+}
+
+.sidenav-dark {
+    &.mat-sidenav {
+        background-color: @darkSidenavColor;
+        color: lightgray;
+
+    }
+
+    .sidenav-option {
+        border-bottom: 1px solid rgb(49, 58, 72);
+    }
+
+    .sidenav-option-active {
+        border-left: 8px solid @primaryColor;
+        color: white;
+        background-color: #232C3C;
+    }
+}
+
+.sidenav-grid-list {
+    padding-left: 0;
+    margin-top: 0;
+
+    .sidenav-grid-option {
+        padding: 0px; 
+        color: rgba(0,0,0,0.64);
+        font-size: 16px;
+        border-radius: 0;
+        border: 1px solid #eee;
+
+        .mat-button-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .option-graphic {
+            margin: 25px 20px 0px 20px;
+            text-align: center;
+
+            img {
+                width: 100px;
+            }
+        }
+
+        .material-icons {
+            vertical-align: middle;
+            margin-top: 5px;
+        }
+
+        .option-text {
+            width: 100%;
+            font-size: 14px;
+            margin-bottom: 25px;
+            white-space: normal;
+            line-height: 1.5em;
+        }
+
+        .option-subtext {
+            font-size: 11px;
+            white-space: normal;
+            line-height: initial;
+            width: 100%;
+            padding-bottom: 8px;
+        }
+
+        &.grid-option-link {
+            text-decoration: none;
+            position: relative;
+
+            .option-text {
+                padding-top: 5px;
+            }
+
+            &:hover:after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                content: '';
+                background-color: rgba(0, 0, 0, 0.12);
+                border-radius: inherit;
+                pointer-events: none;
+            }
+        }
+    }
+}
+
+.sidenav-layout-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    #sidenav-module-layout {
+        top: 0;
+    }
+}
+
+.sidenav-fill {
+    flex: 1;
+}
+
+.sidenav-grid-list {
+    .sidenav-grid-option {
+        &:hover::after {
+            background-color: transparent;
+        }
+
+        &:hover::after {
+            background-color: @primaryColorRipple !important;
+        }
+    }
+}
+
+
+.sidenav-layout-container {
+    .mat-sidenav-content {
+        flex-direction: column;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+.headline-group {
+    border-bottom: 1px solid #ccc;
+    line-height: 2.5em;
+    margin: 20px 10px;
+
+    .link.option {
+        margin: 0 10px;
+    }
+}
+
+.mat-dialog-container {
+    max-height: 90vh;
+}
+
+//gt-xs
+@media(min-width: 600px){
+    .show-gt-xs {
+        .display-block();
+    }
+
+    .hide-gt-xs {
+        .display-none();
+    }
+
+    .flex-column-gt-xs {
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: -o-flex;
+        display: flex;
+
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        -ms-flex-direction: column;
+        -o-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .flex-row-gt-xs {
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: -o-flex;
+        display: flex;
+
+        -webkit-flex-direction: row;
+        -moz-flex-direction: row;
+        -ms-flex-direction: row;
+        -o-flex-direction: row;
+        flex-direction: row;
+    }
+
+    .flex-self-center-gt-xs {
+        align-self: center;
+    }
+}
+//sm 600 - 960
+@media(min-width: 600px) and (max-width: 959px) {
+    .show-sm {
+        .display-block();
+    }
+
+    .hide-sm {
+        .display-none();
+    }
+
+    .flex-row-sm {
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: -o-flex;
+        display: flex;
+
+        -webkit-flex-direction: row;
+        -moz-flex-direction: row;
+        -ms-flex-direction: row;
+        -o-flex-direction: row;
+        flex-direction: row;
+    }
+
+    .flex-column-sm {
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: -o-flex;
+        display: flex;
+
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        -ms-flex-direction: column;
+        -o-flex-direction: column;
+        flex-direction: column;
+
+        & > * {
+            flex: 1;
+            -ms-flex: auto;
+        }
+    }
+
+    .flex-self-center-sm {
+        align-self: center;
+    }
+
+    .md-display-1 {
+        font-size: 28px;
+    }
+
+    #footer#footer .footer-list li {
+        margin-left: 15px;
+        padding-right: 15px;
+    }
+
+    .registration-banner {
+        width: 100% !important;
+    }
+
+    .input-container .field-column-space {
+        md-input-container, md-select {
+            margin-right: 0;
+        }
+    }
+
+    .checkbox-list {
+        padding-left: 0;
+    }
+}
+//gt-sm
+@media(min-width: 960px){
+    .show-gt-sm {
+        .display-block();
+    }
+
+    .hide-gt-sm {
+        .display-none();
+    }
+
+    .flex-row-gt-sm {
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: -o-flex;
+        display: flex;
+
+        -webkit-flex-direction: row;
+        -moz-flex-direction: row;
+        -ms-flex-direction: row;
+        -o-flex-direction: row;
+        flex-direction: row;
+    }
+
+    .flex-column-gt-sm {
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: -o-flex;
+        display: flex;
+
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        -ms-flex-direction: column;
+        -o-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .equal-gt-sm > * {
+        flex-basis: 0;
+    }
+
+    .flex-fill-gt-sm > * {
+        flex-grow: 1;
+    }
+
+    .input-container .field-column-space {
+        md-input-container, md-select {
+            margin-right: 40px;
+        }
+    }
+
+    ul.checkbox-list {
+        padding-left: 20px;
+    }
+
+}
+
+
+//md 960 - 1280
+@media(min-width: 960px) and (max-width: 1279px) {
+    .show-md {
+        .display-block();
+    }
+
+    .hide-md {
+        .display-none();
+    }
+
+    .md-display-1 {
+        font-size: 30px;
+    }
+}
+//gt-md
+@media(min-width: 1280px){
+    .show-gt-md {
+        .display-block();
+    }
+
+    .hide-gt-md {
+        .display-none();
+    }
+}
+//lg 1280- 1920
+@media(min-width: 1280px) and (max-width: 1919px) {
+    .show-lg {
+        .display-block();
+    }
+
+    .hide-lg {
+        .display-none();
+    }
+}
+//gt-lg
+@media(min-width: 1920px){
+    .show-gt-lg {
+        .display-block();
+    }
+
+    .hide-gt-lg {
+        .display-none();
+    }
+}
+//xl > 1920
+@media(min-width: 1920px) {
+    .show-xl {
+        .display-block();
+    }
+
+    .hide-xl {
+        .display-none();
+    }
+}
+
+@media(max-width: 599px){
+    .sidenav-tile-mobile {
+        width: 100%;
+        background-color: white !important;
+    }
+}
+@media(max-width: 618px){
+  .center-width-dialog .mat-dialog-container {
+    min-width: 91vw;
+    margin-left: -6%;
+  }
+}
+
+#sidenav-logo {
+    padding: 25px;
+
+    img {
+        width: 100%;
+    }
+}
+
+#cart-list {
+    list-style: none;
+    padding-left: 0;
+
+    li:last-child .cart-item {
+        border-bottom-width: 0;
+    }
+}
+
+.radio-group-list {
+    md-radio-button {
+        margin-bottom: 10px;
+    }
+}
+//Flex
+.flex-grid-12 {
+  padding: 5px;
+  border-bottom: 1px @lightOnDark solid;
+  .header {
+    font-size: 12pt;
+    font-weight: 600;
+  }
+}
+
+input[type="text"],
+select:focus,
+textarea {
+  //font-size: 18px;
+  -webkit-appearance: none; 
+}
+

@@ -1,0 +1,97 @@
+@import '~@angular/material/theming';
+//@import '~@angular/material/core/theming/all-theme'; //from ng-repo
+
+// Plus imports for other components in your app.
+.mat-checkbox-layout {
+  white-space: normal !important;
+}
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+
+$horizon-blue: (
+    50: #9fc3e8, 
+    100: #8ab6e3,
+    200: #76aadf,
+    300: #619dda,
+    400: #4d90d5,
+    500: #3883D0,
+    600: #2e76c1,
+    700: #296aac,
+    800: #245d98,
+    900: #1f5083,
+    A100: #b4d0ed,
+    A200: #c8ddf2,
+    A400: #ddeaf7,
+    A700: #1a446e,
+  contrast: (
+    50: $black-87-opacity,
+    100: $black-87-opacity,
+    200: $black-87-opacity,
+    300: $black-87-opacity,
+    400: $black-87-opacity,
+    500: white,
+    600: white,
+    700: white,
+    800: $white-87-opacity,
+    900: $white-87-opacity,
+    A100: $black-87-opacity,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$horizon-yellow: (
+    50: #ffdb80,
+    100: #ffd366,
+    200: #ffcc4d,
+    300: #ffc533,
+    400: #ffbd1a,
+    500: #FFB600,
+    600: #e6a400,
+    700: #cc9200,
+    800: #b37f00,
+    900: #996d00,
+    A100: #ffe299,
+    A200: #ffe9b3,
+    A400: #fff0cc,
+    A700: #805b00,
+  contrast: (
+    50: $black-87-opacity,
+    100: $black-87-opacity,
+    200: $black-87-opacity,
+    300: $black-87-opacity,
+    400: $black-87-opacity,
+    500: white,
+    600: white,
+    700: white,
+    800: $white-87-opacity,
+    900: $white-87-opacity,
+    A100: $black-87-opacity,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$primary: mat-palette($horizon-blue);
+$accent:  mat-palette($horizon-yellow);
+
+// The warn palette is optional (defaults to red).
+$warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$theme: mat-light-theme($primary, $accent, $warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($theme);
+

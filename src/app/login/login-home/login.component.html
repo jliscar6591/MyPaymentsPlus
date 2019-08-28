@@ -1,0 +1,44 @@
+<div *ngIf="showLogin" class="form-container" tabindex="0">
+  <form [formGroup]="loginForm" novalidate (submit)="login()" class="form-horizontal">
+    <div>
+      <mat-form-field class="login-width-100">
+        <input matInput [(ngModel)]="loginDetail.username" placeholder="Email or Username" id="mat-input-email" aria-label="Email or Username"
+               [autofocus]="autofocus" formControlName="username" ngDefaultControl type="email" required />
+      </mat-form-field>
+      <div *ngIf="formErrors.username" class="form-inline-validation error">
+        {{ formErrors.username }}
+      </div>
+    </div>
+    <br />
+    <div>
+      <mat-form-field class="login-width-100">
+        <input matInput [(ngModel)]="loginDetail.password" placeholder="Password" aria-label="Password" type="password" formControlName="password" ngDefaultControl required />
+      </mat-form-field>
+      <div *ngIf="formErrors.password" class="form-inline-validation error">
+        {{ formErrors.password }}
+      </div>
+    </div>
+
+    <p class="text-center">
+      <a routerLink="/reset-password" routerLinkActive="active" aria-label="Forgot Password?" class="link">Forgot Password?</a>
+    </p>
+
+    <p *ngIf="authenticationService.result && enableerrormsg" class="form-inline-validation error text-center">
+      <span>{{inlineLoginFailMessage}}</span>
+    </p>
+
+    <button mat-raised-button color="primary" aria-label="Sign In Button" type="submit" [disabled]="isLoading" class="xlarge-button width-100">
+      <span *ngIf="!isLoading">Sign In</span>
+      <mat-spinner strokeWidth="1" diameter="25" *ngIf="isLoading" class="spinner-button-center">Loading..</mat-spinner>
+    </button>
+    <p *ngIf="userContextService.result && isGetDefaultsErr" class="form-inline-validation error text-center">
+      <span>{{isGetDefaultsMsg}}</span>
+    </p>
+
+
+    <br /><br />
+    <p class="text-center">
+      Don't have an account?<br /><a routerLink="/register" aria-label="Register Now" class="link">Register Now</a>
+    </p>
+  </form>
+</div>

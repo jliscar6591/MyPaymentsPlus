@@ -1,0 +1,22 @@
+<mat-card-content class="shadedBackground">
+  <div *ngIf="!model.isAppAvailable" class="padding-10">
+    <div>Applications for the coming school year are not currently available.</div>
+    <div>We begin accepting new applications on {{model.appBlackoutEnds}}</div>
+  </div>
+  <div *ngIf="model.isAppAvailable" class="padding-10">
+    <div class="md-title padding-leftright-20">It's that time of the year again!</div>
+    <div class="padding-leftright-20">
+      Submit this year's Free & Reduced School Lunch Application to ensure there are no lapses in the coverage
+      of your student's free or reduced price school meals.
+    </div>
+    <div class="text-center padding-20">
+      <button mat-raised-button
+              color="primary"
+              aria-label="Start Free & Reduced Application"
+              (click)="startNew()">
+        Start {{model.buttonDates}} App
+      </button>
+    </div>
+  </div>
+</mat-card-content>
+

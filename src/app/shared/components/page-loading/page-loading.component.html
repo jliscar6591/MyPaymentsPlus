@@ -1,0 +1,10 @@
+<div *ngIf="showLoading" id="page-loading" class="flex-row flex-children-center">
+    <div class="loading-container">
+        <mat-spinner strokeWidth="1" diameter="70" id="loading-spinner" color="primary" class="">
+            Loading...
+        </mat-spinner>
+        <div id="loading-message">
+            {{ message }}
+        </div>
+    </div>
+</div>

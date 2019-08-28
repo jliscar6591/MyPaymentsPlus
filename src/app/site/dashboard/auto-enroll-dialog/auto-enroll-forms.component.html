@@ -1,0 +1,161 @@
+<div class="container">
+  <mat-nav-list *ngIf="!mobile">
+    <mat-list-item *ngFor="let activity of data.activities, let i = index">
+      <button mat-raised-button (click)="showForm(i)" id="{{i}}">
+        <div class="activity-btn">
+          <div class="activity-name">{{activity.activityName}}</div>
+          <div class="bottom">
+            <mat-chip-list>
+              <mat-chip color="accent">
+                {{ activity.studentName}}
+              </mat-chip>
+            </mat-chip-list>
+            <div class="amount">
+              {{activity.amount | currency}}
+            </div>
+          </div>
+        </div>
+      </button>
+    </mat-list-item>
+  </mat-nav-list>
+
+  <mat-nav-list *ngIf="mobile">
+    <mat-list-item>
+      <button mat-raised-button (click)="showForm(0)" id="{{0}}">
+        <div class="activity-btn">
+          <div class="activity-name">{{data.activities[0].activityName}}</div>
+          <div class="bottom">
+            <mat-chip-list>
+              <mat-chip color="accent">
+                {{ data.activities[0].studentName}}
+              </mat-chip>
+            </mat-chip-list>
+            <div class="amount">
+              {{data.activities[0].amount | currency}}
+            </div>
+          </div>
+        </div>
+      </button>
+    </mat-list-item>
+  </mat-nav-list>
+
+  <mat-tab-group [selectedIndex]="selected.value"
+                 (selectedIndexChange)="selected.setValue($event)"
+                 [formGroup]="builtFormGroup">
+    <mat-tab label="{{i + 1}} of {{builtFormGroup.controls.formTabs.controls.length}}" *ngFor="let form of currentForm, let i = index" formArrayName="formTabs">
+      <div class="tab">
+        <div *ngIf="!currentForm.isMultipleSubmission" class="addMessage">
+          The Activity you have chosen requires that you fill out the form below and click "Save" to add to your cart.
+        </div>
+        <div *ngIf="currentForm.isMultipleSubmission" class="addMessage">
+          The Activity you have chosen requires that you fill out the form below and click "Save" to add to your cart. For multiple responses click the "Next" button after completing each form. Click "Save" on your final response.
+        </div>
+        <div *ngFor="let field of form.fields, let j = index" [formGroup]="builtForm">
+          <div *ngIf="field.fieldType === 1 && field.isRequired">
+            <mat-form-field class="text">
+              {{field.prompt}}
+              <textarea id="{{j}}" formControlName="{{j}}" matInput placeholder="" required></textarea>
+              <mat-hint *ngIf="field.toolTip">{{field.toolTip}}</mat-hint>
+            </mat-form-field>
+          </div>
+          <div *ngIf="field.fieldType === 1 && !field.isRequired">
+            <mat-form-field class="text">
+              {{field.prompt}}
+              <textarea id="{{j}}" formControlName="{{j}}" matInput type="text" placeholder=""></textarea>
+              <mat-hint *ngIf="field.toolTip">{{field.toolTip}}</mat-hint>
+            </mat-form-field>
+          </div>
+          <div *ngIf="field.fieldType === 2 && field.isRequired">
+            <mat-form-field class="date">
+              {{field.prompt}}
+              <input id="{{j}}" formControlName="{{j}}" matInput type="date" placeholder="{{field.prompt}}" required>
+              <mat-hint *ngIf="field.toolTip">{{field.toolTip}}</mat-hint>
+            </mat-form-field>
+          </div>
+          <div *ngIf="field.fieldType === 2 && !field.isRequired">
+            <mat-form-field class="date">
+              {{field.prompt}}
+              <input id="{{j}}" formControlName="{{j}}" matInput type="date" placeholder="">
+              <mat-hint *ngIf="field.toolTip">{{field.toolTip}}</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="checkboxWrapper" *ngIf="field.fieldType === 3 && field.isRequired">
+            {{field.prompt}}
+            <mat-selection-list class="checkbox" #checkbox (selectionChange)="showOptions($event, checkbox.selectedOptions, field.formFieldId)" id="{{j}}" formControlName="{{j}}" required>
+              <mat-list-option checkboxPosition="before" *ngFor="let choice of field.choices, let k = index"
+                               [value]="choice.value">
+                {{choice.display}}
+              </mat-list-option>
+              <mat-hint *ngIf="field.toolTip">{{field.toolTip}}</mat-hint>
+            </mat-selection-list>
+          </div>
+          <div class="checkboxWrapper" *ngIf="field.fieldType === 3 && !field.isRequired">
+            {{field.prompt}}
+            <mat-selection-list class="checkbox" #checkbox (selectionChange)="showOptions($event, checkbox.selectedOptions, field.formFieldId)" id="{{j}}" formControlName="{{j}}">
+              <mat-list-option checkboxPosition="before" *ngFor="let choice of field.choices, let k = index" [value]="choice.value">
+                {{choice.display}}
+              </mat-list-option>
+              <mat-hint *ngIf="field.toolTip" class="hint">{{field.toolTip}}</mat-hint>
+            </mat-selection-list>
+          </div>
+          <div *ngIf="field.fieldType === 4 && field.isRequired" class="radio">
+            {{field.prompt}}
+            <mat-radio-group id="{{j}}" formControlName="{{j}}" (change)="onChange($event, field)" class="radio-option" required>
+              <mat-radio-button *ngFor="let choice of field.choices, let k = index" [value]="choice.value">
+                {{choice.display}}
+              </mat-radio-button>
+            </mat-radio-group>
+            <mat-hint *ngIf="field.toolTip" class="hint">{{field.toolTip}}</mat-hint>
+          </div>
+          <div *ngIf="field.fieldType === 4 && !field.isRequired" class="radio">
+            {{field.prompt}}
+            <mat-radio-group id="{{j}}" formControlName="{{j}}" (change)="onChange($event, field)" class="radio-option">
+              <mat-radio-button *ngFor="let choice of field.choices, let k = index" [value]="choice.value">
+                {{choice.display}}
+              </mat-radio-button>
+            </mat-radio-group>
+            <mat-hint *ngIf="field.toolTip" class="hint">{{field.toolTip}}</mat-hint>
+          </div>
+          <div *ngIf="field.fieldType === 5">
+            <div innerHTML="{{field.fieldTextArea}}"></div>
+          </div>
+          <div *ngIf="field.fieldType === 6 && field.isRequired" class="signature-wrapper">
+            <mat-form-field class="signature">
+              {{field.prompt}}
+              <input id="{{j}}" formControlName="{{j}}" matInput type="text" placeholder="" required>
+              <mat-hint *ngIf="field.toolTip">{{field.toolTip}}</mat-hint>
+            </mat-form-field>
+
+          </div>
+          <div *ngIf="field.fieldType === 6 && !field.isRequired" class="signature-wrapper">
+            <mat-form-field class="signature">
+              {{field.prompt}}
+              <input id="{{j}}" formControlName="{{j}}" matInput type="text" placeholder="">
+              <mat-hint *ngIf="field.toolTip">{{field.toolTip}}</mat-hint>
+            </mat-form-field>
+          </div>
+          <div *ngIf="field.fieldType === 7" class="system">
+            <div *ngFor="let choice of field.choices">
+              {{choice.display}} : {{choice.value}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="submit-btn-container" *ngIf="!mobile">
+        <button mat-raised-button type="submit" *ngIf="!form.isMultipleSubmission" class="submit-btn-save" (click)="addToCart(selectedActivityIndex)">Save</button>
+        <button mat-raised-button *ngIf="form.isMultipleSubmission && data.quantity === 1" (click)="addNewForm(selectedActivityIndex)" class="submit-btn-add">Add</button>
+        <button mat-raised-button *ngIf="form.isMultipleSubmission && data.quantity - 1 === selected.value" (click)="addToCart(selectedActivityIndex)" class="submit-btn-save">Save</button>
+        <button mat-raised-button *ngIf="form.isMultipleSubmission  && data.quantity - 1 !== selected.value" (click)="addToCart(selectedActivityIndex)" class="submit-btn-save">Save</button>
+        <button mat-raised-button *ngIf="form.isMultipleSubmission && builtFormGroup.controls.formTabs.controls.length > 1" (click)="removeForm(selected.value)" class="submit-btn-remove">Remove</button>
+      </div>
+      <div class="submit-btn-container" *ngIf="mobile">
+        <button mat-fab type="submit" *ngIf="!form.isMultipleSubmission" class="submit-btn-save" (click)="addToCart(selectedActivityIndex)">Save</button>
+        <button mat-fab *ngIf="form.isMultipleSubmission && data.quantity === 1" (click)="addNewForm(selectedActivityIndex)" class="submit-btn-add">Add</button>
+        <button mat-fab *ngIf="form.isMultipleSubmission && data.quantity - 1 === selected.value" (click)="addToCart(selectedActivityIndex)" class="submit-btn-save">Save</button>
+        <button mat-fab *ngIf="form.isMultipleSubmission  && data.quantity - 1 !== selected.value" (click)="addToCart(selectedActivityIndex)" class="submit-btn-save">Save</button>
+        <button mat-fab *ngIf="form.isMultipleSubmission && builtFormGroup.controls.formTabs.controls.length > 1" (click)="removeForm(selected.value)" class="submit-btn-remove">Remove</button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+

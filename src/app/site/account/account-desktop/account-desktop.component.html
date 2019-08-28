@@ -1,0 +1,61 @@
+<mat-sidenav-container id="sidenav-module-layout" class="sidenav-fill">
+  <mat-sidenav #sidenav [opened]="sidenavState" mode="side" class="sidenav sidenav-tile-mobile sidenav-dark hide-sm hide-xs">
+    <ul class="sidenav-list hide-sm hide-xs">
+      <li class="sidenav-list-option">
+        <button routerLink="/account/profile" routerLinkActive="sidenav-option-active" aria-label="My Profile" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">account_circle</i><span class="option-text">My Profile</span></button>
+      </li>
+      <li class="sidenav-list-option">
+        <button routerLink="/account/payment-method"
+                routerLinkActive="sidenav-option-active"
+                mat-button class="sidenav-option"
+                [attr.aria-expanded]="getAutopaySettingLabel()">
+          <i class="material-icons mat-18 notranslate">credit_card</i><span class="option-text">{{getAutopaySettingLabel()}}</span>
+        </button>
+      </li>
+      <li class="sidenav-list-option" *ngIf="loginResponse.isAlertsAllowedDistrict">
+        <button routerLink="/account/alerts" routerLinkActive="sidenav-option-active" aria-label="Low Balance Alerts" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">notifications</i><span class="option-text">Low Balance Alerts</span></button>
+      </li>
+      <li class="sidenav-list-option">
+        <button routerLink="/account/manage-students" routerLinkActive="sidenav-option-active" aria-label="Manage Students" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">group</i><span class="option-text">Manage Students</span></button>
+      </li>
+      <li class="sidenav-list-option">
+        <button routerLink="/account/meal-purchases" routerLinkActive="sidenav-option-active" aria-label="Student Meal Purchases" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">receipt</i><span class="option-text">Student Meal Purchases</span></button>
+      </li>
+      <li class="sidenav-list-option">
+        <button routerLink="/account/payment-history" routerLinkActive="sidenav-option-active" aria-label="My Payment History" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">history</i><span class="option-text">My Payment History</span></button>
+      </li>
+      <li class="sidenav-list-option" *ngIf="showXferHistory">
+        <button routerLink="/account/transfer-history" routerLinkActive="sidenav-option-active" aria-label="Balance Transfer History" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">autorenew</i><span class="option-text">Balance Transfer History</span></button>
+      </li>
+      <li class="sidenav-list-option" *ngIf="loginResponse.isFroEnabled">
+        <button routerLink="/account/fro-launch" routerLinkActive="fro-launch" aria-label="Free &amp; Reduced School Meals" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">assignment</i><span class="option-text">Free &amp; Reduced School Meals</span></button>
+      </li>
+    </ul>
+  </mat-sidenav>
+  <div id="myaccount-container">
+    <div class="hide-gt-sm show-sm view-menu-tiles">
+      <a aria-label="Back to My Account Menu" (click)="sidenav.open()" class="link cursor-pointer">Back to My Account Menu</a>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-container>
+<footer id="footer" class="hide-sm hide-xs">
+  <ul class="footer-list">
+    <li>
+      ©Copyright 2019
+      <a href="https://www.horizonsoftware.com/" aria-label="Horizon Software" target="_blank" class="link">Horizon Software</a>
+    </li>
+    <li>
+      <a routerLink="/about" routerLinkActive="active" aria-label="About" class="link">About</a>
+    </li>
+    <li>
+      <a routerLink="/privacy-policy" routerLinkActive="active" aria-label="Privacy Policy" class="link">Privacy Policy</a>
+    </li>
+    <li>
+      <a routerLink="/terms" routerLinkActive="active" aria-label="Terms of Use" class="link">Terms of Use</a>
+    </li>
+    <li>
+      <a routerLink="/support" routerLinkActive="active" aria-label="Support" class="link">Support</a>
+    </li>
+  </ul>
+</footer>

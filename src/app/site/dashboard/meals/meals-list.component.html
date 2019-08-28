@@ -1,0 +1,162 @@
+<div class="mat-headline flex-grow-1">
+  Cafeteria Accounts
+  <mat-icon>restaurant</mat-icon>
+  <span *ngIf="mealsComponent.isStudentsRemoteGetting && mealsComponent.isStudentsGetting" class="mat-caption">
+    Updating your balance
+    <mat-spinner mode="indeterminate" strokeWidth="1" diameter="25">
+      Loading...
+    </mat-spinner>
+  </span>
+  <span *ngIf="!mealsComponent.isStudentsRemoteGetting && mealsComponent.isStudentsGetting" class="mat-caption">
+    Getting MPP balance
+    <mat-spinner mode="indeterminate" strokeWidth="1" diameter="25">
+      Loading...
+    </mat-spinner>
+  </span>
+
+  <!--<span *ngIf="isContextRefreshing" class="mat-caption">Retrieving Account Data</span>-->
+  <!--<mat-spinner mode="indeterminate" strokeWidth="1" diameter="25" *ngIf="!mealsComponent.isStudentsRemoteGetting">
+
+    Loading...
+  </mat-spinner>-->
+  <!--<mat-spinner mode="indeterminate" strokeWidth="1" diameter="25" *ngIf="isContextRefreshing">
+    Loading...
+  </mat-spinner>-->
+  <div *ngIf="!mealsComponent.isCurrentDate && !mealsComponent.fatalMealsError && !mealsComponent.getStudentRemoteErr">
+    <span class="text-balance-date-error">This Information may be out of date. Please Refresh</span>
+    <button mat-raised-button color="primary" class="refresh-button" (click)="updateStudentMeals()">Refresh</button>
+  </div>
+  <div *ngIf="mealsComponent.getStudentRemoteErr && !mealsComponent.isCurrentDate && !mealsComponent.fatalMealsError">
+    <span class="text-communication-error">There was a problem communicating with the POS system. Please Refresh</span>
+    <button mat-raised-button color="primary" class="refresh-button" (click)="updateStudentMeals()">Refresh</button>
+  </div>
+  <div *ngIf="mealsComponent.fatalMealsError">
+    <span class="text-balance-fatal-error">Communictions with the POS system are down. Support has been notified. Please
+      check back in 30 minutes.</span>
+  </div>
+</div>
+
+
+<div class="headline-group flex-row ">
+  <div class="flex-grow-1"></div>
+  <div class="flex-row ">
+    <a aria-label="Meal Purchases" class="link option show-gt-xs hide" routerLink="/account/meal-purchases">Meal
+      Purchases</a>
+    <a aria-label="Alerts and Preferences" class="link option show-gt-xs hide" routerLink="/account/alerts">Alerts &amp;
+      Preferences</a>
+  </div>
+
+
+  <div *ngIf="mealsComponent.getStudentErr" class="error card-spacing">
+    {{mealsComponent.getStudentErrMsg}}
+  </div>
+</div>
+
+<div
+  *ngIf="!isStudentsGetting && studentRemoteMealsSrvc.studentMeals && mealsComponent.formReady || mealsComponent.mobileFormReady"
+  class="meals-list-width">
+  <div *ngIf="isSuspendPayment">
+    <suspend-payment-warning></suspend-payment-warning>
+  </div>
+
+
+  <mat-card *ngFor="let student of studentRemoteMealsSrvc.studentMeals; let outsideIndex = index;"
+    class="card-spacing none">
+    <mat-card-title>
+      <div>
+        {{student.firstName}}
+      </div>
+      <div class="text-balance-date">
+        as of {{student.balanceDate | date: 'MM/dd/yyyy'}}
+      </div>
+      <!-- <div class="barcode">{{student.accountBalanceID}}</div> -->
+
+    </mat-card-title>
+    <mat-card-content>
+      <!-- Desktop -->
+      <ul class="dashboard-meals-list" *ngIf="!nowMobile">
+        <li *ngFor="let account of student.mealAccounts; let insideIndex = index;">
+
+          <add-amount-selector
+            [form]="mealsComponent.addCartAmountForm.controls['addAmountArray' + outsideIndex].controls[insideIndex]"
+            [insideIndex]="insideIndex" [outsideIndex]="outsideIndex" [model]="student.mealAccounts"
+            [isSuspendPayment]="mealsComponent.isSuspendPayment" [account]="student"
+            (addCartItemDesktop)="mealsComponent.addCartItem($event, studentMeals)">
+          </add-amount-selector>
+        </li>
+      </ul>
+
+      <!-- Mobile -->
+      <div class="hide show-sm show-xs" *ngIf="!mealsComponent.isSuspendPayment && nowMobile">
+        <div *ngFor="let account of student.mealAccounts; let insideIndex = index;" class="balance-list">
+          <div class="balances">
+            <div>
+              <b>{{account.categoryName}}</b>
+            </div>
+            <div class="meal-amount text-in-Cart">
+              <div *ngIf="account.cartAmount > 0">
+                <div class="pending-amount" (click)="viewCart()">
+                  <span>(</span>
+                  {{account.cartAmount | currency }} in cart
+                  <span>)</span>
+                </div>
+                <span class="bonus-chip" *ngIf="account.bonusAmount > 0">
+                  +{{account.bonusAmount | currency }} Bonus
+                </span>
+              </div>
+              <div>
+                <div class="meal-amount text-in-Cart text-pending" *ngIf="account.pendingBalance > 0">
+                  <div>
+                    <span>(</span>
+                    {{account.pendingBalance | currency }} pending
+                    <span>)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <b>{{account.currentBalance | currency}}</b>
+              <!--as of {{account.currentBalanceLastUpdated | date: 'short'}}-->
+            </div>
+          </div>
+          <div class="pending-chips">
+            <div class="meal-amount text-pending mobile-pad-bottom "
+              *ngIf="account.categoryName != 'Bonus' && account.transferPendingAmount > 0">
+              <div class="mobile-pending-target" selected>
+                (+{{account.transferPendingAmount | currency }}) Pending Transfer
+              </div>
+            </div>
+            <!--Negative Transfer-->
+            <div class="meal-amount text-pending mobile-pad-bottom" *ngIf="account.transferPendingAmount < 0">
+              <div class="mobile-pending-source" selected>
+                (-{{account.transferPendingAmount | currency }}) Pending Transfer
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <button *ngIf="!mealsComponent.isSuspendPayment" mat-fab aria-label="button with money icon"
+            matTooltip="Add Funds" class="add-button" (click)="openAddBottomSheet(outsideIndex)">
+            <mat-icon>attach_money</mat-icon>
+          </button>
+          <button mat-fab aria-label="button with a transfer icon" routerLink="/transfer-fee"
+            *ngIf="transfersService.availableStatus.status === 4" matTooltip="Transfer Funds" class="transfer-button">
+            <mat-icon>swap_vert</mat-icon>
+          </button>
+          <button mat-fab aria-label="button with a transfer icon" routerLink="/make-transfer"
+            *ngIf="transfersService.availableStatus.status === 3" (click)="openFee(outsideIndex)"
+            matTooltip="Transfer Funds" class="transfer-button">
+            <mat-icon>swap_vert</mat-icon>
+          </button>
+          <button mat-fab aria-label="button with a barcode icon" (click)="openBarcode(outsideIndex)"
+            matTooltip="Show Barcode" class="barcode-button">
+            <mat-icon class="rotate-90">calendar_view_day</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+    <div *ngIf="nowMobile && student.showBarcode" class="barcode-card">
+        <ngx-barcode [bc-value]="studentListService.students[outsideIndex].studentId" [bc-format]="CODE39" [bc-display-value]="false" class="barcode"></ngx-barcode>
+    </div>
+  </mat-card>
+</div>

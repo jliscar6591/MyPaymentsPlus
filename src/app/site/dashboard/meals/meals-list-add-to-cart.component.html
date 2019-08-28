@@ -1,0 +1,110 @@
+<div class="meal-list-item flex-row-gt-xs flex-column-xs flex-fill equal flex-children-center">
+  <!-- Category -->
+  <div class="meal-type-container meal-col-1">
+    {{model[insideIndex]['categoryName']}}
+    <span class="meal-amount">
+      <a (click)="showCategoryDescr(insideIndex)"
+         aria-label="Category Description"
+         title="{{model[insideIndex].categoryDescription}}"
+         class="logo cursor-pointer meal-logo">
+        <i class="material-icons meals-amount-warning meal-info-small">
+          help_outline
+        </i>
+      </a>
+    </span>
+  </div>
+  <div class="meal-list-amount meal-col-2">
+    <span class="meal-amount">
+      {{model[insideIndex]['currentBalance'] | currency}}
+      <a *ngIf="isWarning(model[insideIndex]['currentBalance'], model[insideIndex]['categoryName']) && model[insideIndex]['isDepositable'] === true"
+         aria-label="Payment Methods and Autopay"
+         title="Setup Autopay to avoid a low or negative balance"
+         class="warning-icon cursor-pointer"
+         routerLink="/account/payment-method">
+        <i [class]="getWarnIcon(model[insideIndex]['currentBalance'])">
+          warning
+        </i>
+      </a>
+    </span>
+  </div>
+  <div class="text-right meal-amount-col meal-col-3">
+    <div class="meal-amount text-in-Cart">
+      <div *ngIf="model[insideIndex]['cartAmount'] > 0">
+        <div class="pending-amount">
+          <span>(</span>
+          {{model[insideIndex]['cartAmount'] | currency }} in cart
+          <span>)</span>
+        </div>
+        <span class="bonus-chip" *ngIf="model[insideIndex]['bonusAmount'] > 0">
+          +{{model[insideIndex]['bonusAmount'] | currency }} Bonus
+        </span>
+      </div>
+
+
+
+      <div>
+        <div class="meal-amount text-in-Cart text-pending" *ngIf="model[insideIndex]['pendingBalance'] > 0">
+          <div>
+            <span>(</span>
+            {{model[insideIndex]['pendingBalance'] | currency }} pending
+            <span>)</span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="model[insideIndex]['categoryName'] != 'Bonus'">
+          <a class="link" routerLink="/transfer-fee" *ngIf="transfersService.availableStatus.status === 4" title="This feature allows you to transfer funds from one account to another" (click)="transfersService.openFee(model[insideIndex], insideIndex, account, loginResponse)">Request Transfer</a>
+          <a class="link" routerLink="/make-transfer" *ngIf="transfersService.availableStatus.status === 3" (click)="transfersService.requestTransfer(firstName, model[insideIndex]['categoryName'], model[insideIndex]['currentBalance'], this.account.balanceDate, outsideIndex, insideIndex, model[insideIndex]['accountBalanceID'], model[insideIndex]['categoryKey'])">Request Transfer</a>
+      </div>
+    </div>
+    <div class="meal-amount text-pending" *ngIf="model[insideIndex]['categoryName'] != 'Bonus' && model[insideIndex]['transferPendingAmount'] > 0">
+      <mat-chip-list>
+        <mat-chip class="pending-chip" selected>
+          <!-- *ngIf="model[insideIndex]['transferPendingAmount'] > 0"-->
+          (+{{model[insideIndex]['transferPendingAmount'] | currency }}) Pending Transfer
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+    <!--Negative Transfer-->
+    <div class="meal-amount text-pending" *ngIf="model[insideIndex]['transferPendingAmount'] < 0">
+      <mat-chip-list>
+        <mat-chip color="warn" class="target-pending-chip" selected>
+          <!--*ngIf="model[insideIndex]['transferPendingAmount'] < 0 "-->
+          (-{{model[insideIndex]['transferPendingAmount'] | currency }}) Pending Transfer
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <!-- hide this when there is a small display -->
+  <div [formGroup]="form" class="input-container hide-sm hide-xs meal-list-width-amount meal-col-4">
+    <mat-form-field *ngIf="model[insideIndex]['isDepositable'] && !isSuspendPayment" class="meal-list-width">
+      <input matInput
+             placeholder="Add Amount"
+             title="{{'Enter amount for ' + account.firstName}}"
+             formControlName="addAmount"
+             [(ngModel)]="model[insideIndex].addAmount" />
+    </mat-form-field>
+    <div *ngIf="!form.valid" class="form-inline-validation error">
+      {{ formErrors.addAmount }}
+    </div>
+  </div>
+
+  <div class="hide-sm hide-xs meal-col-5">
+    <div class="text-right add-button-margin">
+      <button mat-raised-button add-cart-label color="primary"
+              aria-label="Add to cart"
+              (click)="addCartItem(outsideIndex, insideIndex)"
+              *ngIf="model[insideIndex]['isDepositable'] && !isSuspendPayment">
+        <span *ngIf="model[insideIndex].isAddCartAmountSaving">
+          <mat-spinner strokeWidth="1" diameter="25" *ngIf="model[insideIndex].isAddCartAmountSaving" color="accent">
+            Loading..
+          </mat-spinner>
+        </span>
+        <span *ngIf="!model[insideIndex].isAddCartAmountSaving" class="add-cart-label">Add to Cart</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="error card-spacing" *ngIf="model[insideIndex].failedAddCartAmount">
+  {{model[insideIndex].failedAddCartAmountMsg}}
+</div>

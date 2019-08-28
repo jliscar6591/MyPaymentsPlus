@@ -1,0 +1,37 @@
+.addstudent-section {
+    padding: 20px;
+    border: 1px solid #dcdcdc;
+    width: 33%;
+}
+
+.student-list-section{
+    padding: 0 20px;
+}
+
+.student-error-message{
+    text-align:center;
+    margin-top:5px;
+}
+
+.students-width-50 {
+  width: 50% !important;
+  max-width: 245px;
+}
+
+@media(max-width: 959px){
+    .addstudent-section {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .student-list-section {
+        margin-bottom: 20px;
+    }
+}
+
+@media(max-width: 599px){
+    .addstudent-section {
+        width: 85%;
+        margin-bottom: 20px;
+    }
+}

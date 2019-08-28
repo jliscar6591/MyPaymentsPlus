@@ -1,0 +1,77 @@
+@import "../../../colors.less";
+
+.loading {
+  .activityLoadMessage {
+    font-size: 35px;
+    color: @primaryColor;
+    margin-left: -165px;
+  }
+
+  display: flex;
+  flex-flow: column;
+  margin-top: 15%;
+  margin-left: 45%;
+}
+
+.mat-headline {
+  display: flex;
+  padding-top: 20px;
+  margin: 0px !important;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+}
+
+#icon {
+  padding-left: 5px;
+  padding-top: 5px;
+}
+
+.sortOption {
+  justify-content: flex-end;
+  margin-top: -13px;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.top-nav {
+  margin-top: 6px;
+  display: flex;
+  padding: 6px;
+
+  .nav-arrow {
+    margin-top: -2px;
+  }
+}
+
+@media (min-width:600px) and (max-width:959px){
+  .list-container{
+    width:99%;
+  }
+}
+
+@media (max-width: 960px) {
+  .mat-headline {
+    padding-top: 0px;
+  }
+
+  .loading {
+    .activityLoadMessage {
+      font-size: 20px;
+      color: @primaryColor;
+    }
+
+    .activityLoadSpinner {
+      margin-left: -49%;
+    }
+
+    display: flex;
+    flex-flow: column;
+    margin-top: 35%;
+    margin-left: 58%;
+  }
+
+  .mobile-page-container {
+  }
+}

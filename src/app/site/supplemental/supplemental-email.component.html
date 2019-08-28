@@ -1,0 +1,152 @@
+<toaster-container></toaster-container>
+<mat-toolbar id="app-toolbar" class="theme-light relative">
+  <span id="nav-logo">
+    <a class="logo cursor-pointer" routerLink="/welcome" routerLinkActive="active">
+      <img src="../../assets/images/mpp-logo.png" alt="My Payment's Plus logo" class="logo">
+    </a>
+  </span>
+  <span id="nav">
+    <span id="nav-options">
+      <button mat-raised-button color="primary" routerLink="/dashboard" routerLinkActive="active">Home</button>
+    </span>
+  </span>
+</mat-toolbar>
+<div id="container">
+  <section id="container-content relative" class="page-container">
+    <mat-card id="offline-email-card">
+      <mat-card-title>
+        <div class="mat-headline">Contact Us</div>
+        <div class="mat-subhead">Oops, you've caught us during our offline hours. Please fill out the form below to be sent to our support team or check back during our normal operational hours at Monday - Friday 7:30 AM - 5:30 PM EST.</div>
+      </mat-card-title>
+      <mat-card-content class="flex-column">
+        <form [formGroup]="contactOfflineForm" (ngSubmit)="submitForm()" novalidate>
+          <div class="flex-row-gt-sm flex-column-sm flex-column-xs flex-fill-gt-sm equal-gt-sm">
+            <div class="flex-column">
+              <div class="flex-row form-icon-field">
+                <i class="material-icons mat-16 mat-dark form-icon notranslate">email</i>
+                <div class="input-container">
+                  <mat-form-field class="form-field width-100">
+                    <input matInput [(ngModel)]="contactOfflineView.email" aria-label="Email Address" placeholder="Email Address" formControlName="email" type="email" required />
+                  </mat-form-field>
+                  <div *ngIf="formErrors.email" class="form-inline-validation error">
+                    {{ formErrors.email }}
+                  </div>
+                </div>
+              </div>
+              <div class="flex-row form-icon-field">
+                <i class="material-icons mat-16 mat-dark form-icon notranslate">person</i>
+                <div class="input-container">
+                  <mat-form-field class="form-field width-100">
+                    <input matInput [(ngModel)]="contactOfflineView.names" aria-label="Student Names" placeholder="Student Names" class="width-100 form-field" formControlName="names" />
+                  </mat-form-field>
+                  <div *ngIf="formErrors.names" class="form-inline-validation error">
+                    {{ formErrors.names }}
+                  </div>
+                </div>
+              </div>
+              <div class="flex-row form-icon-field">
+                <i class="material-icons mat-16 mat-dark form-icon notranslate">recent_actors</i>
+                <div class="input-container">
+                  <mat-form-field class="form-field width-100">
+                    <input matInput [(ngModel)]="contactOfflineView.ids" aria-label="Student/Account ID(s)" placeholder="Student IDs" class="width-100 form-field" formControlName="ids" />
+                  </mat-form-field>
+                  <div *ngIf="formErrors.ids" class="form-inline-validation error">
+                    {{ formErrors.ids }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-row form-icon-field">
+              <i class="material-icons mat-16 mat-dark form-icon notranslate">location_on</i>
+              <div class="flex-column ms-flex-1 equal form-field">
+                <div class="input-container">
+                  <mat-form-field>
+                    <mat-select placeholder="Select State" [(ngModel)]="contactOfflineView.state" aria-label="Select State" (selectionChange)="getDistrict(contactOfflineView.state)" formControlName="state" class="width-100 notranslate" required>
+                      <mat-option *ngFor="let text of stateProvinceListService.stateProvinceList" [value]="text.stateCode">{{text.displayName}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div *ngIf="formErrors.state" class="form-inline-validation error">
+                    {{ formErrors.state }}
+                  </div>
+                </div>
+                <div *ngIf="showDistrictDdl" class="input-container">
+                  <mat-form-field>
+                    <mat-select placeholder="Select District" [(ngModel)]="contactOfflineView.district" aria-label="School Names" class="width-100 notranslate" formControlName="district" required>
+                      <mat-option *ngFor="let text of districtListService.districtList" [value]="text.districtKey">{{text.districtName}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div *ngIf="formErrors.district" class="form-inline-validation error">
+                    {{ formErrors.district }}
+                  </div>
+                </div>
+                <div *ngIf="!showDistrictDdl && showNoDistrictWarning">
+                  There are no available districts for this state
+                </div>
+                <div class="input-container">
+                  <mat-form-field class="form-field width-100">
+                    <input matInput aria-label="School Names" [(ngModel)]="contactOfflineView.schools" placeholder="School Names" formControlName="schools" class="width-100" />
+                  </mat-form-field>
+                  <div *ngIf="formErrors.schools" class="form-inline-validation error">
+                    {{ formErrors.schools }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br /><br />
+          <div class="flex-row form-icon-field">
+            <i class="material-icons mat-16 mat-dark form-icon notranslate">help</i>
+            <div class="input-container">
+              <mat-form-field>
+                <mat-select placeholder="Select Subject Category" [(ngModel)]="contactOfflineView.category" aria-label="Select Subject Category" formControlName="category" required class="width-100">
+                  <mat-option *ngFor="let text of categoryList" [value]="text.value">{{text.text}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div *ngIf="formErrors.category" class="form-inline-validation error">
+                {{ formErrors.category }}
+              </div>
+            </div>
+          </div>
+          <div class="flex-row form-icon-field">
+            <i class="material-icons mat-16 mat-dark form-icon notranslate">subject</i>
+            <div class="input-container">
+              <textarea id="offline-email-message" [(ngModel)]="contactOfflineView.message" aria-label="Type your message" placeholder="Type your message..." formControlName="message" class="form-field textarea width-100" required></textarea>
+              <div *ngIf="formErrors.message" class="form-inline-validation error">
+                {{ formErrors.message }}
+              </div>
+
+            </div>
+          </div>
+          <p class="note note-primary"><b>Note:</b> Separate multiple School Names, Student Names, and Student IDs with commas.</p>
+          <br /><br />
+          <div class="text-right">
+            <button type="submit" mat-raised-button aria-label="Submit button" color="primary">
+              <span *ngIf="!isSendingEmail">Submit</span>
+              <mat-spinner strokeWidth="1" diameter="25" *ngIf="isSendingEmail" class="spinner-button spinner-button-center">Loading..</mat-spinner>
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </section>
+  <footer id="footer">
+    <ul class="footer-list">
+      <li>
+        Copyright 2019
+        <a href="https://www.horizonsoftware.com/" target="_blank" class="link">Horizon Software</a>
+      </li>
+      <li>
+        <a routerLink="/about" routerLinkActive="active" class="link">About</a>
+      </li>
+      <li>
+        <a routerLink="/privacy-policy" routerLinkActive="active" class="link">Privacy Policy</a>
+      </li>
+      <li>
+        <a routerLink="/terms" routerLinkActive="active" class="link">Terms of Use</a>
+      </li>
+      <li>
+        <a routerLink="/support" routerLinkActive="active" class="link">Support</a>
+      </li>
+    </ul>
+  </footer>
+</div>

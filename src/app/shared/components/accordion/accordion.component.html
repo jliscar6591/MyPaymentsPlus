@@ -1,0 +1,12 @@
+<div class="accordion-group"  (keyup.enter)="toggleOpen($event)" >
+    <div class="accordion-heading">
+        <h4 class="accordion-title">
+            <a tabindex="0" (click)="toggleOpen($event)" class="flex-row flex-children-center" [attr.aria-label]="heading"><i class="material-icons mat-dark notranslate" [ngClass]="{'rotate-90': isOpen}">play_arrow</i>&nbsp;&nbsp;<span>{{heading}}</span></a>
+        </h4>
+    </div>
+    <div class="accordion-body" [ngClass]="{'accordion-open': isOpen}">
+        <div class="padding-20">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

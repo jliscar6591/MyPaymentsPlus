@@ -1,0 +1,32 @@
+<div *ngIf="mobile" class="top-nav">
+  <a routerLink="/dashboard" routerLinkActive="active" class="link">Dashboard</a>
+  <mat-icon class="nav-arrow">navigate_next</mat-icon>
+  <a>Feedback</a>
+</div>
+<mat-card class="card-spacing mat-elevation-z3">
+    <mat-card-title class="flex-row">
+        <div class="flex-grow-1">
+            <mat-card-title>Like our new look?</mat-card-title>
+            <mat-card-subtitle>The same MyPaymentsPlus, always reliable and delivering peace of mind.
+            </mat-card-subtitle>
+        </div>
+    </mat-card-title>
+    <mat-card-content>
+        <mat-nav-list id="feedback-list">
+            <a mat-list-item (click)="showFeedbackDialog()" class="feedback-list-item">
+                <mat-icon mat-list-icon class="mat-dark notranslate">message</mat-icon> 
+                <span mat-line>Send us your feedback</span>
+                <span class="flex-grow-1 text-right">
+                    <mat-icon class="mat-dark notranslate">navigate_next</mat-icon> 
+                </span>
+            </a>
+            <a *ngIf="isOldExperienceAllowed && isWeb" mat-list-item (click)="showReturnToClassicDialog()" class="feedback-list-item">
+                <mat-icon mat-list-icon class="mat-dark notranslate">exit_to_app</mat-icon> 
+                <span style="white-space:normal" mat-line>Return to Classic MyPaymentsPlus</span>
+                <span class="flex-grow-1 text-right">
+                    <mat-icon class="mat-dark notranslate">navigate_next</mat-icon> 
+                </span>
+            </a>
+        </mat-nav-list>
+    </mat-card-content>
+</mat-card>

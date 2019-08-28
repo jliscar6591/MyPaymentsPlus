@@ -1,0 +1,238 @@
+@import "../../../../src/mdc.fab.css";
+@import '../../../../src/colors.less';
+
+.exams-container {
+  padding-top: 10px;
+}
+
+.exams-enrolled{
+    padding-bottom: 8px;
+}
+
+.exams-in-cart{
+    padding-bottom: 8px;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.top-nav {
+  display: flex;
+  padding: 6px;
+  margin-top: 23px;
+
+  .nav-arrow {
+    margin-top: -2px;
+  }
+}
+
+.submtting {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.submit-button {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.checkbox{
+  max-width: 30px;
+  padding-left: 30px;
+
+}
+
+.submitting-item {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.orientation-title{
+font-size: large;
+padding-bottom: 5px;
+}
+
+.mat-caption{
+  display: flex;
+}
+
+.submit {
+  width: 100%;
+}
+
+.accordion{
+  overflow: hidden !important;
+}
+
+.mat-title {
+  justify-content: space-between;
+  align-items: center;
+  margin-right: unset !important;
+  flex-shrink: 1;
+}
+
+.name {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.mat-h2, .mat-title, .mat-typography h2 {
+  font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  margin: unset !important;
+}
+
+.radio-group {
+    display: flex;
+    flex-flow: column
+  }
+
+  .action-row {
+    display: flex;
+  }
+
+  .class-button{
+      width:100%;
+      display:flex;
+      justify-content: flex-start;
+  }
+
+.exams {
+  list-style-type: none;
+  padding: 0px;
+  margin-top: 10px;
+
+  .action-row {
+    display: flex;
+  }
+
+  .radio-group {
+    display: flex;
+    flex-flow: column
+  }
+
+  .indeterminate {
+    color: @accentColor;
+  }
+
+  .check {
+    color: rgba(76,175,80,1);
+  }
+
+  .description {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .completed {
+    padding-top: 16px;
+  }
+
+  .title {
+    padding-left: 5px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+  }
+}
+
+.orientation-message{
+  padding-left: 15px;
+
+}
+
+.register-btn{
+    margin-top:10px;
+}
+
+.exam-radio{
+    padding-top: 10px;
+}
+
+.round {
+  background-color: @accentColor;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.floating-button {
+  width: 75%;
+  margin-top: -6px;
+
+  .doc-quantity {
+    margin-top: -6px;
+  }
+}
+
+.mat-headline{
+  display: flex;
+  align-items: center;
+}
+
+.container{
+    display: flex;
+
+    .classes{
+    width: 30%;
+    }
+
+    .exam-details{
+    width: 60%;
+    }
+}
+
+.mdc-fab--extended {
+  background-color: @primaryColor;
+  position: fixed;
+  z-index: 2;
+  bottom: 1rem;
+  right: 3rem;
+}
+
+.listitem{
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+.mat-list .mat-list-item {
+    display: block;
+     height: auto !important; 
+    -webkit-tap-highlight-color: transparent;
+}
+
+.exams-cart{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.mat-action-row {
+  border-top-style: solid;
+  border-top-width: 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 8px 16px 14px !important;
+}
+
+@media (min-width:800px){
+    .register-btn{
+        width:10%;
+    }
+
+    .edit-btn{
+        width:10%;
+    }
+}
