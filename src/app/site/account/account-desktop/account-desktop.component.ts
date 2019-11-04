@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { ProfileUserprofileService, PaymentAutoPayService } from "../services/index";
+import { ProfileUserprofileService, PaymentAutoPayService, UserContextService } from "../services/index";
 import { Subscription } from 'rxjs/Subscription';
 import { LoginResponseModel } from '../../../login/model/index';
 import {
@@ -30,6 +30,7 @@ export class AccountDesktopComponent {
     //= this.validateCookie.validateCookie();
   public showXferHistory: boolean;
   public xferHistoryInterval: any;
+  public userContextDefault: any;
   
   constructor(
     private profileUserprofileService: ProfileUserprofileService,
@@ -41,6 +42,7 @@ export class AccountDesktopComponent {
     public studentListService: StudentListService,
     private paymentMethodService: PaymentMethodService,
     private paymentAutoPayService: PaymentAutoPayService,
+    public userContextService: UserContextService
   ) {
     this.loginResponse = this.loginStoreSvc.cookieStateItem;
   }
@@ -49,7 +51,9 @@ export class AccountDesktopComponent {
     if (!this.transfersService.xferStatusCode) {
       this.transfersService.subcribeTogetTransferFeeStatus(this.loginResponse)
     }
+    console.log('login resposne', this.loginResponse);
     this.studentListService.subscribeToGetStudentsNew(this.loginResponse);
+    this.userContextDefault = this.userContextService.defaultData;
     this.studentBalanceAlertService.subscribeToGetStudentBlanaceAlertsNew(this.loginResponse);
     this.paymentMethodService.subscribeToGetPaymentMethods(this.loginResponse);
     this.paymentAutoPayService.subscribetoGetAutoPayDetails(this.loginResponse);

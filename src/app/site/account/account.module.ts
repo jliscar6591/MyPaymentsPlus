@@ -44,6 +44,7 @@ import { MealPurchasesComponent } from './meal-purchases/meal-purchases.componen
 import { PaymentHistoryComponent } from './payment-history/payment-history.component';
 import { FroLaunchComponent } from './fro/fro-launch.component';
 import { FroStartComponent } from './fro/fro-start.component'
+import { MatDividerModule } from '@angular/material/divider';
 import { FroStatusComponent } from './fro/fro-status.component'
 import { CreditCardFormatPipe } from "./pipes/index";
 import {
@@ -76,6 +77,7 @@ import { AccountMobileComponent } from './account-mobile/account-mobile.componen
 import { MatIconModule } from '@angular/material/icon';
 
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -105,7 +107,8 @@ import { MatIconModule } from '@angular/material/icon';
     AccordionModule,
     MatDatepickerModule,
     FlexLayoutModule,
-    ReceiptModule
+    ReceiptModule,
+    MatDividerModule
   ],
   declarations: [
     AccountHomeComponent,

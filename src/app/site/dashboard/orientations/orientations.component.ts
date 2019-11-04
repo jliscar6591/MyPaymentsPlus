@@ -32,6 +32,7 @@ export class OrientationsComponent implements OnInit {
   public detailedIds: any;
   public signedOrientationList: any = [];
   public unsignedOrientationList: any = [];
+  public answer: boolean = false;
 
   constructor(private router: Router,
     private loginStoreSvc: LoginStoreService,
@@ -126,15 +127,22 @@ export class OrientationsComponent implements OnInit {
   }
 
   public onChangeYes(mrChange: MatRadioChange, studentIndex, documentIndex, item, student) {
+    
+    if (mrChange.value == 1) {
+      this.answer = true;
+    } else {
+      this.answer = false;
+    }
     console.log(mrChange.value);
     console.log(studentIndex, documentIndex, item, student);
-    if (mrChange.value === true) {
+    if (mrChange.value == 1) {
       item.checked;
     }
+    console.log('answer', this.answer)
     let response = {
       'accountBalanceID': student.accountBalanceID,
       'orientationItemID': item.orientationItemId,
-      'signed': true
+      'signed': this.answer
     }
     var i;
     for (i = 0; i < this.responses.length; i++) {
@@ -169,6 +177,11 @@ export class OrientationsComponent implements OnInit {
   }
 
   public onChangeAgree(mrChange: MatRadioChange, studentIndex, documentIndex, item, student) {
+    if (mrChange.value == 1) {
+      this.answer = true;
+    } else {
+      this.answer = false;
+    }
     console.log(mrChange.value);
     if (mrChange.value === true) {
       item.checked;
@@ -182,7 +195,7 @@ export class OrientationsComponent implements OnInit {
     let response = {
       'accountBalanceID': student.accountBalanceID,
       'orientationItemID': item.orientationItemId,
-      'signed': true
+      'signed': this.answer
     }
     var i;
     for (i = 0; i < this.responses.length; i++) {
@@ -238,6 +251,8 @@ export class OrientationsComponent implements OnInit {
   }
 
   public async resetPage(){
+    this.signedOrientationList = [];
+    this.unsignedOrientationList = [];
     this.orientationInterval = await setInterval(() => {
       if (this.orientationService.orientationList) {
         this.orientationList = this.orientationService.orientationList;

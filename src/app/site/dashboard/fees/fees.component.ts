@@ -34,6 +34,7 @@ export class FeesComponent implements OnInit {
   public deviceInfo: any;
   public web: boolean;
   public mobile: boolean;
+  public feesInterval: any;
 
   constructor(
     private feesService: FeesService,
@@ -51,15 +52,18 @@ export class FeesComponent implements OnInit {
   async ngOnInit() {
     this.mobile = (window.innerWidth < 960) ? true : false;
     this.feesService.subscribeToGetFees(this.loginResponse);
+
+    this.feesInterval = setInterval(() => {
+      if (this.feesService.result === true) {
+
+        this.getFees();
+        clearInterval(this.feesInterval);
+      }
+    }, 500);
   }
 
   ngDoCheck() {
-    if (this.feesService.result === true) {
-      if (this.getFeesCounter < 1) {
-        this.getFees();
-        this.getFeesCounter++;
-      }
-    }
+
   }
 
   ngAfterContentInit() {
@@ -91,8 +95,7 @@ export class FeesComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.getFeesCounter = 0;
-    this.feesService.result = false;
+
   }
 
 }

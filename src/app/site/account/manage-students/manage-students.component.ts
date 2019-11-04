@@ -67,6 +67,8 @@ export class ManageStudentsComponent implements OnDestroy {
   public districtInterval: any;
   public stateInterval: any;
   public loadingDistricts: boolean;
+  public studentInterval: any;
+  public deleteStudentInterval: any;
   public districtList: any;
 
   constructor(private router: Router,
@@ -96,7 +98,7 @@ export class ManageStudentsComponent implements OnDestroy {
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getState();
 
     this.addStudentForm = this.formBuilder.group({
@@ -107,7 +109,29 @@ export class ManageStudentsComponent implements OnDestroy {
     });
 
     //this.getstudents();
-    this.studentListService.subscribeToGetStudentsNew(this.loginResponse);
+    await this.studentListService.subscribeToGetStudentsNew(this.loginResponse);
+
+    this.studentInterval = setInterval(()=>{
+      if (this.studentListService.result == true) {
+        if (this.studentListService.loginResponse.messageType === Constants.Error) {
+          this.loginStoreSrvc.loadLogin(this.studentListService.loginResponse);
+          this.hasStudents = false;
+          clearInterval(this.studentInterval);
+        } else {
+          this.loginStoreSrvc.loadLogin(this.studentListService.loginResponse);
+          if (this.studentListService.students.length > 0) {
+            this.hasStudents = true;
+            clearInterval(this.studentInterval);
+          }
+          else {
+            this.hasStudents = false;
+            clearInterval(this.studentInterval);
+          }
+        }
+  
+      }
+      console.log("Do we have the Student List: ", this.studentListService.students);
+    }, 1000);
 
     this.addStudentForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
@@ -121,29 +145,7 @@ export class ManageStudentsComponent implements OnDestroy {
   }
 
   ngDoCheck() {
-    // console.log("Ok Maybe Now: ", this.multiDistrictSrvc.multiDistrictFlag);
-    if (this.studentListService.result == true) {
-      if (this.studentListService.loginResponse.messageType === Constants.Error) {
-        this.loginStoreSrvc.loadLogin(this.studentListService.loginResponse);
-        this.hasStudents = false;
-      } else {
-        this.loginStoreSrvc.loadLogin(this.studentListService.loginResponse);
-        if (this.studentListService.students.length > 0) {
-          this.hasStudents = true;
-        }
-        else {
-          this.hasStudents = false;
-        }
-      }
 
-    }
-    //console.log("Do we have the Student List: ", this.studentListService.students);
-
-    if (this.studentAddService.isDeleted == true) {
-      // console.log("Calling getStudents Again: ", this.studentAddService.isDeleted);
-      this.studentListService.subscribeToGetStudentsNew(this.loginResponse);
-      this.studentAddService.isDeleted = false;
-    }
   }
 
   onValueChanged(data?: any) {
@@ -341,6 +343,14 @@ export class ManageStudentsComponent implements OnDestroy {
 
   deleteStudent(accountBalanceId: string) {
     this.studentAddService.subscribeToDeleteStudent(accountBalanceId, this.loginResponse);
+
+    this.deleteStudentInterval = setInterval(()=>{
+      if (this.studentAddService.isDeleted == true) {
+        // console.log("Calling getStudents Again: ", this.studentAddService.isDeleted);
+        this.studentListService.subscribeToGetStudentsNew(this.loginResponse);
+        this.studentAddService.isDeleted = false;
+      }
+    }, 1000);
   }
 
   //Sets the District Name of the student to be removed so we can remove all accounts with that district

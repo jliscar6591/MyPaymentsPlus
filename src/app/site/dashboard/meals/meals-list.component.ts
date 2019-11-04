@@ -109,7 +109,7 @@ export class MealsListComponent {
         this.pageLoadingService.hide();
         // setTimeout(() => { this.pageLoadingService.hide(); }, 0)
         if (this.studentRemoteMealsSrvc.studentMeals != undefined) {
-          console.log("Does ngONIt have StudentMeals: ", this.studentRemoteMealsSrvc.studentMeals);
+          // console.log("Does ngONIt have StudentMeals: ", this.studentRemoteMealsSrvc.studentMeals);
           var i;
           for (i = 0; i < this.studentRemoteMealsSrvc.studentMeals.length; i++) {
             this.studentRemoteMealsSrvc.studentMeals[i].showBarcode = false;

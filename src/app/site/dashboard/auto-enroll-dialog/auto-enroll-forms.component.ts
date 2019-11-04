@@ -21,6 +21,7 @@ const { Modals } = Plugins;
 import { CartResponse } from '../../model/cart-response-model';
 import { ActivitiesList, Activities, Categories } from '../../model/activities.model';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { UserContextService } from '../../../site/account/services/index';
 
 @Component({
   selector: 'app-auto-enroll-forms',
@@ -81,6 +82,7 @@ export class AutoEnrollFormsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private snackBar: MatSnackBar,
     private loginStoreSvc: LoginStoreService,
+    public userContextService: UserContextService,
     @Inject(MAT_DIALOG_DATA) public data: {
       forms: any,
       activities: any,
@@ -410,7 +412,7 @@ export class AutoEnrollFormsComponent implements OnInit {
 
   //adds an activity and with its form responses saved to the cart
   addToCart(i) {
-    console.log('quantity', this.data.quantity);
+    // console.log('quantity', this.data.quantity);
     i = this.selectedActivityIndex;
     this.formTabs = this.builtFormGroup.get('formTabs') as FormArray;
     if (this.formTabs.valid) {
@@ -483,7 +485,7 @@ export class AutoEnrollFormsComponent implements OnInit {
       this.data.activities[i].quantity = 1;
       this.data.activities[i].amountInCart = this.data.activities[i].amount;
       this.data.activities[i].isInCart = false;
-      console.log('activity before it goes to cart', this.data.activities[i]);
+      // console.log('activity before it goes to cart', this.data.activities[i]);
       this.addCartItemService.putCartActivityNew(
         this.data.activities[i],
         this.loginResponse)
@@ -512,7 +514,10 @@ export class AutoEnrollFormsComponent implements OnInit {
                 this.radioResponses = [];
                 this.radioFieldIds = [];
                 this.checkboxFieldIds = [];
-                this.dialogRef.close();
+                this.showForm(i+1);
+                if(i+1 === this.data.activities.length){
+                  this.dialogRef.close();
+                }
 
               } else {
                 this.disableActivity(i);
@@ -520,9 +525,12 @@ export class AutoEnrollFormsComponent implements OnInit {
                 this.radioResponses = [];
                 this.radioFieldIds = [];
                 this.checkboxFieldIds = [];
-
-                this.dialogRef.close();
-
+                if (this.userContextService.defaultData.isSuggestedAutoChecked) {
+                  this.spliceActivity(0);
+                  this.showForm(0);
+                } else {
+                  this.dialogRef.close();
+                }
               }
             }
           })

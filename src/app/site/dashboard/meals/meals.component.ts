@@ -445,7 +445,7 @@ export class MealsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     
     if (params.valid && params.amount) {
-      account[params.outsideIndex].mealAccounts[params.insideIndex].addAmount = parseFloat(params.amount)
+      account[params.outsideIndex].mealAccounts[params.insideIndex].addAmount = params.amount;
     }
     if (params.valid && account[params.outsideIndex].mealAccounts[params.insideIndex].addAmount) {
       //start spinner

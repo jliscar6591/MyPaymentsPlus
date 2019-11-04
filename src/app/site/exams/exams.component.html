@@ -8,172 +8,64 @@
   <div class="mat-headline flex-grow-1">
     AP Exams
     <mat-icon>insert_invitation</mat-icon>
-    <span class="mat-caption" *ngIf="gettingExams">
+    <span class="mat-caption" *ngIf="isGettingExams">
       Getting MPP AP exams
       <mat-spinner mode="indeterminate" strokeWidth="1" diameter="25">
         Loading...
       </mat-spinner>
     </span>
   </div>
-  <div class="exams-enrolled">
-    <mat-toolbar>
-      Enrolled Exams
-    </mat-toolbar>
-    <mat-list role="list">
-      <mat-list-item role="listitem">
-        <div>
-          <div class="listitem">
-            <div>
-              <b>AP US History</b>
-            </div>
-            <div>
-              Wed. April 28th, 2020 8:00AM
-            </div>
-            <mat-chip-list>
-              <mat-chip>
-                Julio
-              </mat-chip>
-            </mat-chip-list>
-          </div>
-        </div>
-      </mat-list-item>
-    </mat-list>
-  </div>
-  <div class="exams-in-cart">
-    <mat-toolbar>
-      Exams in your cart
-    </mat-toolbar>
-    <mat-list role="list">
-      <mat-list-item role="listitem">
-        <div class="exams-cart">
-          <div>
-            <b>AP Biology</b>
-
-            <br>
-            Thur. April 29th, 2020 12:00PM
-            <br>
-            <mat-chip-list>
-              <mat-chip>
-                Julio
-              </mat-chip>
-            </mat-chip-list>
-          </div>
-          <div>
-            <mat-icon>
-              edit
-            </mat-icon>
-            <mat-icon>
-              delete_forever
-            </mat-icon>
-          </div>
-        </div>
-      </mat-list-item>
-      <mat-list-item role="listitem">
-        <div class="exams-cart">
-          <div>
-            <b>AP Amer. Literature</b>
-
-            <br>
-            Wed. April 28th, 2020 10:00PM
-            <br>
-            <mat-chip-list>
-              <mat-chip>
-                Abigail
-              </mat-chip>
-            </mat-chip-list>
-          </div>
-          <div>
-            <mat-icon>
-              edit
-            </mat-icon>
-            <mat-icon>
-              delete_forever
-            </mat-icon>
-          </div>
-        </div>
-      </mat-list-item>
-    </mat-list>
-  </div>
-  <div class="exams-available">
+  <div class="exams-available" *ngIf="hasExams">
     <mat-toolbar>
       Available Exams
     </mat-toolbar>
     <ul class="exams">
       <li class="incomplete">
-        <mat-tab-group>
-          <mat-tab>
+        <mat-tab-group (selectedTabChange)="onTabChange($event)">
+          <mat-tab *ngFor="let student of examList.studentExamModels">
+            <div *ngIf="student.examChoices.length === 0" class="message">
+              No available exams for {{student.firstName}}
+            </div>
             <ng-template mat-tab-label>
-              <span>Julio</span>
+              <span>{{student.firstName}}</span>
             </ng-template>
             <div class="exams">
               <mat-accordion class="accordion">
-                <mat-expansion-panel hideToggle [expanded]="step === 0" (opened)="setStep(0)">
+                <mat-expansion-panel hideToggle [expanded]="step === j" (opened)="setStep(j)"
+                  (click)="selectExam(exam, student)" *ngFor="let exam of student.examChoices, let j = index">
                   <mat-expansion-panel-header>
                     <mat-panel-title class="mat-title">
                       <div class="name">
-                        AP Mathematics
+                        {{exam.examName}}
                       </div>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
-                  <div>
-                    <a class="link" href="https://scratch.mit.edu/projects/182898061/fullscreen/" target="_blank">
+                  <div class="panel-body-exam-detail">
+                    <a class="link info-exam-link" href="{{exam.termsLink}}" target="_blank">
                       Info about AP Exam</a>
                     <div>
-                      <mat-checkbox>Please check here to agree to the terms and conditions linked above</mat-checkbox>
+                      <mat-checkbox [(ngModel)]="checked">
+                        Please check here to agree to the terms and conditions linked above
+                      </mat-checkbox>
                     </div>
                   </div>
                   <div class="exam-radio">
                     <b>Please choose an exam date and time:</b>
                   </div>
-                  <mat-radio-group class="radio-group">
-                    <mat-radio-button value="1">Wed. April 28th, 2020 8:00 AM</mat-radio-button>
-                    <mat-radio-button value="2">Wed. April 28th, 2020 12:00 AM</mat-radio-button>
+                  <mat-radio-group class="radio-group" (change)="selectExamTime($event, exam)">
+                    <mat-radio-button value="{{time.examScheduleKey}}" *ngFor="let time of exam.schedule">
+                      {{time.description}}</mat-radio-button>
+                  </mat-radio-group>
+                  <div class="accomadation-msg">
+                    Do you need special accomadations based on an IEP or a 504 plan?
+                  </div>
+                  <mat-radio-group class="radio-group" (change)="selectSpecial($event)">
+                    <mat-radio-button value="true">Yes</mat-radio-button>
+                    <mat-radio-button value="false">No</mat-radio-button>
                   </mat-radio-group>
                   <mat-action-row class="action-row">
-                    <div>
-                      Do you need special accomadations based on an IEP or a 504 plan?
-                    </div>
-                    <mat-radio-group class="radio-group">
-                      <mat-radio-button value="1">Yes</mat-radio-button>
-                      <mat-radio-button value="2">No</mat-radio-button>
-                    </mat-radio-group>
-                    <button mat-raised-button color="primary" class="register-btn">
-                      Register
-                    </button>
-                  </mat-action-row>
-                </mat-expansion-panel>
-                <mat-expansion-panel hideToggle [expanded]="step === 1" (opened)="setStep(1)">
-                  <mat-expansion-panel-header>
-                    <mat-panel-title class="mat-title">
-                      <div class="name">
-                        AP History
-                      </div>
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <div>
-                    <a class="link" href="https://scratch.mit.edu/projects/182898061/fullscreen/" target="_blank">
-                      Info about AP Exam</a>
-                    <div>
-                      <mat-checkbox>Please check here to agree to the terms and conditions linked above</mat-checkbox>
-                    </div>
-                  </div>
-                  <div class="exam-radio">
-                    <b>Please choose an exam date and time:</b>
-                  </div>
-                  <mat-radio-group class="radio-group">
-                    <mat-radio-button value="1">Wed. April 28th, 2020 8:00 AM</mat-radio-button>
-                    <mat-radio-button value="2">Wed. April 28th, 2020 12:00 AM</mat-radio-button>
-                    <mat-radio-button value="3">Thur. April 29th, 2020 8:00 AM</mat-radio-button>
-                  </mat-radio-group>
-                  <mat-action-row class="action-row">
-                    <div>
-                      Do you need special accomadations based on an IEP or a 504 plan?
-                    </div>
-                    <mat-radio-group class="radio-group">
-                      <mat-radio-button value="1">Yes</mat-radio-button>
-                      <mat-radio-button value="2">No</mat-radio-button>
-                    </mat-radio-group>
-                    <button mat-raised-button color="primary" class="register-btn">
+                    <button mat-raised-button color="primary" class="register-btn" [disabled]="!checked"
+                      (click)="addExamToCart(exam, student, schedule)">
                       Register
                     </button>
                   </mat-action-row>
@@ -185,6 +77,62 @@
       </li>
     </ul>
   </div>
+  <div class="exams-in-cart" *ngIf="showExamsInCart">
+    <mat-toolbar>
+      Exams in your cart
+    </mat-toolbar>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let exam of examsInCart, let i = index">
+        <div class="exams-cart">
+          <div>
+            <div>
+              <b>{{exam.itemName}}</b>
+            </div>
+            <div>
+              {{exam.examScheduleDescription}}
+            </div>
+            <div>
+              {{exam.note}}
+            </div>
+            <div>
+              <mat-chip-list>
+                <mat-chip class="chip">
+                  {{exam.studentName}}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="exams-enrolled" *ngIf="showEnrolledExams">
+    <mat-toolbar>
+      Enrolled Exams
+    </mat-toolbar>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let enrolledExam of enrolledExams, let i = index">
+        <div>
+          <div class="listitem">
+            <div>
+              <b>{{enrolledExam.examName}}</b>
+            </div>
+            <div>
+              {{enrolledExam.examScheduleDescription}}
+            </div>
+            <div *ngIf="enrolledExam.termsLink !== null">
+              {{enrolledExam.termsLink}}
+            </div>
+            <mat-chip-list>
+              <mat-chip class="chip">
+                {{enrolledExam.firstName}}
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
 </div>
 
 <!--NOT MOBILE-->
@@ -193,7 +141,7 @@
     <div class="mat-headline flex-grow-1">
       AP Exams
       <mat-icon>announcement</mat-icon>
-      <span class="mat-caption" *ngIf="gettingExams">
+      <span class="mat-caption" *ngIf="isGettingExams">
         Getting MPP AP exams
         <mat-spinner mode="indeterminate" strokeWidth="1" diameter="25">
           Loading...
@@ -201,57 +149,54 @@
       </span>
     </div>
     <div>
-      <mat-tab-group>
-        <mat-tab label="Julio">
+      <mat-tab-group *ngIf="hasExams" (selectedTabChange)="onTabChange($event)">
+        <mat-tab label="{{student.firstName}}" *ngFor="let student of examList.studentExamModels, let i = index">
+          <div *ngIf="student.examChoices.length === 0" class="message">
+            No available exams for {{student.firstName}}
+          </div>
           <div class="container">
             <div class="classes">
               <mat-list role="list">
-                <mat-list-item role="listitem">
-                  <button mat-raised-button class="class-button">
-                    AP History
-                  </button>
-                </mat-list-item>
-                <mat-list-item role="listitem" >
-                  <button mat-raised-button class="class-button">
-                    AP Lang
-                  </button>
-                </mat-list-item>
-                <mat-list-item role="listitem" >
-                  <button mat-raised-button class="class-button">
-                    AP Chemistry
+                <mat-toolbar *ngIf="student.examChoices.length > 0">
+                  Available Exams
+                </mat-toolbar>
+                <mat-list-item role="listitem" *ngFor="let exam of student.examChoices, let j = index">
+                  <button mat-raised-button class="class-button" (click)="showExamDetails(j, student, exam)">
+                    {{exam.examName}}
                   </button>
                 </mat-list-item>
               </mat-list>
             </div>
-            <mat-card class="exam-details">
+            <mat-card class="exam-details" *ngFor="let selected of selectedExam, let k = index">
               <mat-card-title>
-                AP History
+                {{selected.examName}}
               </mat-card-title>
               <mat-card-content>
                 <div>
-                  <a class="link" href="https://scratch.mit.edu/projects/182898061/fullscreen/" target="_blank">
+                  <a class="link" href="{{selected.termsLink}}" target="_blank">
                     Info about AP Exam</a>
                   <div>
-                    <mat-checkbox>Please check here to agree to the terms and conditions linked above</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="checked">Please check here to agree to the terms and conditions linked
+                      above</mat-checkbox>
                   </div>
                 </div>
                 <div class="exam-radio">
                   <b>Please choose an exam date and time:</b>
                 </div>
-                <mat-radio-group class="radio-group">
-                  <mat-radio-button value="1">Wed. April 28th, 2020 8:00 AM</mat-radio-button>
-                  <mat-radio-button value="2">Wed. April 28th, 2020 12:00 AM</mat-radio-button>
-                  <mat-radio-button value="3">Thur. April 29th, 2020 8:00 AM</mat-radio-button>
+                <mat-radio-group class="radio-group" (change)="selectExamTime($event, selected)">
+                  <mat-radio-button value="{{choice.examScheduleKey}}"
+                    *ngFor="let choice of selected.schedule, let l = index">{{choice.description}}</mat-radio-button>
+                </mat-radio-group>
+                <div class="accomadation-msg">
+                  Do you need special accomadations based on an IEP or a 504 plan?
+                </div>
+                <mat-radio-group class="radio-group-desktop" (change)="selectSpecial($event)">
+                  <mat-radio-button value="true">Yes</mat-radio-button>
+                  <mat-radio-button value="false">No</mat-radio-button>
                 </mat-radio-group>
                 <mat-action-row class="action-row">
-                  <div>
-                    Do you need special accomadations based on an IEP or a 504 plan?
-                  </div>
-                  <mat-radio-group class="radio-group">
-                    <mat-radio-button value="1">Yes</mat-radio-button>
-                    <mat-radio-button value="2">No</mat-radio-button>
-                  </mat-radio-group>
-                  <button mat-raised-button color="primary" class="register-btn">
+                  <button mat-raised-button color="primary" class="register-btn" [disabled]="!checked"
+                    (click)="addExamToCart(selected, student, schedule)">
                     Register
                   </button>
                 </mat-action-row>
@@ -259,8 +204,59 @@
             </mat-card>
           </div>
         </mat-tab>
-        <mat-tab label="Abigial"> </mat-tab>
       </mat-tab-group>
+      <div class="exams-in-cart" *ngIf="showExamsInCart">
+        <mat-toolbar>
+          Exams in your cart
+        </mat-toolbar>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let exam of examsInCart, let i = index">
+            <div class="exams-cart">
+              <div>
+                <b>{{exam.itemName}}</b>
+              </div>
+              <div>
+                {{exam.examScheduleDescription}}
+              </div>
+              <div>
+                {{exam.note}}
+              </div>
+              <mat-chip-list>
+                <mat-chip class="chip">
+                  {{exam.studentName}}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div class="exams-enrolled" *ngIf="showEnrolledExams">
+        <mat-toolbar>
+          Enrolled Exams
+        </mat-toolbar>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let enrolledExam of enrolledExams, let i = index">
+            <div>
+              <div class="listitem">
+                <div>
+                  <b>{{enrolledExam.examName}}</b>
+                </div>
+                <div>
+                  {{enrolledExam.examScheduleDescription}}
+                </div>
+                <div *ngIf="enrolledExam.termsLink !== null">
+                  {{enrolledExam.termsLink}}
+                </div>
+                <mat-chip-list>
+                  <mat-chip class="chip">
+                    {{enrolledExam.firstName}}
+                  </mat-chip>
+                </mat-chip-list>
+              </div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
     </div>
   </div>
 </div>

@@ -307,7 +307,7 @@ export class ActivitiesDialogComponent implements OnInit {
         let config = new MatDialogConfig();
 
         config.panelClass = 'my-class';
-        config.height = '750px';
+        config.maxHeight = '700px';
         config.width = '750px';
         config.data = {
           form: this.formsService.form,
@@ -334,7 +334,7 @@ export class ActivitiesDialogComponent implements OnInit {
         let config = new MatDialogConfig();
 
         config.panelClass = 'my-class';
-        config.height = '750px';
+        config.maxHeight = '700px';
         config.width = '750px'
         config.data = {
           form: this.formsService.form,
@@ -363,7 +363,7 @@ export class ActivitiesDialogComponent implements OnInit {
         let config = new MatDialogConfig();
 
         config.panelClass = 'my-class';
-        config.height = '750px';
+        config.maxHeight = '700px';
         config.width = '750px'
         config.data = {
           form: this.formsService.form,

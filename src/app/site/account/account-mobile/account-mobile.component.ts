@@ -14,7 +14,7 @@ import { TransfersService, MultiDistrictService } from '../../services/index';
 import { StudentListService } from 'app/registration/services';
 import { StudentBalanceAlertService } from "../services/index";
 import { PaymentMethodService } from "../services/index";
-import { PaymentAutoPayService } from '../services/index';
+import { PaymentAutoPayService, UserContextService } from '../services/index';
 
 @Component({
   moduleId: module.id,
@@ -30,6 +30,8 @@ export class AccountMobileComponent {
   public loginResponse: LoginResponseModel;
     //= this.validateCookie.validateCookie();
   public showXferHistory: boolean;
+  public userContext: any;
+
   constructor(
   //  private profileUserprofileService: ProfileUserprofileService,
     private router: Router,
@@ -40,6 +42,7 @@ export class AccountMobileComponent {
     public studentListService: StudentListService,
     private paymentMethodService: PaymentMethodService,
     private paymentAutoPayService: PaymentAutoPayService,
+    public userContextService: UserContextService
   ) {
     this.loginResponse = this.loginStoreSvc.cookieStateItem;
   }
@@ -53,6 +56,8 @@ export class AccountMobileComponent {
     this.studentBalanceAlertService.subscribeToGetStudentBlanaceAlertsNew(this.loginResponse);
     this.paymentMethodService.subscribeToGetPaymentMethods(this.loginResponse);
     this.paymentAutoPayService.subscribetoGetAutoPayDetails(this.loginResponse);
+    this.userContext = this.userContextService.defaultData;
+    console.log('user context', this.userContext);
     this.showXferHistory = this.setShowXferHistory(this.transfersService.xferStatusCode)
     this.mobile = (window.innerWidth < 800) ? true : false;
     this.routerSubscription = this.router.events.subscribe((event) => {
@@ -65,6 +70,7 @@ export class AccountMobileComponent {
         }
       }
     });
+
   }
 
   setShowXferHistory(statusCode) {

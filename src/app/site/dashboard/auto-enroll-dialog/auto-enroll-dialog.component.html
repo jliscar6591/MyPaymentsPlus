@@ -1,15 +1,14 @@
 <mat-card>
-  <mat-toolbar class="toolbar">
-    Suggested Fees & Activities
-  </mat-toolbar>
+  <div class="title">
+    <strong>Suggested Fees & Activities</strong>
+  </div>
   <div class="message">
     These items have been recommended for you by your school district. Select items you would like to add to the cart:
   </div>
   <!--<div class="select-all">
   <button mat-raised-button color="primary" (click)="selectAllItems()">Select All</button>
 </div>-->
-  <mat-selection-list *ngIf="listReady && autoFeesList.length > 0" #fees
-    (selectionChange)="onSelectionFees($event, fees.selectedOptions)">
+  <mat-selection-list *ngIf="userContextService.defaultData.districtHasFees && listReady && autoFeesList.length > 0" #fees (selectionChange)="onSelectionFees($event, fees.selectedOptions)">
     <div *ngFor="let item of autoFeesList, let i = index" class="container">
       <div class="list-option">
         <div class="left">
@@ -31,13 +30,11 @@
           {{item.amount | currency}}
         </div>
         <mat-list-option *ngIf="!selectAll" [value]="item" name="option"></mat-list-option>
-        <mat-list-option *ngIf="selectAll" [value]="item" name="option" [selected]="true"></mat-list-option>
       </div>
     </div>
   </mat-selection-list>
 
-  <mat-selection-list *ngIf="listReady && autoCartList.length > 0" #activities
-    (selectionChange)="onSelectionActivities($event, activities.selectedOptions)">
+  <mat-selection-list *ngIf="userContextService.defaultData.districtHasActivities && listReady && autoCartList.length > 0" #activities (selectionChange)="onSelectionActivities($event, activities.selectedOptions)">
     <div *ngFor="let item of autoCartList, let i = index" class="container">
       <div class="list-option">
         <div class="left">
@@ -61,20 +58,22 @@
         <div class="amount">
           {{item.amount | currency}}
         </div>
-        <mat-list-option *ngIf="!selectAll" [value]="item" name="option"></mat-list-option>
+        <mat-list-option *ngIf="!selectAll " [value]="item" name="option"></mat-list-option>
         <mat-list-option *ngIf="selectAll" [value]="item" name="option" [selected]="true"></mat-list-option>
       </div>
     </div>
   </mat-selection-list>
 </mat-card>
 
-<div *ngIf="selectedAll.length > 0" class="total">
+<div *ngIf="selectedAllArray.length > 0" class="total">
   Total : {{selectedAllTotal | currency}}
 </div>
 
 <div class="actions" *ngIf="listReady">
-  <!-- <button mat-raised-button color="primary" *ngIf="selectedAll.length > 0" (click)="addAutoEnrolledItems()">Add
-    Selected</button> -->
-  <button mat-raised-button color="primary" (click)="onNoClick()">Continue to
+  <button mat-raised-button color="primary" *ngIf="selectedAllArray.length > 0 && userContextService.defaultData.isSuggestedAutoChecked"
+    (click)="addAutoEnrolledItems()">Add
+    Selected</button>
+  <button mat-raised-button color="primary" *ngIf="selectedAllArray.length === 0 || (!userContextService.defaultData.isSuggestedAutoChecked && selectedAllArray.length > 0)"
+    (click)="onNoClick()">Continue to
     Dashboard</button>
 </div>

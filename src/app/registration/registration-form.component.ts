@@ -71,14 +71,14 @@ export class RegistrationFormComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    this.buildForm();
-    this.getState();
+  async ngOnInit() {
+    await this.buildForm();
+    await this.getState();
    // this.cookieService.removeAll();
   }
 
-  buildForm(): void {
-    this.registrationForm = this.formBuilder.group({
+  async buildForm() {
+    this.registrationForm = await this.formBuilder.group({
       'state': [{ value: '', disabled: true }, Validators.required],
       'district': ['', Validators.required],
       'firstName': ['', Validators.required],

@@ -6,7 +6,7 @@
     </div>
     <mobile-district-message></mobile-district-message>
     <mat-grid-list cols="2" rowHeight="103px" class="grid-list" gutterSize="15px">
-      <mat-grid-tile routerLink="/meals" routerLinkActive="active" *ngIf="!openMeals" class="tile" matTooltip="Show Cafeteria Accounts">
+      <mat-grid-tile routerLink="/meals" routerLinkActive="active" *ngIf="openMeals" class="tile" matTooltip="Show Cafeteria Accounts">
         <div>
           <img src="../../../assets/images/icons/icons8-fork-and-knife-crossed-64.png" class="tile-pic">
         </div>
@@ -22,7 +22,7 @@
           My Account
         </mat-grid-tile-footer>
       </mat-grid-tile>
-      <mat-grid-tile routerLink="/fees" routerLinkActive="active" *ngIf="districtHasActivities && districtHasFees" class="tile" matTooltip="Show Fees"> 
+      <mat-grid-tile routerLink="/fees" routerLinkActive="active" *ngIf="showFees === true  && districtHasFees === true && districtHasActivities === true " class="tile" matTooltip="Show Fees"> 
         <div>
           <img src="../../../assets/images/icons/icons8-survey-64.png" class="tile-pic">
         </div>
@@ -30,7 +30,7 @@
           Fees
         </mat-grid-tile-footer>
       </mat-grid-tile>
-      <mat-grid-tile routerLink="/fees" routerLinkActive="active" *ngIf="!districtHasActivities && districtHasFees" class="tile" matTooltip="Show Fees" [colspan]="1" [rowspan]="1">
+      <mat-grid-tile routerLink="/fees" routerLinkActive="active" *ngIf="showFees === true && districtHasFees === true && districtHasActivities === false" class="tile" matTooltip="Show Fees" [colspan]="1" [rowspan]="1">
         <div>
           <img src="../../../assets/images/icons/icons8-survey-64.png" class="tile-pic">
         </div>
@@ -54,7 +54,7 @@
           Events & Activities
         </mat-grid-tile-footer>
       </mat-grid-tile>
-      <mat-grid-tile routerLink="/orientations" class="tile" matTooltip="Show Documents" *ngIf="districtHasOrientations" [colspan]="1" [rowspan]="1">
+      <mat-grid-tile routerLink="/orientations" class="tile" matTooltip="Show Documents" *ngIf="districtHasOrientations && showOrientations" [colspan]="1" [rowspan]="1">
         <div>
           <img src="../../../assets/images/icons/icons8-preview-file-64.png" class="tile-pic">
         </div>
@@ -62,15 +62,15 @@
           Documents
         </mat-grid-tile-footer>
       </mat-grid-tile>
-      <mat-grid-tile routerLink="/exams" class="tile" matTooltip="Show Exams" *ngIf="districtHasExams" [colspan]="1" [rowspan]="1">
+       <mat-grid-tile routerLink="/exams" class="tile" matTooltip="Show Exams" *ngIf="districtHasExams && showExams" [colspan]="1" [rowspan]="1">
         <div>
           <img src="../../../assets/images/icons/icons8-task-planning-64.png" class="tile-pic">
         </div>
         <mat-grid-tile-footer>
           AP Exams
         </mat-grid-tile-footer>
-      </mat-grid-tile>
-      <mat-grid-tile routerLink="/feedback" *ngIf=" !districtHasFees && districtHasActivities" class="tile" matTooltip="Show Feedback Options" [colspan]="1" [rowspan]="1">
+      </mat-grid-tile> 
+      <!-- <mat-grid-tile routerLink="/feedback" *ngIf=" !districtHasFees && districtHasActivities" class="tile" matTooltip="Show Feedback Options" [colspan]="1" [rowspan]="1">
         <div>
           <img src="../../../assets/images/icons/icons8-comments-64.png" class="tile-pic">
         </div>
@@ -85,7 +85,7 @@
         <mat-grid-tile-footer>
           Give Us Feedback!
         </mat-grid-tile-footer>
-      </mat-grid-tile>
+      </mat-grid-tile> -->
       <!-- <mat-card routerLink="/nutrislice" routerLinkActive="active" *ngIf="!openNutrislice" class="tile" matTooltip="Show Nutrislice Menus">
     <mat-card-header class="header">
       <mat-card-title class="title">
@@ -98,8 +98,9 @@
   </mat-card> -->
       <!--<app-nutrislice *ngIf="openNutrislice"></app-nutrislice>-->
     </mat-grid-list>
-    <mat-grid-list cols="2" rowHeight="103px" gutterSize="15px" class="feedback-tile">
-      <mat-grid-tile routerLink="/feedback" *ngIf="(districtHasFees && districtHasActivities) || (!districtHasFees && !districtHasActivities) && !openFeedback" class="tile" matTooltip="Show Feedback Options" [colspan]="2" [rowspan]="1">
+  </div>
+  <mat-grid-list cols="2" rowHeight="103px" gutterSize="15px" class="feedback-tile" *ngIf="mobile">
+      <mat-grid-tile routerLink="/feedback" class="tile" matTooltip="Show Feedback Options" [colspan]="2" [rowspan]="1">
         <!--Give Us Feedback!
     <mat-icon>feedback</mat-icon>-->
         <div>
@@ -111,7 +112,6 @@
         </mat-grid-tile-footer>
       </mat-grid-tile>
     </mat-grid-list>
-  </div>
   <div class="flex-row padding-20" *ngIf="!mobile">
     <!--<app-receipt *ngIf="showReceipt" [displayReceipt]="showReceipt"></app-receipt>-->
     <div>

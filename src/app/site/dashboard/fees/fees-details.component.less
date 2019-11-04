@@ -149,9 +149,13 @@ input[type=number]::-webkit-outer-spin-button {
     padding-bottom: 24px !important;
   }
 
+  .fee-mobile-right{
+    display: flex;
+    justify-content: space-between;
+  }
+
   .feeDetails {
     display: flex;
-    flex-flow: column;
   }
 
   .feeTitle {
@@ -160,7 +164,6 @@ input[type=number]::-webkit-outer-spin-button {
 
   #fees-list {
     flex-flow: column;
-    text-align: center;
   }
 
   .rightSide {
@@ -168,15 +171,18 @@ input[type=number]::-webkit-outer-spin-button {
   }
 
   .subtitle {
-    justify-content: center;
 
   }
+
+  .mat-form-field-wrapper {
+    padding-bottom: 1.25em;
+    width:95% !important;
+}
 
   .dueSoonWrapper {
     display: flex;
     width: 100%;
-    justify-content: center;
-    padding-top: 0px;
+    padding-top: 10px;
   }
 
   .inCartAmount {
@@ -190,30 +196,24 @@ input[type=number]::-webkit-outer-spin-button {
     color: forestgreen;
     padding-right: 0px;
     margin: 0px auto;
-    max-width: 120px;
   }
 
   .mat-form-field {
-    text-align: center !important;
-    width: 50% !important;
-    padding-left: 24% !important;
-  }
-
-  .fee-amount-wrapper {
-    display: flex;
-    width: 100%;
     padding-right: 0px;
-    justify-content: center;
     text-align: center !important;
+    width: 55% !important;
   }
 
   .feePrice {
     padding-top: 10px;
     padding-bottom: 5px;
     width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
   }
 
   .add-button {
-    width: 100%;
+  
   }
 }

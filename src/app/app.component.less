@@ -229,7 +229,8 @@ footer#footer {
   background-color: #d2d2d2;
   color: gray;
   padding: 5px 10px;
-  display:flex table-row;
+  display: flex;
+  justify-content: center;
 
   .footer-list {
     
@@ -685,8 +686,9 @@ mat-select {
     }
 
     #footer#footer .footer-list li {
-      display: block;
+      display: flex;
       border-right: 0px solid gray;
+      justify-content: space-evenly;
 
       &:nth-child(1) {
         margin-bottom: 5px;

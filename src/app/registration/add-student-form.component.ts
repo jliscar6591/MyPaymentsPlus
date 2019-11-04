@@ -47,6 +47,7 @@ export class AddStudentFormComponent implements OnInit {
   private showNoDistrictWarning: boolean = false;
   public isAdding: boolean = false;
   public failedtoAdd: boolean = false;
+  public loginResponseInterval: any;
 
   //move this to use real model
   private studentForm: any = { id: '', last: '', state: '', district: '' };
@@ -296,17 +297,24 @@ export class AddStudentFormComponent implements OnInit {
   }
 
   navHome() {
-    //console.log(this.loginResponse);
+    console.log(this.loginResponse);
     //alert('check it out')
-    if (this.loginResponse.isNewExperience || this.deviceInfo.platform !== 'web') {
-      let link = ['dashboard'];
-      this.router.navigate(link);
-    } else if (!this.loginResponse.isNewExperience && this.deviceInfo.platform === 'web'){
-      this.loginResponse = this.loginStoreService.cookieStateItem;
-        //this.validateCookie.validateCookie();
-      let cleanToken = this.loginResponse.access_token.trim();
-      window.location.href = Constants.ParentPaymentsUrl + '?id=' + cleanToken;
-    }
+    this.loginResponseInterval = setInterval(()=>{
+      if(this.loginResponse !== undefined){
+        if (this.loginResponse.isNewExperience || this.deviceInfo.platform !== 'web') {
+          let link = ['dashboard'];
+          this.router.navigate(link);
+          clearInterval(this.loginResponseInterval);
+        } else if (!this.loginResponse.isNewExperience && this.deviceInfo.platform === 'web'){
+          this.loginResponse = this.loginStoreService.cookieStateItem;
+            //this.validateCookie.validateCookie();
+          let cleanToken = this.loginResponse.access_token.trim();
+          window.location.href = Constants.ParentPaymentsUrl + '?id=' + cleanToken;
+          clearInterval(this.loginResponseInterval);
+        }
+      }
+    })
+
   }
 
 }

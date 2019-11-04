@@ -145,6 +145,11 @@
           <div *ngIf="selectPaymentErr" class="form-inline-validation error">
             {{selectPaymentErrMsg}}
           </div>
+          <div *ngIf="declinePaymentError === true" class="form-inline-validation error" id="declineMessage">  
+            Payment Declined
+          </div>
+          <div *ngIf="declinePaymentError === false" class="form-inline-validation error" id="declineMessage">  
+          </div>
         </mat-card-content>
       </mat-card>
     </div>

@@ -61,13 +61,16 @@ export class DashboardHomeComponent implements OnDestroy {
   public deviceInfo: any;
   public web: boolean;
   public userContextDefault: any;
-  public districtHasFees: boolean = false;
-  public districtHasActivities: boolean = false;
+  public districtHasFees: boolean;
+  public districtHasActivities: boolean;
   public rowHeight: any;
   public feeInterval: any;
   public districtHasOrientations: any;
   public districtHasExams: any;
+  public showExams: boolean;
+  public showOrientations: boolean;
   // public showReceiptInterval: any;
+  public userContextInterval: any;
 
   constructor(
     // public purchaseBannerService: PurchaseBannerService,
@@ -98,21 +101,21 @@ export class DashboardHomeComponent implements OnDestroy {
     await this.studentMealsServiceRemote.subscribeToGetMeals(this.loginResponse);
     if (!this.userContextService.defaultData) {
       this.userContextService.subscribeToGetDeriveDefaultsNew(this.loginResponse);
-      setTimeout(() => { this.userContextDefault = this.userContextService.defaultData; }, 1000)
+      this.userContextInterval = setInterval(() => { this.userContextDefault = this.userContextService.defaultData; }, 50)
     } else {
       this.userContextDefault = this.userContextService.defaultData;
       // console.log('default data', this.userContextService.defaultData)
     }
     //onsole.log('loginStoreSrvc', this.loginStoreSrvc);
-    this.feeInterval = setInterval(() => {
-      if (this.feesService.feesList) {
-        if (this.feesService.feesList.length === 0) {
-          this.showFees = false;
-        } else {
-          this.showFees = true;
-        }
-      }
-    }, 500);
+    // this.feeInterval = await setInterval(() => {
+    //   if (this.feesService.feesList) {
+    //     if (this.feesService.feesList.length === 0) {
+    //       this.showFees = false;
+    //     } else {
+    //       this.showFees = true;
+    //     }
+    //   }
+    // }, 100);
     //  console.log("do we have the user Defaults on Dashboard: ", this.userContextService.defaultData);
     // console.log("about to call subscribeToGetCartCheckoutCartItem - Dashboard1 ")
     this.cartCheckoutSrvc.subscribeToGetCartCheckoutCartItem(this.loginResponse);
@@ -120,46 +123,55 @@ export class DashboardHomeComponent implements OnDestroy {
     //console.log('userContext', this.userContextService);
     const { Device } = Plugins;
     this.deviceInfo = await Device.getInfo();
-    //console.log(this.deviceInfo);
+    console.log(this.deviceInfo);
     //console.log('default', this.userContextDefault);
     if (this.deviceInfo.platform === 'web') {
       this.web = true;
       if (this.userContextDefault.districtHasFees) {
         this.districtHasFees = true;
         this.showFees = true;
+      } else {
+        this.districtHasFees = false;
+        this.showFees = false;
       }
       if (this.userContextDefault.districtHasActivities) {
         this.districtHasActivities = true;
         this.showActivities = true;
+      } else {
+        this.districtHasActivities = false;
+        this.showActivities = false;
       }
       if (this.userContextDefault.districtHasOrientations) {
         this.districtHasOrientations = true;
+        this.showOrientations = true;
+      } else {
+        this.districtHasOrientations = false;
+        this.showOrientations = false;
       }
       if (this.userContextDefault.districtHasExams) {
         this.districtHasExams = true;
+        this.showExams = true;
+      } else {
+        this.districtHasExams = false;
+        this.showExams = false;
       }
-    } else {
-      //console.log(this.userContextService.defaultData.isMobileMealsOnly);
-      if (this.userContextDefault.districtHasFees) {
-        this.districtHasFees = true;
-      }
-      if (this.userContextDefault.districtHasActivities) {
-        this.districtHasActivities = true;
-      }
-      if (this.userContextDefault.districtHasOrientations) {
-        this.districtHasOrientations = true;
-      }
-      if (this.userContextDefault.districtHasExams) {
-        this.districtHasExams = true;
-      }
+    }
       if (this.userContextService.defaultData.isMobileMealsOnly === true) {
+        this.showOrientations = false;
+        this.showExams = false;
         this.showFees = false;
         this.showActivities = false;
       } else {
         this.showFees = true;
         this.showActivities = true;
+        this.showExams = true;
+        this.showOrientations = true;
       }
-    }
+
+      if(this.userContextService.defaultData.districtHasMeals === true){
+        this.openMeals = true;
+      }
+    
 
     //this.showReceiptInterval = setInterval(() => {
     //  // && this.receiptCounter < 4 this.receiptService.showReceipt
@@ -172,7 +184,7 @@ export class DashboardHomeComponent implements OnDestroy {
     //  }
     //}, 500)
 
-
+ console.log(this.districtHasActivities, this.districtHasFees);
   }
 
   ngDoCheck() {

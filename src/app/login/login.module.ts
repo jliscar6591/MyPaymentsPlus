@@ -23,7 +23,7 @@ import { RequestPasswordChangeComponent } from './reset-password/request-passwor
 import { ReCaptchaModule } from 'angular2-recaptcha';
 
 
-import { EqualValidatorDirective } from '../shared/directives/equal-validator.directive'
+import { EqualValidatorDirective } from '../shared/components/directives/equal-validator.directive';
 import { UserContextService } from '../site/account/services/index';
 
 import { PageLoadingModule } from '../shared/components/page-loading/page-loading.module';

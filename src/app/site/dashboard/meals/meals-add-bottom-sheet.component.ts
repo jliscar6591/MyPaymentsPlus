@@ -87,7 +87,7 @@ export class MealsAddBottomSheetComponent implements OnInit {
     // console.log('model', this.data.model);
     this.student = this.data.model;
     this.formAmount = new FormGroup({
-      amount: new FormControl('', Validators.required),
+      amount: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$')]),
       account: new FormControl('', Validators.required)
     })
     this.depositableAccounts = [];
@@ -141,7 +141,7 @@ export class MealsAddBottomSheetComponent implements OnInit {
 
   updateCartAmount(j: number) {
     let cartSum: number = this.student.mealAccounts[j].cartAmount;
-    this.student.mealAccounts[j].cartAmount = cartSum + parseInt(this.formAmount.controls.amount.value);
+    this.student.mealAccounts[j].cartAmount = cartSum + this.formAmount.controls.amount.value;
     this.formAmount.controls.amount.reset();
   }
 
@@ -171,7 +171,8 @@ export class MealsAddBottomSheetComponent implements OnInit {
     }
   }
 
-  addCartItem(amount: number, j: number) {
+  addCartItem(amount: any, j: number) {
+    console.log(amount);
     if (j === 0) {
       j = this.depositableAccounts[0].index;
     }
@@ -189,15 +190,17 @@ export class MealsAddBottomSheetComponent implements OnInit {
   }
 
   addCartItemCustom() {
-    //console.log(this.depositableAccounts[this.formAmount.controls.account.value].index);
+    console.log(this.depositableAccounts[this.formAmount.controls.account.value].index);
+    console.log('amount', this.formAmount.controls.account.value);
     this.isMealPlanSelected = false;
     let j = this.depositableAccounts[this.formAmount.controls.account.value].index;
     let params = {
       valid: this.formAmount.valid,
-      amount: parseInt(this.formAmount.controls.amount.value),
+      amount: this.formAmount.controls.amount.value,
       outsideIndex: this.data.index,
       insideIndex: j
     }
+    console.log('params', params);
     this.mealsComponent.addCartItemMobile(params);
     //this.addCartItemMobile.emit({
     //  valid: this.formAmount.valid,

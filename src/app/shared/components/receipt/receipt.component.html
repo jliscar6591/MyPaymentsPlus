@@ -3,7 +3,7 @@
     <span><img src="../../assets/images/mpp-logo.png" /></span>
     <div class="close-button">
       <!--<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fwww2.mypaymentsplus.com%2Fwelcome&layout=button&size=large&width=73&height=28&appId" width="73" height="28" style="border:none;overflow:hidden;padding-right:5px;" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>-->
-      <button mat-icon-button title="Print Receipt" (click)="printReceipt()" aria-label="Print Receipt">
+      <button mat-icon-button title="Print Receipt" (click)="printReceipt()" *ngIf="showPrintButton" aria-label="Print Receipt">
         <mat-icon class="close">print</mat-icon>
       </button>
       <button mat-icon-button title="Close Receipt" (click)="closeReceipt()" aria-label="Close Receipt">
@@ -167,7 +167,7 @@
   <div class="header-row row-border receipt-margin">
     <span><img src="../../assets/images/mpp-logo.png" /></span>
     <div class="close-button">
-      <button class="printBtn" mat-icon-button title="Print Receipt" (click)="printReceipt()"
+      <button class="printBtn" mat-icon-button title="Print Receipt" *ngIf="showPrintButton" (click)="printReceipt()"
         aria-label="Print Receipt">
         <mat-icon class="close">print</mat-icon>
       </button>

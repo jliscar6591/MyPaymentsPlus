@@ -19,6 +19,7 @@ export class OrientationService {
   public result: boolean = false;
   public orientationResponse: any;
   public orientationAutoEnrollList: any;
+  public currentDocumentCount: number = 0;
 
   
   constructor(
@@ -194,6 +195,7 @@ export class OrientationService {
   }
 
   public subscribeToGetOrientationAutoEnroll(loginResponse) {
+    this.currentDocumentCount = 0;
     let loginResponseObj;
     if (loginResponse) {
       loginResponseObj = loginResponse;
@@ -219,11 +221,16 @@ export class OrientationService {
           this.listReady = true;
 
         }
+        var i;
+        for (i = 0; i < this.orientationAutoEnrollList.length; i++) {
+          this.currentDocumentCount = this.currentDocumentCount + this.orientationAutoEnrollList[i].orientation.unsignedDocuments.length;
+        }
         this.result = true;
       }
       );
     return this.orientationList;
   }
+  
   handleError(error, failureMessage) {
     this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
     console.log(this.loginResponse.message);

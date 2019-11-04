@@ -99,7 +99,7 @@ export class FeesDialogComponent implements OnInit {
   }
 
   onNoClick() {
-    this.dialogRef.close(this.data.amountInCart);
+    this.dialogRef.close();
   }
 
   public addCartItem(i: number, j: number) {

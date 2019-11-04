@@ -94,6 +94,7 @@ export class FeesDetailsComponent implements OnInit {
   })
   public feeStore: Observable<FeesList[]>;
   public feeState: any;
+  public isMobile: boolean;
 
 
   constructor(
@@ -132,46 +133,47 @@ export class FeesDetailsComponent implements OnInit {
 
   ngOnInit() {
     //this.subscription = this.feesService.subscribeToGetFees(this.loginResponse);
+    this.isMobile = (window.innerWidth < 960) ? true : false;
     this.feesList = this.feesService.feesList;
     this.feeCallCount = 0;
   }
 
   ngDoCheck() {
-    if (this.addCartItemService.result) {
-      //console.log('cartResponse on ng do check', this.addCartItemService.cartResponse);
+    if (this.addCartItemService.result === true) {
+      console.log('cartResponse on ng do check', this.addCartItemService.cartResponse);
       let tempResponse: any;
       tempResponse = this.addCartItemService.cartResponse;
       this.store.dispatch(new CartStoreActions.LoadCartSuccess(tempResponse))
       this.addCartItemService.result = false;
     }
 
-    if (this.addCartItemService.result && this.feeState.loaded) {
-      this.feeStore.subscribe(c => this.feeState = c);
-      this.feeInterval = setInterval(() => {
-        if (this.feeState.data) {
-          this.feesList = this.feeState.data;
-          clearInterval(this.feeInterval);
-        }
-      }, 1000);
-      this.addCartItemService.result = false;
-      //console.log('does this run when i add on ein the dialog');
-    }
+    // if (this.addCartItemService.result && this.feeState.loaded) {
+    //   this.feeStore.subscribe(c => this.feeState = c);
+    //   this.feeInterval = setInterval(() => {
+    //     if (this.feeState.data) {
+    //       this.feesList = this.feeState.data;
+    //       clearInterval(this.feeInterval);
+    //     }
+    //   }, 1000);
+    //   this.addCartItemService.result = false;
+    //   //console.log('does this run when i add on ein the dialog');
+    // }
 
-    if (this.feesService.result === true && this.feeCallCount === 0) {
-      this.feesService.subscribeToGetFees(this.loginResponse);
-      this.feesList = this.feesService.feesList;
-      this.feesService.result = false;
-      //console.log('what am i getting in here before the dispatch', this.feesList);
-      this.store.dispatch(new FeeStoreActions.LoadFeesSuccess(this.feesList))
-      this.feeStore.subscribe(c => this.feeState = c);
-      this.feesList = this.feeState.data;
-      this.feeCallCount = 1;
-    }
+    // if (this.feesService.result === true && this.feeCallCount === 0) {
+    //   this.feesService.subscribeToGetFees(this.loginResponse);
+    //   this.feesList = this.feesService.feesList;
+    //   this.feesService.result = false;
+    //   //console.log('what am i getting in here before the dispatch', this.feesList);
+    //   this.store.dispatch(new FeeStoreActions.LoadFeesSuccess(this.feesList))
+    //   this.feeStore.subscribe(c => this.feeState = c);
+    //   this.feesList = this.feeState.data;
+    //   this.feeCallCount = 1;
+    // }
 
   }
 
   ngAfterContentInit() {
-    //console.log('here is the current feesList on the fee-details component', this.feesList);
+    console.log('here is the current feesList on the fee-details component', this.feesList);
   }
 
   public editAmount(i: number, j: number) {
@@ -239,7 +241,7 @@ export class FeesDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (this.addCartItemService.cartResponse) {
+      if (this.addCartItemService.result === true) {
         this.feesList[this.outsideIndex].fees[this.insideIndex].amountInCart = result;
         this.feesList[this.outsideIndex].fees[this.insideIndex].amountToPay = this.amountToPay - result;
         this.feesList[this.outsideIndex].fees[this.insideIndex].isInCart = true;

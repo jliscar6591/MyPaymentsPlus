@@ -3,10 +3,12 @@ import { Router } from '@angular/router';
 import { Validators, AbstractControl, FormGroupDirective, NgForm, FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Constants } from '../../../app.settings';
 import { LoginModel, LoginResponseModel } from '../../../login/model/index';
-import { StudentBalanceAlertService } from "../services/index";
+import { StudentBalanceAlertService, UserContextService } from "../services/index";
 import { StudentBalanceAlertModel, StudentBalanceAlertInputModel, BalanceAlert, BalanceAlertInput } from "../meal-purchases/model/index";
 import { SuspendPaymentWarningService } from '../../../shared/components/suspend-payment-warning/suspend-payment-warning.service';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { SpendingLimitsService } from '../services/spending-limits.service';
+import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -58,16 +60,25 @@ export class AlertsComponent {
     Validators.required,
     Validators.pattern(/^\d+$/),
   ]);
+  editLimit: FormGroup;
 
   matcher = new MyErrorStateMatcher();
   public alertInterval: any;
+  public limitInterval: any;
+  public spendingLimits: any;
+  public edit: boolean = false;
+  public userContext: any;
+  public switch = new FormControl();
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private studentBalanceAlertService: StudentBalanceAlertService,
     private utilityService: UtilityService,
     private suspendPaymentWarningService: SuspendPaymentWarningService,
-    private loginStoreService: LoginStoreService
+    private loginStoreService: LoginStoreService,
+    public spendingLimitsService: SpendingLimitsService,
+    public userContextService: UserContextService,
+    
 
   ) {
     this.loginResponse = this.loginStoreService.cookieStateItem;
@@ -79,11 +90,19 @@ export class AlertsComponent {
     this.loginResponse.messageTitle = '';
     this.loginResponse.showCloseButton = false;
     this.loginResponse.closeHtml = '';
+    this.editLimit = formBuilder.group({
+      amount: ['', Validators.required],
+      frequency: ['', Validators.required],
+    });
   }
 
   ngOnInit() {
     this.isGettingBalance = true;
     this.studentBalanceAlertForm = new FormGroup({});
+    this.userContext = this.userContextService.defaultData;
+    if(this.userContext.districtHasSolanaALaCarteSpendingLimit){
+      this.spendingLimitsService.subscribeToGetSpendingLimits(this.loginResponse);
+    }
     this.alertInterval = setInterval(async () => {
       //console.log('when do we have this?', this.studentBalanceAlertService.studentBalanceAlerts);
       if (this.studentBalanceAlertService.studentBalanceAlerts) {
@@ -109,13 +128,39 @@ export class AlertsComponent {
         clearInterval(this.alertInterval)
       }
     }, 50);
+    this.limitInterval = setInterval(() => {
+      if (this.spendingLimitsService.spendingLimits) {
+        this.spendingLimits = this.spendingLimitsService.spendingLimits;
+        var i;
+        for (i = 0; i < this.spendingLimits.length; i++) {
+          this.spendingLimits[i].edit = '';
+          this.spendingLimits[i].edit = false;
+        }
+        clearInterval(this.limitInterval);
+      }
+    }, 500);
   }
+
+  public onChange(ob: MatSlideToggleChange, index) {
+    console.log(ob.checked);
+    let matSlideToggle: MatSlideToggle = ob.source;	
+    var i;
+    for (i = 0; i < this.spendingLimits.length; i++) {
+      if (i === index) {
+        this.spendingLimits[index].isSpendingLimit = ob.checked;
+      }
+    }
+    this.spendingLimitsService.subscribeToPutSpendingLimits(this.loginResponse, this.spendingLimits);
+    console.log('new updated spending limits before i send api post', this.spendingLimits);
+    console.log(matSlideToggle.color);
+    console.log(matSlideToggle.required);
+  } 
 
 
   // This calls https://server/profile/api/LowBalanceNotificationConfiguration
   // to get Balance Alerts of the students.
   async getStudentBalanceAlerts() {
-    
+
     this.loginStoreService.loadLogin(this.studentBalanceAlertService.loginResponse);
     // this.cookieService.putObject(Constants.AuthCookieName, this.studentBalanceAlertService.loginResponse);
     this.hasStudents = this.studentBalanceAlertService.studentBalanceAlerts.length > 0;
@@ -201,6 +246,46 @@ export class AlertsComponent {
       warning = true;
     }
     this.isSuspendPayment = this.suspendPaymentWarningService.getWarning(warning, warningMsg);
+  }
+
+  public editSpendingLimits(index) {
+    this.editLimit.reset();
+    var i;
+    for (i = 0; i < this.spendingLimits.length; i++) {
+      if (index === i) {
+        this.spendingLimits[i].edit = true;
+      } else {
+        this.spendingLimits[i].edit = false;
+      }
+    }
+    console.log('form values', this.editLimit);
+
+  }
+
+  public saveEdits(index) {
+    console.log('form values', this.editLimit);
+    console.log('amount', this.editLimit.controls.amount.value);
+    console.log('frequency', this.editLimit.controls.frequency.value);
+    var i;
+    for (i = 0; i < this.spendingLimits.length; i++) {
+      if (i === index) {
+        this.spendingLimits[index].spendingLimit = this.editLimit.controls.amount.value;
+        this.spendingLimits[index].spendingLimitType = this.editLimit.controls.frequency.value;
+        this.spendingLimits[index].edit = false;
+      }
+    }
+    this.spendingLimitsService.subscribeToPutSpendingLimits(this.loginResponse, this.spendingLimits);
+    console.log('new updated spending limits before i send api post', this.spendingLimits);
+
+  }
+
+  public cancelEdits(index) {
+    var i;
+    for (i = 0; i < this.spendingLimits.length; i++) {
+      if (index === i) {
+        this.spendingLimits[index].edit = false;
+      }
+    }
   }
 
   toggleEditAlerts() {

@@ -17,6 +17,12 @@
   text-decoration: none;
 }
 
+.message{
+  padding-left: 15px;
+  transform: none;
+  padding-top: 10px;
+}
+
 .top-nav {
   display: flex;
   padding: 6px;
@@ -74,6 +80,26 @@ padding-bottom: 5px;
   flex-shrink: 1;
 }
 
+.mat-expansion-panel-header.mat-expanded,
+.mat-expansion-panel-header.mat-expanded:hover,
+.mat-expansion-panel-header.mat-expanded:focus {
+  background-color: #DDD;
+  height: 48px !important;
+}
+
+.panel-body-exam-detail {
+  padding: 16px 0px 10px !important;
+}
+
+.mat-checkbox-label {
+  min-width: unset !important;
+}
+
+.accomadation-msg {
+  padding-top : 10px;
+  font-weight: bold;
+}
+
 .name {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 15px;
@@ -90,6 +116,12 @@ padding-bottom: 5px;
     flex-flow: column
   }
 
+  .radio-group-desktop {
+    display: flex;
+    flex-flow: column;
+    padding-bottom: 10px;
+  }
+
   .action-row {
     display: flex;
   }
@@ -98,6 +130,23 @@ padding-bottom: 5px;
       width:100%;
       display:flex;
       justify-content: flex-start;
+      margin: 6px;
+
+      &:focus {
+        color: #607D8B;
+        background-color: #DDD;
+        left: .1em;
+      }
+
+      &:hover {
+        color: #607D8B;
+        background-color: #DDD;
+        left: .1em;
+      }  
+
+      &:active {
+        color: black;
+      }
   }
 
 .exams {
@@ -142,6 +191,11 @@ padding-bottom: 5px;
 .orientation-message{
   padding-left: 15px;
 
+}
+
+.chip{
+  background-color: @accentColor;
+  color: white;
 }
 
 .register-btn{
@@ -215,6 +269,7 @@ padding-bottom: 5px;
     display: flex;
     justify-content: space-between;
     width: 100%;
+    padding-bottom: 5px;    
     align-items: center;
 }
 

@@ -12,6 +12,7 @@ import { ValidCartCountService, TransfersService, CartCheckoutService, MultiDist
 import { Plugins } from '@capacitor/core';
 import { UserContextService } from '../../../site/account/services/index';
 import { FormControl } from '@angular/forms';
+import { SiteHomeComponent } from '../../../site/site-home.component';
 
 
 @Component({
@@ -52,6 +53,7 @@ export class OrientationDialogComponent implements OnInit {
   public showFees: boolean = true;
   public showActivities: boolean = true;
   public unsignedOrientationList: any = [];
+  public answer: boolean = false;
 
   constructor(
     private router: Router,
@@ -74,8 +76,10 @@ export class OrientationDialogComponent implements OnInit {
     console.log(this.data.orientationList);
     this.orientationList = this.data.orientationList;
     this.responses = [];
+    this.autoFeesList = [];
     this.autoEnrollActivitiesCounter = 0;
     this.userContextDefault = this.userContextService.defaultData;
+    console.log('uercontext', this.userContextDefault);
     const { Device } = Plugins;
     this.deviceInfo = await Device.getInfo();
     if (this.deviceInfo.platform === 'web') {
@@ -105,19 +109,19 @@ export class OrientationDialogComponent implements OnInit {
       }
     }
     var i;
-        for (i = 0; i < this.orientationList.length; i++) {
-          if (this.orientationList[i].orientation.signedDocuments.length > 0) {
-            this.hasSigned = true;
-          }
-          if (this.orientationList[i].orientation.unsignedDocuments.length > 0) {
-            this.hasUnsigned = true;
-            this.unsignedOrientationList.push(this.orientationList[i]);
-          }
-        }
-        this.gettingOrientation = false;
-        clearInterval(this.orientationInterval);
-        console.log('unsigned orientationLists', this.unsignedOrientationList);
-        console.log('orientation list', this.orientationList);
+    for (i = 0; i < this.orientationList.length; i++) {
+      if (this.orientationList[i].orientation.signedDocuments.length > 0) {
+        this.hasSigned = true;
+      }
+      if (this.orientationList[i].orientation.unsignedDocuments.length > 0) {
+        this.hasUnsigned = true;
+        this.unsignedOrientationList.push(this.orientationList[i]);
+      }
+    }
+    this.gettingOrientation = false;
+    clearInterval(this.orientationInterval);
+    console.log('unsigned orientationLists', this.unsignedOrientationList);
+    console.log('orientation list', this.orientationList);
   }
 
 
@@ -126,7 +130,7 @@ export class OrientationDialogComponent implements OnInit {
   }
 
   nextStep() {
-    if(this.step === this.unsignedOrientationList.length -1 ){
+    if (this.step === this.unsignedOrientationList.length - 1) {
 
     }
     this.step++;
@@ -164,10 +168,15 @@ export class OrientationDialogComponent implements OnInit {
     console.log(mrChange.value);
     console.log(studentIndex, documentIndex, item, student);
     let mrButton: MatRadioButton = mrChange.source;
+    if (mrChange.value == 1) {
+      this.answer = true;
+    } else {
+      this.answer = false;
+    }
     let response = {
       'accountBalanceID': student.accountBalanceID,
       'orientationItemID': item.orientationItemId,
-      'signed': true
+      'signed': this.answer
     }
     var i;
     for (i = 0; i < this.responses.length; i++) {
@@ -190,10 +199,15 @@ export class OrientationDialogComponent implements OnInit {
     console.log(mrButton.name);
     console.log(mrButton.checked);
     console.log(mrButton.inputId);
+    if (mrChange.value == 1) {
+      this.answer = true;
+    } else {
+      this.answer = false;
+    }
     let response = {
       'accountBalanceID': student.accountBalanceID,
       'orientationItemID': item.orientationItemId,
-      'signed': true
+      'signed': this.answer
     }
     var i;
     for (i = 0; i < this.responses.length; i++) {
@@ -207,27 +221,52 @@ export class OrientationDialogComponent implements OnInit {
     this.nextStep();
   }
 
-  public signDocuments() {
-    this.orientationService.subscribeToPostOrientation(this.loginResponse, this.responses);
-    this.orientationInterval = setInterval(() => {
-      this.gettingOrientation = true;
+  public async signDocuments() {
+    this.gettingOrientation = true;
+    this.orientationService.orientationList
+    this.unsignedOrientationList = [];
+    await this.orientationService.subscribeToPostOrientation(this.loginResponse, this.responses);
+    await this.orientationService.subscribeToGetOrientationAutoEnroll(this.loginResponse);
+    this.orientationInterval = await setInterval(() => {
       if (this.orientationService.orientationResponse) {
-        // console.log('response',this.orientationService.orientationResponse);
+        var i;
+        for (i = 0; i < this.orientationList.length; i++) {
+          if (this.orientationList[i].orientation.signedDocuments.length > 0) {
+            this.hasSigned = true;
+          }
+          if (this.orientationList[i].orientation.unsignedDocuments.length > 0) {
+            this.hasUnsigned = true;
+            this.unsignedOrientationList.push(this.orientationList[i]);
+          }
+        }
+        console.log('response', this.orientationService.orientationResponse);
         this.gettingOrientation = false;
         this.responses = [];
-        if (this.activitiesService.activitiesList && this.feesService.feesList && this.autoEnrollActivitiesCounter === 0) {
-          if (this.districtHasFees || this.districtHasActivities) {
-            console.log('OR DOES IT SKIP STRAIGHT TO HERE?');
-            this.openAutoEnrollDialog();
-            this.autoEnrollActivitiesCounter++;
-            window.clearInterval(this.autoEnrollInterval)
+        if (this.unsignedOrientationList.length === 0) {
+          if (this.activitiesService.activitiesList && this.feesService.feesList && this.autoEnrollActivitiesCounter === 0) {
+            if (this.districtHasFees || this.districtHasActivities) {
+              console.log('OR DOES IT SKIP STRAIGHT TO HERE?');
+              this.openAutoEnrollDialog();
+              this.autoEnrollActivitiesCounter++;
+              this.gettingOrientation = false;
+              this.dialogRef.close();
+            }
+          } else {
+            this.gettingOrientation = false;
             this.dialogRef.close();
           }
         }
+        this.gettingOrientation = false;
         this.openSnackBar();
         clearInterval(this.orientationInterval);
       }
     }, 1000);
+  }
+
+  public ngDoCheck() {
+    if (this.orientationService.orientationAutoEnrollList.length === 0) {
+      this.onNoClick();
+    }
   }
 
   openSnackBar() {
@@ -239,14 +278,15 @@ export class OrientationDialogComponent implements OnInit {
 
   //closes dialog
   async onNoClick() {
-      if (this.activitiesService.activitiesList && this.feesService.feesList && this.autoEnrollActivitiesCounter === 0) {
-        if (this.districtHasFees || this.districtHasActivities) {
-          console.log('OR DOES IT SKIP STRAIGHT TO HERE?');
-          this.openAutoEnrollDialog();
-          this.autoEnrollActivitiesCounter++;
-          window.clearInterval(this.autoEnrollInterval)
-        }
+    console.log(this.activitiesService.activitiesList, this.feesService.feesList, this.autoEnrollActivitiesCounter);
+    if (this.activitiesService.activitiesList || this.feesService.feesList && this.autoEnrollActivitiesCounter === 0) {
+      console.log(this.userContextDefault.districtHasFees, this.userContextDefault.districtHasActivities)
+      if (this.userContextDefault.districtHasFees || this.userContextDefault.districtHasActivities) {
+        console.log('OR DOES IT SKIP STRAIGHT TO HERE?');
+        this.openAutoEnrollDialog();
+        this.autoEnrollActivitiesCounter++;
       }
+    }
     this.dialogRef.close();
   }
 
@@ -260,7 +300,7 @@ export class OrientationDialogComponent implements OnInit {
         for (j = 0; j < this.activitiesList[i].accounts.length; j++) {
           var k;
           for (k = 0; k < this.activitiesList[i].accounts[j].activities.length; k++) {
-            if (this.activitiesList[i].accounts[j].activities[k].isAutoAddToCart && !this.activitiesList[i].accounts[j].activities[k].isInCart) {
+            if (this.activitiesList[i].accounts[j].activities[k].isSuggested && !this.activitiesList[i].accounts[j].activities[k].isInCart) {
               this.autoCartList.push(this.activitiesList[i].accounts[j].activities[k]);
             }
           }
@@ -271,7 +311,7 @@ export class OrientationDialogComponent implements OnInit {
           for (m = 0; m < this.activitiesList[i].subCategory[l].accounts.length; m++) {
             var n;
             for (n = 0; n < this.activitiesList[i].subCategory[l].accounts[m].activities.length; n++) {
-              if (this.activitiesList[i].subCategory[l].accounts[m].activities[n].isAutoAddToCart && !this.activitiesList[i].subCategory[l].accounts[m].activities[n].isInCart) {
+              if (this.activitiesList[i].subCategory[l].accounts[m].activities[n].isSuggested && !this.activitiesList[i].subCategory[l].accounts[m].activities[n].isInCart) {
                 this.autoCartList.push(this.activitiesList[i].subCategory[l].accounts[m].activities[n]);
               }
             }
@@ -281,9 +321,10 @@ export class OrientationDialogComponent implements OnInit {
           this.autoCartListReady = true;
         }
       }
+    } else {
+      this.autoCartListReady = true;
     }
-    if (this.feesService.feesList) {
-      this.autoFeesList = [];
+    if (this.feesService.feesList.length > 0) {
       this.feesList = this.feesService.feesList;
       console.log('feeslist', this.feesList);
       var o;
@@ -302,10 +343,15 @@ export class OrientationDialogComponent implements OnInit {
           this.autoFeesListReady = true;
         }
       }
+    } else {
+      this.autoFeesListReady = true;
     }
-    if (this.autoCartListReady && this.autoFeesListReady && this.autoFeesList.length > 0 || this.autoCartList.length > 0) {
-      //console.log('autoCartList', this.autoCartList);
-      //console.log('autoFeesList', this.autoFeesList);
+    console.log('autoCartList', this.autoCartList);
+    console.log('autoFeesList', this.autoFeesList);
+    console.log('cart list ready', this.autoCartListReady);
+    console.log('fees list ready', this.autoFeesListReady);
+    if (this.autoCartListReady && this.autoFeesListReady && (this.autoFeesList.length > 0 || this.autoCartList.length > 0)) {
+      console.log('do we get to where the activities open');
       let config = new MatDialogConfig();
       config.panelClass = 'my-class';
       config.maxHeight = '750px';
@@ -315,7 +361,7 @@ export class OrientationDialogComponent implements OnInit {
         cart: this.autoCartList
       };
       config.disableClose = true;
-      //console.log(config.data);
+      console.log(config.data);
       const dialogRef = this.dialog.open(AutoEnrollDialogComponent, config)
 
       dialogRef.afterClosed().subscribe(result => {
@@ -328,5 +374,8 @@ export class OrientationDialogComponent implements OnInit {
 
   }
 
+  public ngOnDestroy() {
+    this.orientationService.subscribeToGetOrientationAutoEnroll(this.loginResponse);
+  }
 
 }

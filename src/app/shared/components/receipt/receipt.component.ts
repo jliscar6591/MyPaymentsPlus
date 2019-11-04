@@ -16,6 +16,7 @@ import { PaymentHistoryService } from '../../../site/account/services';
 import { AddCartItemService } from '../../../site/services/add-cart-item.service';
 import { PageLoadingService } from '../../../shared/components/page-loading/page-loading.service';
 import { clearInterval } from 'timers';
+import { Plugins } from '@capacitor/core';
 //import { clearInterval } from 'timers';
 //import { setInterval } from 'timers';
 
@@ -49,6 +50,10 @@ export class ReceiptComponent implements OnInit {
   public transactions: any;
   public receiptCall: number = 0;
   private receiptDetailInterval: any;
+  public mobile: boolean;
+  public deviceInfo: any;
+  public showPrintButton: boolean = true;
+
   constructor(
     public receiptService: ReceiptService,
     private cd: ChangeDetectorRef,
@@ -63,8 +68,17 @@ export class ReceiptComponent implements OnInit {
     private pageLoadingService: PageLoadingService,
   ) { this.cartStore = store.select(state => state.cartStore); }
 
-  ngOnInit() {
-   // console.log("Calling Receipt Component:", this.receiptService.transactions)
+  async ngOnInit() {
+    // console.log("Calling Receipt Component:", this.receiptService.transactions)
+    const { Device } = Plugins;
+    this.deviceInfo = await Device.getInfo();
+    //checks to see if district has orientations and sets local variable
+
+    if (this.deviceInfo.platform !== 'web') {
+      this.showPrintButton = false;
+    }
+
+    this.mobile = (window.innerWidth < 800) ? true : false;
     this.pageLoadingService.show("Getting Receipt Details");
     if (this.receiptService.transactions) {
       //console.log('Receipt trasactions on page load', this.receiptService.transactions);
@@ -77,7 +91,7 @@ export class ReceiptComponent implements OnInit {
       this.transactions = this.receiptService.transactions;
       this.cd.markForCheck();
       this.receiptReady = true;
-        //console.log("Do we have details yet: ", this.receiptService.receiptDetail)
+      //console.log("Do we have details yet: ", this.receiptService.receiptDetail)
       if (this.receiptService.receiptDetail) {
         // console.log("What is the detail: ", this.receiptService.receiptDetail)
         if (this.receiptType == 'purchase') {
@@ -98,7 +112,7 @@ export class ReceiptComponent implements OnInit {
           this.pageLoadingService.hide();
 
         }
-       // console.log('cartResponse: ', this.addCartItemService.cartResponse)
+        // console.log('cartResponse: ', this.addCartItemService.cartResponse)
         //if (this.addCartItemService.cartResponse) {
         //  this.addCartItemService.cartResponse.itemCount = 0;
         //}
@@ -112,7 +126,7 @@ export class ReceiptComponent implements OnInit {
 
         //    }, 500)
         //}
-        
+
       } else {
         this.displayHistoryReceipt = true;
         this.displayReceipt = true;

@@ -1,3 +1,10 @@
+.mat-title{
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    margin-right: 16px;
+}
+
 .actions{
     display: flex;
     justify-content: center;
@@ -39,7 +46,21 @@
 }
 
 @media all and (max-width: 750px){
+    .orientation-title{
+        padding-top: 10px;
+    }
+
+.orientation-description{
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
 .checkbox{
     min-width:90px;
+}
+
+.name{
+    font-size: medium;
+    line-height: 15px;
 }
 }

@@ -26,11 +26,17 @@
         </button>
       </li>
       <li class="flex-row flex-fill equal text-center">
-        <button mat-button (click)="sidenav.close()" routerLink="/account/alerts" aria-label="Low Balance Alerts" class="sidenav-grid-option bg-lightgray">
+        <button mat-button (click)="sidenav.close()" routerLink="/account/alerts" aria-label="Low Balance Alerts" class="sidenav-grid-option bg-lightgray" *ngIf="userContext.districtHasSolanaALaCarteSpendingLimit === false">
           <div class="option-graphic">
             <img src="../../../assets/images/icons/icons8-cheap-2-64.png" class="notranslate image">
           </div>
           <div class="option-text">Low Balance Alerts</div>
+        </button>
+        <button mat-button (click)="sidenav.close()" routerLink="/account/alerts" aria-label="Low Balance Alerts & Spending Limits" class="sidenav-grid-option bg-lightgray" *ngIf="userContext.districtHasSolanaALaCarteSpendingLimit === true">
+          <div class="option-graphic">
+            <img src="../../../assets/images/icons/icons8-cheap-2-64.png" class="notranslate image">
+          </div>
+          <div class="option-text">Low Balance Alerts & Spending Limits</div>
         </button>
         <button mat-button (click)="sidenav.close()" routerLink="/account/manage-students" aria-label="Manage Students" class="sidenav-grid-option bg-lightgray">
           <div class="option-graphic">

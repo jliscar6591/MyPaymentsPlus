@@ -12,6 +12,8 @@ import { PaymentMethodModel, AutoPay } from '../../site/account/meal-purchases/m
 @Injectable()
 export class UtilityService {
   public posCommError: boolean = false;
+  public error: any;
+
   clearErrorMessage(serviceResponse: LoginResponseModel) {
     serviceResponse.message = '';
     serviceResponse.messageType = '';
@@ -40,6 +42,7 @@ export class UtilityService {
   processApiErr(error: any, loginResponse: LoginResponseModel, failureMessage: string) {
     console.log("Did we get an Error: ", error)
     console.log("Our LoginResponse: ", loginResponse);
+    this.error = error;
     if (error["status"]) {
       switch (error["status"]) {
         case 412:
@@ -71,6 +74,7 @@ export class UtilityService {
           loginResponse.message = failureMessage + '. ' + error["statusText"];
           break;
         case 424:
+          console.log('do i see this 424 error?');
           loginResponse.status = '424';
           loginResponse.message = error["statusText"];
           var errorObj: any = JSON.parse(error["_body"]);

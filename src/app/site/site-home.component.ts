@@ -102,10 +102,10 @@ export class SiteHomeComponent {
   public deviceInfo: any;
   public web: boolean;
   public userContextDefault: any;
-  public showFees: boolean = true;
-  public showActivities: boolean = true;
-  public districtHasFees: boolean = false;
-  public districtHasActivities: boolean = false;
+  public showFees: boolean = false;
+  public showActivities: boolean = false;
+  public districtHasFees: boolean;
+  public districtHasActivities: boolean;
   public autoEnrollActivitiesCounter: number = 0;
   public activitiesList: any;
   public autoCartList: any;
@@ -126,8 +126,12 @@ export class SiteHomeComponent {
   })
   public orientationDialogInterval: any;
   public unsignedDocumentCount: number = 0;
-  public districtHasExams: boolean = false;
-  public districtHasOrientations: boolean = false;
+  public districtHasExams: boolean;
+  public districtHasOrientations: boolean;
+  public showOrientations: boolean = false;
+  public showExams: boolean = false;
+  public suggestedActivitiesList: any = [];
+
 
   @ViewChild('userOptionsDropdown') options;
   constructor(
@@ -195,6 +199,17 @@ export class SiteHomeComponent {
       }, 1000);
 
     }
+
+    if (this.userContextDefault.districtHasOrientations) {
+      if (this.orientationService.orientationAutoEnrollList && this.userContextDefault.districtHasOrientations) {
+        if (this.orientationService.orientationAutoEnrollList.length === 0) {
+          this.unsignedDocumentCount = 0;
+        } else {
+          this.unsignedDocumentCount = this.orientationService.currentDocumentCount;
+        }
+      }
+    }
+
 
     // if (this.refreshService.cartRefresh) {
     //   let temptState: any;
@@ -306,9 +321,9 @@ export class SiteHomeComponent {
     if (this.router.url == '/dashboard') {
       this.mobile = (window.innerWidth < 800) ? true : false;
       this.userContextDefault = this.userContextService.defaultData;
-      this.orientationService.subscribeToGetOrientationAutoEnroll(this.loginResponse);
-      this.feesService.subscribeToGetFees(this.loginResponse);
-      this.activitiesService.subscribeToGetActivities(this.loginResponse);
+      await this.feesService.subscribeToGetFees(this.loginResponse);
+      await this.activitiesService.subscribeToGetActivities(this.loginResponse);
+      await this.activitiesService.subscribeToGetSuggestedActivities(this.loginResponse);
       //Calling CafeteriaAccounts to fill MealStore with values to be used if
       //no response from CafeteriaAccountRemote
       if (this.studentMealsService.result === false && this.siteMealsCounter < 1) {
@@ -441,12 +456,8 @@ export class SiteHomeComponent {
     const { Device } = Plugins;
     this.deviceInfo = await Device.getInfo();
     console.log('user context', this.userContextDefault);
-    if(this.userContextDefault.districtHasorientaions){
-      this.districtHasOrientations = true;
-    }
-    if(this.userContextDefault.districtHasExams){
-      this.districtHasExams = true;
-    }
+    //checks to see if district has orientations and sets local variable
+
     if (this.deviceInfo.platform === 'web') {
       this.web = true;
       if (this.userContextDefault.districtHasFees) {
@@ -457,57 +468,86 @@ export class SiteHomeComponent {
         this.districtHasActivities = true;
         this.showActivities = true;
       }
-    } else {
-      if (this.userContextDefault.districtHasFees) {
-        this.districtHasFees = true;
+      if (this.userContextDefault.districtHasOrientations) {
+        this.districtHasOrientations = true;
+        this.showOrientations = true;
+        //checks to see if district has exams and sets local variable
       }
-      if (this.userContextDefault.districtHasActivities) {
-        this.districtHasActivities = true;
+      if (this.userContextDefault.districtHasExams) {
+        this.districtHasExams = true;
+        this.showExams = true;
       }
+    
+      console.log('service default data', this.userContextService.defaultData);
       if (this.userContextService.defaultData.isMobileMealsOnly === true) {
         this.showFees = false;
         this.showActivities = false;
+        this.showOrientations = false;
+        this.showExams = false;
       } else {
         this.showFees = true;
         this.showActivities = true;
+        this.showOrientations = true;
+        this.showExams = true;
 
       }
     }
 
+    if (this.userContextService.defaultData.districtHasOrientations) {
+      await this.orientationService.subscribeToGetOrientationAutoEnroll(this.loginResponse);
+    }
 
-    this.orientationDialogInterval = setInterval(() => {
-      console.log('ORIENTATION AUTO ENROLL', this.orientationService.orientationAutoEnrollList);
-      if (this.orientationService.orientationAutoEnrollList) {
-        var i;
-        for(i=0;i<this.orientationService.orientationAutoEnrollList.length;i++){
-          this.unsignedDocumentCount = this.unsignedDocumentCount + this.orientationService.orientationAutoEnrollList[i].orientation.unsignedDocuments.length;
-        }
-        console.log('doc count', this.unsignedDocumentCount);
-        console.log(this.userContextDefault.districtHasOrientations);
-        if (this.unsignedDocumentCount > 0 && this.userContextDefault.districtHasOrientations) {
-          console.log(this.orientationService.orientationAutoEnrollList);
+      this.orientationDialogInterval = await setInterval(() => {
+        if (this.userContextDefault.districtHasOrientations && this.orientationService.orientationAutoEnrollList !== undefined) {
+          console.log('ORIENTATION AUTO ENROLL', this.orientationService.orientationAutoEnrollList);
+          var i;
+          for (i = 0; i < this.orientationService.orientationAutoEnrollList.length; i++) {
+            this.unsignedDocumentCount = this.unsignedDocumentCount + this.orientationService.orientationAutoEnrollList[i].orientation.unsignedDocuments.length;
+          }
           console.log('doc count', this.unsignedDocumentCount);
-          console.log('DOES IT GET TO THIS POINT TO OPEN THE ORIENTATION DIALOG?');
-          this.openOrientationDialog();
-          clearInterval(this.orientationDialogInterval);
+          console.log(this.districtHasOrientations);
+          if (this.unsignedDocumentCount > 0 && this.userContextDefault.districtHasOrientations) {
+            console.log(this.orientationService.orientationAutoEnrollList);
+            console.log('doc count', this.unsignedDocumentCount);
+            console.log('DOES IT GET TO THIS POINT TO OPEN THE ORIENTATION DIALOG?');
+            this.openOrientationDialog();
+            clearInterval(this.orientationDialogInterval);
+          } else if (this.userContextDefault.districtHasOrientations || !this.userContextDefault.districtHasOrientations && this.orientationService.orientationAutoEnrollList.length === 0) {
+            clearInterval(this.orientationDialogInterval);
+            //Opens Auto Enroll dialog for fees/Activities
+            this.autoEnrollInterval = setInterval(() => {
+              if (this.activitiesService.suggestedActivitiesList && this.feesService.feesList && this.autoEnrollActivitiesCounter === 0) {
+                if (this.districtHasFees || this.districtHasActivities) {
+                  console.log('OR DOES IT SKIP STRAIGHT TO HERE?');
+                  this.openAutoEnrollDialog();
+                  this.autoEnrollActivitiesCounter++;
+                  clearInterval(this.orientationDialogInterval);
+                  clearInterval(this.autoEnrollInterval);
+                }
+              }
+            }, 500);
+          }
         } else {
-          clearInterval(this.orientationDialogInterval);
-          //Opens Auto Enroll dialog for fees/Activities
-          this.autoEnrollInterval = window.setInterval(() => {
-            if (this.activitiesService.activitiesList && this.feesService.feesList && this.autoEnrollActivitiesCounter === 0) {
+          this.autoEnrollInterval = setInterval(() => {
+            if (this.activitiesService.suggestedActivitiesList && this.feesService.feesList && this.autoEnrollActivitiesCounter === 0) {
               if (this.districtHasFees || this.districtHasActivities) {
-                console.log('OR DOES IT SKIP STRAIGHT TO HERE?');
+                console.log('OR DOES IT SKIP STRAIGHT TO HERE TO THE 2nD PART?');
                 this.openAutoEnrollDialog();
                 this.autoEnrollActivitiesCounter++;
-                window.clearInterval(this.autoEnrollInterval);
+                clearInterval(this.orientationDialogInterval);
+                clearInterval(this.autoEnrollInterval);
+              } else{
+                clearInterval(this.orientationDialogInterval);
+                clearInterval(this.autoEnrollInterval);
               }
             }
           }, 500);
-        }
+        } 
+      }, 500);
+      if(!this.userContextDefault.districtHasActivities && !this.userContextDefault.districtHasFees && !this.districtHasOrientations){
+        clearInterval(this.orientationDialogInterval);
+        clearInterval(this.autoEnrollInterval);
       }
-    }, 500)
-
-
 
     // console.log("Calling Site Component : ", this.loginStoreSvc.didBrowserRefresh)
     //need something a bit more robust to select which state to go to based on route 
@@ -570,7 +610,7 @@ export class SiteHomeComponent {
     if (this.orientationService.orientationAutoEnrollList.length > 0) {
       let config = new MatDialogConfig();
       config.panelClass = 'my-class';
-      config.maxHeight = '675px';
+      config.maxHeight = '625px';
       config.width = '650px';
       config.data = {
         orientationList: this.orientationService.orientationAutoEnrollList
@@ -587,33 +627,33 @@ export class SiteHomeComponent {
 
   //Opens autoEnroll dialog
   public openAutoEnrollDialog() {
-    if (this.activitiesService.activitiesList) {
+    if (this.activitiesService.suggestedActivitiesList) {
       this.autoCartList = [];
-      this.activitiesList = this.activitiesService.activitiesList;
+      this.suggestedActivitiesList = this.activitiesService.suggestedActivitiesList;
       var i;
-      for (i = 0; i < this.activitiesList.length; i++) {
+      for (i = 0; i < this.suggestedActivitiesList.length; i++) {
         var j;
-        for (j = 0; j < this.activitiesList[i].accounts.length; j++) {
+        for (j = 0; j < this.suggestedActivitiesList[i].accounts.length; j++) {
           var k;
-          for (k = 0; k < this.activitiesList[i].accounts[j].activities.length; k++) {
-            if (this.activitiesList[i].accounts[j].activities[k].isAutoAddToCart && !this.activitiesList[i].accounts[j].activities[k].isInCart) {
-              this.autoCartList.push(this.activitiesList[i].accounts[j].activities[k]);
+          for (k = 0; k < this.suggestedActivitiesList[i].accounts[j].activities.length; k++) {
+            if (this.suggestedActivitiesList[i].accounts[j].activities[k].isSuggested && !this.suggestedActivitiesList[i].accounts[j].activities[k].isInCart) {
+              this.autoCartList.push(this.suggestedActivitiesList[i].accounts[j].activities[k]);
             }
           }
         }
         var l;
-        for (l = 0; l < this.activitiesList[i].subCategory.length; l++) {
+        for (l = 0; l < this.suggestedActivitiesList[i].subCategory.length; l++) {
           var m;
-          for (m = 0; m < this.activitiesList[i].subCategory[l].accounts.length; m++) {
+          for (m = 0; m < this.suggestedActivitiesList[i].subCategory[l].accounts.length; m++) {
             var n;
-            for (n = 0; n < this.activitiesList[i].subCategory[l].accounts[m].activities.length; n++) {
-              if (this.activitiesList[i].subCategory[l].accounts[m].activities[n].isAutoAddToCart && !this.activitiesList[i].subCategory[l].accounts[m].activities[n].isInCart) {
-                this.autoCartList.push(this.activitiesList[i].subCategory[l].accounts[m].activities[n]);
+            for (n = 0; n < this.suggestedActivitiesList[i].subCategory[l].accounts[m].activities.length; n++) {
+              if (this.suggestedActivitiesList[i].subCategory[l].accounts[m].activities[n].isSuggested && !this.suggestedActivitiesList[i].subCategory[l].accounts[m].activities[n].isInCart) {
+                this.autoCartList.push(this.suggestedActivitiesList[i].subCategory[l].accounts[m].activities[n]);
               }
             }
           }
         }
-        if (i + 1 == this.activitiesList.length) {
+        if (i + 1 == this.suggestedActivitiesList.length) {
           this.autoCartListReady = true;
         }
       }
@@ -626,7 +666,7 @@ export class SiteHomeComponent {
       for (o = 0; o < this.feesList.length; o++) {
         var p;
         for (p = 0; p < this.feesList[o].fees.length; p++) {
-          if (this.feesList[o].fees[p].isAutoAddToCart && !this.feesList[o].fees[p].isInCart) {
+          if (this.feesList[o].fees[p].isSuggested && !this.feesList[o].fees[p].isInCart) {
             this.feesList[o].fees[p].name = this.feesList[o].name;
             this.feesList[o].fees[p].studentKey = this.feesList[o].studentKey;
             this.feesList[o].fees[p].insideIndex = p;
@@ -636,15 +676,16 @@ export class SiteHomeComponent {
         }
         if (o + 1 == this.feesList.length) {
           this.autoFeesListReady = true;
+          console.log('auto fees list', this.autoFeesList);
         }
       }
     }
     if (this.autoCartListReady && this.autoFeesListReady && this.autoFeesList.length > 0 || this.autoCartList.length > 0) {
-      //console.log('autoCartList', this.autoCartList);
-      //console.log('autoFeesList', this.autoFeesList);
+      console.log('autoCartList', this.autoCartList);
+      console.log('autoFeesList', this.autoFeesList);
       let config = new MatDialogConfig();
       config.panelClass = 'my-class';
-      config.maxHeight = '750px';
+      config.maxHeight = '625px';
       config.width = '650px';
       config.data = {
         feesList: this.autoFeesList,

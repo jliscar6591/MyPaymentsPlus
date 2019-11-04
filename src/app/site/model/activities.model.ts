@@ -1,4 +1,5 @@
 import { FieldResponse } from "../activities/forms/formResponse.model";
+import { Form } from "./forms.model";
 
 export interface ActivitiesList {
   category: string,
@@ -36,6 +37,7 @@ export interface Activities {
   productImageId: number,
   location: string,
   amount: number,
+  formModel: Form,
   resources: Resources[],
   category: string,
   quantity: number;

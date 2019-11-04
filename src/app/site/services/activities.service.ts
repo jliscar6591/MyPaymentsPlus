@@ -24,6 +24,7 @@ export class ActivitiesService {
   public count: number = 0;
   public currentToken: string;
   public listReady: boolean = false;
+  public suggestedActivitiesList: any;
 
   constructor(
     private http: Http,
@@ -95,6 +96,72 @@ export class ActivitiesService {
       }
       );
     return this.activitiesList;
+  }
+
+  public getSuggestedActivitiesList(loginResponse: LoginResponseModel): Observable<any> {
+    this.loginResponse = loginResponse;
+    let token = loginResponse.access_token;
+    this.currentToken = token;
+    let testString = this.currentToken.match(/bearer/);
+    if (testString) {
+      this.currentToken = this.currentToken;
+    } else {
+      this.currentToken = 'bearer ' + this.currentToken;
+    }
+
+    let successMessage: string = '';
+    let failureMessage: string = 'Get Activities List Failed';
+
+    this.currTokenServ.setCurrentToken(this.currentToken, this.loginResponse);
+
+    let Url = Constants.WebApiUrl.Profile + '/SuggestedActivities';  // URL to web API
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/JSON',
+      'Authorization': this.currentToken
+    });
+
+    let options = { headers: headers };
+
+    return this.httpC.get(Url, options)
+      .pipe(
+      catchError((error: any) => this.handleError(error, failureMessage))
+      ,
+      tap(data => console.log("I think we got suggested activities: ", data))
+      )
+  }
+
+  public subscribeToGetSuggestedActivities(loginResponse) {
+    let loginResponseObj;
+    if (loginResponse) {
+      loginResponseObj = loginResponse;
+    } else {
+      loginResponseObj = this.loginResponse;
+    }
+
+    this.getSuggestedActivitiesList(loginResponseObj)
+      .subscribe(
+      data => {
+        this.suggestedActivitiesList = data;
+        this.result = true;
+
+      },
+
+      error => {
+        console.log("Error: No Activities: ", this.suggestedActivitiesList)
+        this.result = false;
+      }
+      ,
+      () => {
+        if (this.result == false) {
+          this.isStudentsGetting = false;
+          this.getStudentErr = true;
+          this.getStudentErrMsg = this.loginResponse.message;
+        } else {
+          this.listReady = true;
+        }
+      }
+      );
+    return this.suggestedActivitiesList;
   }
 
   handleError(error, failureMessage) {

@@ -12,9 +12,12 @@
           <i class="material-icons mat-18 notranslate">credit_card</i><span class="option-text">{{getAutopaySettingLabel()}}</span>
         </button>
       </li>
-      <li class="sidenav-list-option" *ngIf="loginResponse.isAlertsAllowedDistrict">
+      <li class="sidenav-list-option" *ngIf="loginResponse.isAlertsAllowedDistrict && userContextDefault.districtHasSolanaALaCarteSpendingLimit === false">
         <button routerLink="/account/alerts" routerLinkActive="sidenav-option-active" aria-label="Low Balance Alerts" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">notifications</i><span class="option-text">Low Balance Alerts</span></button>
       </li>
+      <li class="sidenav-list-option" *ngIf="loginResponse.isAlertsAllowedDistrict && userContextDefault.districtHasSolanaALaCarteSpendingLimit === true">
+          <button routerLink="/account/alerts" routerLinkActive="sidenav-option-active" aria-label="Spending Alerts & Limits" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">notifications</i><span class="option-text">Spending Alerts &  Limits</span></button>
+        </li>
       <li class="sidenav-list-option">
         <button routerLink="/account/manage-students" routerLinkActive="sidenav-option-active" aria-label="Manage Students" mat-button class="sidenav-option"><i class="material-icons mat-18 notranslate">group</i><span class="option-text">Manage Students</span></button>
       </li>

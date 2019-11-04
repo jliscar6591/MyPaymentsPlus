@@ -89,6 +89,7 @@ export class ReviewCartComponent implements OnInit {
   public cartResultInterval: any;
   public saleInterval: any;
   public showReceipt: boolean = false;
+  public declinePaymentError: boolean = false;
   private cardTransaction: CardTransaction = {
     paymentType: '',
     nameOnAccount: '',
@@ -149,6 +150,8 @@ export class ReviewCartComponent implements OnInit {
     discount: new FormControl()
   });
 
+  public declineInterval: any;
+
   constructor(
     private router: Router,
     private paymentMethodService: PaymentMethodService,
@@ -165,7 +168,7 @@ export class ReviewCartComponent implements OnInit {
     private state: State<AppState>,
     private refreshService: RefreshService,
     private loginStoreSrvc: LoginStoreService,
-    private multiDistrictSvc:  MultiDistrictService
+    private multiDistrictSvc: MultiDistrictService
   ) {
     this.loginResponse = this.loginStoreSrvc.cookieStateItem;
     this.cartStore = store.select(state => state.cartStore);
@@ -174,7 +177,7 @@ export class ReviewCartComponent implements OnInit {
   async ngOnInit() {
     const { Device } = Plugins;
     this.deviceInfo = await Device.getInfo();
-   // console.log(this.deviceInfo);
+    // console.log(this.deviceInfo);
     if (this.deviceInfo.platform === 'web') {
       this.web = true;
     }
@@ -183,22 +186,23 @@ export class ReviewCartComponent implements OnInit {
       this.discountsApplied = false;
     }
     this.getPaymentMethods();
-    if (this.router.url == '/review') {
-    //console.log("does Review have a cartCheckoutItemsService CartItem: ", this.cartCheckoutItemsService.cartItem)
+    if (this.router.url === '/review') {
+      // console.log("does Review have a cartCheckoutItemsService CartItem: ", this.cartCheckoutItemsService.cartItem)
       // console.log("does Review have a CartItem: ", this.cartItem)
-  // console.log("Do we have checkout Items: ", this.checkOutItem)
+      // console.log("Do we have checkout Items: ", this.checkOutItem)
+      // tslint:disable-next-line: comment-format
       //setTimeout(() => { this.getCartListReview(); }, 0);
       this.getCartListReview();
       // console.log("Calling postCartCheckoutReviewItems: ", this.loginResponse)
       if (this.loginResponse.cartItemCount) {
         this.cCount = this.loginResponse.cartItemCount;
       }
-     // console.log("Was  subscribeTopostCartCheckoutReviewItems - ReviewCart1: ", this.cartCheckoutItemsService.checkOutItem)
+      // console.log("Was  subscribeTopostCartCheckoutReviewItems - ReviewCart1: ", this.cartCheckoutItemsService.checkOutItem)
       let trueTotal: number = 0;
       this.isReview = true;
-    //  console.log("Do we have the checkoutItems: ", this.checkOutItem)
+      //  console.log("Do we have the checkoutItems: ", this.checkOutItem)
       if (this.cartCheckoutItemsService.cartItem) {
-     //   console.log('merchant info', this.cartCheckoutItemsService.checkOutItem)
+        //   console.log('merchant info', this.cartCheckoutItemsService.checkOutItem)
         if (this.cartCheckoutItemsService.cartItem.itemCount > 0) {
           for (let i = 0; i < this.cartCheckoutItemsService.cartItem.items.length; i++) {
             // console.log("What is my amount in Cart: ", this.cartCheckoutItemsService.cartItem.items[i].amountInCart)
@@ -209,6 +213,7 @@ export class ReviewCartComponent implements OnInit {
 
           this.cartCheckoutItemsService.cartItem.total = trueTotal;
 
+          // tslint:disable-next-line: comment-format
           //console.log("New cartCheckoutItemsService.cartItem B4 dispatch: ", this.cartCheckoutItemsService.cartItem);
 
 
@@ -228,7 +233,7 @@ export class ReviewCartComponent implements OnInit {
       }
 
 
-    //  setTimeout(() => { this.getCartListReview(); }, 0);
+      //  setTimeout(() => { this.getCartListReview(); }, 0);
 
     }
     var currentDate = new Date();
@@ -247,7 +252,7 @@ export class ReviewCartComponent implements OnInit {
 
   ngDoCheck() {
     if (this.applyingDiscount === true && this.discountService.result === true && this.discountCall === 0) {
-      //console.log("Checking for Discounts")
+      // console.log("Checking for Discounts")
       setTimeout(() => {
         if (this.discountService.CheckoutItem.discountTotal === 0) {
           this.pageLoadingService.hide();
@@ -266,6 +271,13 @@ export class ReviewCartComponent implements OnInit {
         }
       }, 500);
     }
+
+    if (this.loginResponse.status === '200') {
+      this.declinePaymentError = false;
+    }
+
+    console.log('login response status', this.loginResponse.status)
+
   }
 
   createDiscountForm() {
@@ -275,12 +287,12 @@ export class ReviewCartComponent implements OnInit {
   }
 
   getCartListReview() {
-   //console.log("Reviewing the Cart");
+    //console.log("Reviewing the Cart");
     this.isCheckoutItemsGetting = true;
     this.cartCheckoutItemsService.result = false;
 
     if (this.cartCheckoutItemsService.checkOutItem) {
-     // console.log("Do we have checkoutItemsNow: ", this.cartCheckoutItemsService.checkOutItem)
+      // console.log("Do we have checkoutItemsNow: ", this.cartCheckoutItemsService.checkOutItem)
       if (this.cartCheckoutItemsService.loginResponse.messageType === Constants.Error) {
         this.isCartItems = true;
         this.getCartItemsErr = true;
@@ -292,10 +304,10 @@ export class ReviewCartComponent implements OnInit {
         this.utilityService.clearErrorMessage(this.cartCheckoutItemsService.loginResponse);
       } else {
         this.loginStoreSrvc.loadLogin(this.cartCheckoutItemsService.loginResponse);
-       // console.log("What is the Loaded store-Cookie: ", this.loginStoreSrvc.cookieStateItem)
+        // console.log("What is the Loaded store-Cookie: ", this.loginStoreSrvc.cookieStateItem)
         // this.cookieService.putObject(Constants.AuthCookieName, this.cartCheckoutItemsService.loginResponse);
         this.checkOutItem = this.cartCheckoutItemsService.checkOutItem;
-    //  console.log("Do we have checkoutItemsNow: ", this.checkOutItem)
+        //  console.log("Do we have checkoutItemsNow: ", this.checkOutItem)
         this.isCheckoutItems = this.cartCheckoutItemsService.checkOutItem.merchants[0].itemGroups.length > 0;
         this.validationToken = this.cartCheckoutItemsService.checkOutItem.validationToken;
         // let tCartState: any = this.cartState
@@ -312,7 +324,7 @@ export class ReviewCartComponent implements OnInit {
             this.checkOutItem.subTotal = this.cartItem.items[0].amountInCart;
             this.checkOutItem.total = this.cartItem.total;
           }
-         //console.log("Was checkoutItem Changed: ", this.checkOutItem)
+          //console.log("Was checkoutItem Changed: ", this.checkOutItem)
         }
 
       }
@@ -395,6 +407,7 @@ export class ReviewCartComponent implements OnInit {
 
 
   selectPayment(payment: PaymentMethodModel) {
+    this.declinePaymentError = false;
     //Not expired credit card.
     if (!this.utilityService.isAch(payment.walletKey, this.paymentMethodService.paymentMethods) && !payment.isExpired) {
       this.selectedPaymentMethod = payment;
@@ -459,6 +472,7 @@ export class ReviewCartComponent implements OnInit {
 
   //Mapping to the payment method list.
   mapNewPayMethod(methodValues: any) {
+    this.declinePaymentError = false;
     let oneTimePaymentMethod: PaymentMethodModel = new PaymentMethodModel();
     oneTimePaymentMethod.accountHolderName = methodValues.firstName + ' ' + methodValues.lastName;
     oneTimePaymentMethod.walletNickname = methodValues.nickname;
@@ -517,7 +531,8 @@ export class ReviewCartComponent implements OnInit {
   }
 
   prepareToPay() {
-    //console.log('prepareToPay');
+    console.log('prepareToPay');
+    this.declinePaymentError = false;
     var payMethod: SaleTransaction = {
       payment: null,
       paymentChannel: '',
@@ -579,8 +594,8 @@ export class ReviewCartComponent implements OnInit {
   }
 
   processpayNew(payMethod: SaleTransaction) {
-    //console.log('processPayNew')
-    // console.log("The PayMethod: ", payMethod);
+    console.log('processPayNew')
+    console.log("The PayMethod: ", payMethod);
     let paymentType = this.cartCheckoutItemsService.cartItem.items[0]['liteItemType'];
     if (!this.selectPaymentErr) {
       this.pageLoadingService.show("Processing Payment...");
@@ -589,7 +604,7 @@ export class ReviewCartComponent implements OnInit {
       } else {
         payMethod.paymentChannel = 'MOBIL'
       }
-     // this.subscriptionSaleT = this.cartCheckoutService.subscribeToPostSaleTransactionNew(payMethod, this.loginResponse);
+      // this.subscriptionSaleT = this.cartCheckoutService.subscribeToPostSaleTransactionNew(payMethod, this.loginResponse);
       let failureMessage: string = 'Transaction Failed';
       this.cartCheckoutService.postSaleTransactionNew(payMethod, this.loginResponse)
         .subscribe(
@@ -602,16 +617,16 @@ export class ReviewCartComponent implements OnInit {
             this.cartCheckoutService.saleProcessed.emit(this.cartCheckoutService.postSaleResult);
           },
           () => {
-           //console.log("Does this call complete: ", this.loginResponse)
+            console.log("Does this call complete: ", this.loginResponse)
             this.cartCheckoutService.isPayPosted = true;
             this.cartCheckoutService.postSaleResult = true;
             this.cartCheckoutService.saleProcessed.emit(this.cartCheckoutService.postSaleResult);
             this.selectPaymentErr = false;
             this.selectPaymentErrMsg = '';
-       //This piece of code allows us to detect errors on checkouts when the payment method is created at time of checkout but not saved
-      //In this scenario the payment method is only validated when the payment is posted and we need to subscribe to the event emitter in the event
-      //The payment method is Invalid and handle the error
-            //console.log("Did the sale Process? ", this.cartCheckoutService.postSaleResult)
+            //This piece of code allows us to detect errors on checkouts when the payment method is created at time of checkout but not saved
+            //In this scenario the payment method is only validated when the payment is posted and we need to subscribe to the event emitter in the event
+            //The payment method is Invalid and handle the error
+            console.log("Did the sale Process? ", this.cartCheckoutService.postSaleResult)
             if (this.cartCheckoutService.postSaleResult) {
               if (this.cartCheckoutService.postSaleResult == true) {
                 if (this.cartCheckoutService.loginResponse.messageType === Constants.Error) {
@@ -619,9 +634,9 @@ export class ReviewCartComponent implements OnInit {
                   this.processPaymentError = true;
                   this.processErrorMessage = this.cartCheckoutService.loginResponse.message;
                   //if there is an conflict error, re-pull order summary (heavy cart) to show up to date info
-                  // console.log("do we have an error message: ", this.cartCheckoutService.loginResponse.status)
+                  console.log("do we have an error message: ", this.cartCheckoutService.loginResponse.status)
                   if (this.cartCheckoutService.loginResponse.status == '409') {
-                    // console.log("We thAT 409: ", this.cartCheckoutService.isPayPosted);
+                    console.log("We thAT 409: ", this.cartCheckoutService.isPayPosted);
                     this.cartCheckoutService.result = false;
                     // this.cartCheckoutService.subscribeToPostSaleTransactionNew(payMethod, this.loginResponse);
                     //Gets the transaction again in teh event of a 409 error
@@ -652,14 +667,20 @@ export class ReviewCartComponent implements OnInit {
                   this.utilityService.clearErrorMessage(this.cartCheckoutService.loginResponse);
 
                 } else {
-                  if (this.cartCheckoutService.loginResponse.status == '409' || this.cartCheckoutService.loginResponse.status == '500') {
-                    //  console.log("We had an error get CheckoutSummary Again")
+                  if (this.cartCheckoutService.loginResponse.status == '409' || this.cartCheckoutService.loginResponse.status == '500' || this.cartCheckoutService.loginResponse.status == '424') {
+                    if (this.loginResponse.status === '424') {
+                      this.declinePaymentError = true;
+                      this.pageLoadingService.hide();
+                    } else {
+                      this.declinePaymentError = false;
+                    }
+                    console.log("We had an error get CheckoutSummary Again")
                     this.cartCheckoutService.result = false;
                     // console.log("About subscribeTopostCartCheckoutReviewItems - ReviewCart2")
-                   // this.cartCheckoutItemsService.subscribeTopostCartCheckoutReviewItems(this.loginResponse);
-                   // setTimeout(() => {
-                      // console.log("We got a new checkout Summary:  ", this.cartCheckoutItemsService.checkOutItem)
-                      
+                    // this.cartCheckoutItemsService.subscribeTopostCartCheckoutReviewItems(this.loginResponse);
+                    // setTimeout(() => {
+                    // console.log("We got a new checkout Summary:  ", this.cartCheckoutItemsService.checkOutItem)
+
                     //}, 2000)
 
                     this.cartCheckoutItemsService.postCartCheckoutReviewItemsNew(this.loginResponse)
@@ -691,9 +712,9 @@ export class ReviewCartComponent implements OnInit {
                           this.cartCheckoutService.result = true;
 
                         }
-                    )
+                      )
 
-                   
+
                   }
                   //  console.log('Review Cart about to add a Cookie: ', this.cartCheckoutService.loginResponse)
                   this.loginStoreSrvc.loadLogin(this.cartCheckoutService.loginResponse);
@@ -712,7 +733,7 @@ export class ReviewCartComponent implements OnInit {
                         //console.log("cCount = ", this.cCount)
                         this.cartCheckoutService.loginResponse.cartItemCount = this.cCount;
                       }
-                      
+
                       if (!this.receiptService.result) {
                         //console.log("About to get the receipt")
                         this.subscription =
@@ -789,7 +810,7 @@ export class ReviewCartComponent implements OnInit {
                     //  }
                     //}, 2000)
 
-               
+
 
                   } else {
                     this.cartResultInterval = setInterval(() => {
@@ -893,7 +914,7 @@ export class ReviewCartComponent implements OnInit {
 
 
                   //Stop
-                 
+
                 }
               } else {
                 // console.log("We got an error: ", this.selectPaymentErr)
@@ -935,7 +956,7 @@ export class ReviewCartComponent implements OnInit {
                         this.validationToken = this.cartCheckoutItemsService.checkOutItem.validationToken;
                         this.cartCheckoutService.loginResponse.status = '';
                         this.prepareToPay();
-                       // this.cartCheckoutService.result = true;
+                        // this.cartCheckoutService.result = true;
 
                       }
                     )
@@ -955,14 +976,21 @@ export class ReviewCartComponent implements OnInit {
 
 
 
-           
-          
+
           }
         )
-
-
-  }
- }//End of process pay
+    }
+    this.declineInterval = setInterval(() => {
+      if (this.loginResponse.status === '424') {
+        this.declinePaymentError = true;
+        this.pageLoadingService.hide();
+        clearInterval(this.declineInterval);
+      } else if (this.cartCheckoutService.postSaleResult === true) {
+        this.declinePaymentError = false;
+        clearInterval(this.declineInterval);
+      }
+    }, 500);
+  }//End of process pay
 
 
   ngOnDestroy() {

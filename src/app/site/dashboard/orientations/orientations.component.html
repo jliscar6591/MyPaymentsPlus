@@ -34,8 +34,7 @@
                 <div class="orientation-title">
                   {{student.orientation.title}}
                 </div>
-                <div class="orientation-description">
-                  {{student.orientation.description}}
+                <div class="orientation-description" [innerHTML]="student.orientation.description">
                 </div>
               </div>
               <mat-accordion class="accordion">
@@ -45,7 +44,7 @@
                   <mat-expansion-panel-header>
                     <mat-panel-title class="mat-title">
                       <div class="name">
-                        {{document.name}}
+                        <b>{{document.name}}</b>
                       </div>
                       <div *ngIf="document.required" class="required">
                         (Required)
@@ -186,10 +185,10 @@
               <div class="orientations" *ngIf="student.orientation.unsignedDocuments.length > 0">
                 <div class="orientation-message">
                   <div class="orientation-title">
-                    {{student.orientation.title}}
+                    <b>{{student.orientation.title}}</b>
                   </div>
-                  <div class="orientation-description">
-                    {{student.orientation.description}}
+                  <div [innerHTML]="student.orientation.description" class="orientation-description">
+                    
                   </div>
                 </div>
                 <mat-accordion class="accordion">
@@ -199,7 +198,10 @@
                     <mat-expansion-panel-header>
                       <mat-panel-title class="mat-title">
                         <div class="name">
-                          {{document.name}}
+                          <b>{{document.name}}</b>
+                        </div>
+                        <div *ngIf="document.required" class="required">
+                          (Required)
                         </div>
                         <div *ngIf="document.checked && document.itemType === 'CHECKBOX'">
                           <mat-icon class="check">check_circle_outline</mat-icon>
@@ -260,10 +262,10 @@
               <div class="orientations" *ngIf="student.orientation.signedDocuments.length > 0">
                 <div class="orientation-message">
                   <div class="orientation-title">
-                    {{student.orientation.title}}
+                    <b>{{student.orientation.title}}</b>
                   </div>
-                  <div class="orientation-description">
-                    {{student.orientation.description}}
+                  <div class="orientation-description" [innerHTML]="student.orientation.description">
+                    
                   </div>
                 </div>
                 <mat-accordion class="accordion">

@@ -26,9 +26,12 @@ export interface UserContextModel {
   isOldExperienceAllowed: boolean;
   isMobileMealsOnly: boolean;
   districtHasFees: boolean;
+  districtHasMeals: boolean;
   districtHasActivities: boolean;
   districtHasExams: boolean;
-availableDistricts: AvailableDistricts[];
+  availableDistricts: AvailableDistricts[];
+  districtHasOrientations: boolean;
+  isSuggestedAutoChecked: boolean;
 }
 
 export interface AvailableDistricts {

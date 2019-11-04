@@ -36,10 +36,6 @@ export class FeesListComponent implements OnInit {
   }
 
   ngDoCheck() {
-
-    if (this.feesService.result === true) {
-      this.feesList = this.feesService.feesList;
-    }
   }
 
   ngAfterContentInit() {

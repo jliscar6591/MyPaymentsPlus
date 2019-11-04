@@ -4,8 +4,9 @@
       Documents To Review
     </div>
   </mat-toolbar>
+  <mat-spinner *ngIf="gettingOrientation"></mat-spinner>
   <mat-tab-group>
-    <mat-tab *ngFor="let student of data.orientationList,let i = index ">
+    <mat-tab *ngFor="let student of unsignedOrientationList,let i = index ">
       <ng-template mat-tab-label>
         <span matBadge="{{student.orientation.unsignedDocuments.length}}" matBadgeOverlap="false" matBadgeColor="accent"
           *ngIf="student.orientation.unsignedDocuments.length > 0">{{student.name}}</span>
@@ -13,10 +14,10 @@
       <div class="orientations" *ngIf="student.orientation.unsignedDocuments.length > 0">
         <div class="orientation-message">
           <div class="orientation-title">
-            {{student.orientation.title}}
+            <b>{{student.orientation.title}}</b>
           </div>
-          <div class="orientation-description">
-            {{student.orientation.description}}
+          <div [innerHTML]="student.orientation.description" class="orientation-description">
+            
           </div>
         </div>
         <mat-accordion class="accordion">
@@ -44,7 +45,7 @@
               <div>
                 {{document.description}}
               </div>
-              <a class="link" href="https://scratch.mit.edu/projects/182898061/fullscreen/" target="_blank"> 2019-2020
+              <a class="link" href="{{document.link}}" target="_blank"> 2019-2020
                 Orientations</a>
             </div>
             <mat-action-row class="action-row">

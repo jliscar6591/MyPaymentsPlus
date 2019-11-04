@@ -60,7 +60,7 @@ export class AutoEnrollDialogComponent implements OnInit {
   public autoCartList: any;
   public broadCastDetail;
   public listReady: boolean = false;
-  public selectedAll: any;
+  public selectedAllArray: any;
   public autoCartAllList: any;
   public autoFeesList: any;
   public cartResponse: any;
@@ -72,11 +72,13 @@ export class AutoEnrollDialogComponent implements OnInit {
   public step = 0;
   public orientationInterval: any;
   public orientationList: any;
-  public responses: any;
+  public responses: any = [];
   public hasOrientations: boolean = false;
   public gettingOrientation: boolean;
   public formInterval: any;
-  public newlySelected: any;
+  public newlySelected: any = [];
+  public account: any;
+  public currentFeeSelection: any;
 
   constructor(
     private addCartItemService: AddCartItemService,
@@ -98,7 +100,8 @@ export class AutoEnrollDialogComponent implements OnInit {
     private cartCheckoutService: CartCheckoutService,
     public orientationService: OrientationService,
     private snackBar: MatSnackBar,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    public userContextService: UserContextService
   ) {
     this.loginResponse = this.loginStoreSvc.cookieStateItem;
     this.feeStore = store.select(state => state.feeStore);
@@ -107,17 +110,21 @@ export class AutoEnrollDialogComponent implements OnInit {
 
   async ngOnInit() {
     this.mobile = (window.innerWidth < 960) ? true : false;
-    this.feesList = this.feesService.feesList;
+    // this.feesList = this.feesService.feesList;
     this.autoFeesList = this.data.feesList;
     this.autoCartList = this.data.cart;
-    //console.log(this.autoFeesList);
-    //console.log(this.autoCartList);
+    console.log(this.autoFeesList);
+    console.log(this.autoCartList);
     this.listReady = true;
     this.selectedFees = [];
     this.selectedActivities = [];
-    this.selectedAll = [];
+    this.selectedAllArray = [];
     this.newForms = [];
-
+    // console.log('usercontext', this.userContextService.defaultData);
+    if (this.userContextService.defaultData.isSuggestedAutoChecked) {
+      // console.log('does it get to the select all part');
+      this.selectAllItems();
+    }
   }
 
   ngDoCheck() {
@@ -131,19 +138,19 @@ export class AutoEnrollDialogComponent implements OnInit {
   }
 
   public selectAllItems() {
-    this.selectedAll = [];
-    var i;
-    for (i = 0; i < this.autoFeesList.length; i++) {
-      this.selectedAll.push(this.autoFeesList[i]);
-    }
+    this.selectedAllArray = [];
     var j;
     for (j = 0; j < this.autoCartList.length; j++) {
-      this.selectedAll.push(this.autoCartList[j]);
+      this.selectedActivities.push(this.autoCartList[j]);
+      this.selectedAllArray.push(this.autoCartList[j]);
+      this.responses.push(this.autoCartList[j]);
+      this.newlySelected.push(this.autoCartList[j]);
     }
+    // console.log('newly selected at ng on it', this.newlySelected);
     this.selectedAllTotal = 0;
     var k;
-    for (k = 0; k < this.selectedAll.length; k++) {
-      this.selectedAllTotal = this.selectedAll[k].amount + this.selectedAllTotal;
+    for (k = 0; k < this.selectedAllArray.length; k++) {
+      this.selectedAllTotal = this.selectedAllArray[k].amount + this.selectedAllTotal;
     }
     this.selectAll = true;
   }
@@ -186,12 +193,12 @@ export class AutoEnrollDialogComponent implements OnInit {
   }
 
   public onChange(mrChange: MatRadioChange) {
-    console.log(mrChange.value);
+    // console.log(mrChange.value);
     let mrButton: MatRadioButton = mrChange.source;
     this.showButton = true;
-    console.log(mrButton.name);
-    console.log(mrButton.checked);
-    console.log(mrButton.inputId);
+    // console.log(mrButton.name);
+    // console.log(mrButton.checked);
+    // console.log(mrButton.inputId);
     this.nextStep();
   }
 
@@ -270,40 +277,113 @@ export class AutoEnrollDialogComponent implements OnInit {
   }
 
   //Adds and removes activities from the selected activity list when clicked
-  onSelectionActivities(e, v) {
+  onSelectionActivities(e, v, ) {
     console.log('v', v);
     console.log('e.option', e.option);
-    this.newlySelected = [];
-    this.newlySelected.push(e.option.value);
-    if (this.selectedActivities.length === 0) {
-      this.selectedActivities.push(e.option.value);
-    } else {
-      if (this.selectedActivities.includes(e.option.value)) {
-        var i;
-        for (i = 0; i < this.selectedActivities.length; i++) {
-          if (this.selectedActivities[i] === e.option.value) {
-            this.selectedActivities.splice(i, 1);
+    // console.log('user context is suggested', this.userContextService.defaultData.isSuggestedAutoChecked);
+    if (e.option.selected === true) {
+      if (e.option.value.isInCart) {
+        this.addCartItemService.subscribeTodeleteCartItemNew(e.option.value.activityKey, e.option.value.studentKey, this.loginResponse);
+      }
+      if (this.userContextService.defaultData.isSuggestedAutoChecked) {
+        if (this.selectedActivities.length === 0) {
+          this.selectedActivities.push(e.option.value);
+        } else {
+          if (this.selectedActivities.includes(e.option.value)) {
+            var i;
+            for (i = 0; i < this.selectedActivities.length; i++) {
+              if (this.selectedActivities[i] === e.option.value) {
+                this.selectedActivities.splice(i, 1);
+              }
+            }
+          } else {
+            this.selectedActivities.push(e.option.value);
           }
+          // console.log('newlyselected beofer the splice', this.newlySelected);
+          if (this.newlySelected.includes(e.option.value)) {
+            var k;
+            for (k = 0; k < this.newlySelected.length; k++) {
+              if (this.newlySelected[k] === e.option.value) {
+                this.newlySelected.splice(k, 1);
+              }
+            }
+          } else {
+            this.newlySelected.push(e.option.value);
+          }
+
+        };
+        // console.log('newly selected', this.newlySelected);
+        // console.log('selectedActivites', this.selectedActivities);
+        this.selectedAllArray = this.selectedActivities.concat(this.selectedFees);
+        if (this.selectedAllArray === false) { }
+        this.selectedAllTotal = 0;
+        var j;
+        for (j = 0; j < this.selectedAllArray.length; j++) {
+          this.selectedAllTotal = this.selectedAllArray[j].amount + this.selectedAllTotal;
         }
       } else {
-        this.selectedActivities.push(e.option.value);
+        this.newlySelected = [];
+        this.newlySelected.push(e.option.value);
+        if (this.selectedActivities.length === 0) {
+          this.selectedActivities.push(e.option.value);
+        } else {
+          if (this.selectedActivities.includes(e.option.value)) {
+            var i;
+            for (i = 0; i < this.selectedActivities.length; i++) {
+              if (this.selectedActivities[i] === e.option.value) {
+                this.selectedActivities.splice(i, 1);
+              }
+            }
+          } else {
+            this.selectedActivities.push(e.option.value);
+          }
+          // console.log('selectedActivites', this.selectedActivities);
+        }
+        this.selectedAllArray = this.selectedActivities.concat(this.selectedFees);
+        if (this.selectedAllArray === false) { }
+        this.selectedAllTotal = 0;
+        var j;
+        for (j = 0; j < this.selectedAllArray.length; j++) {
+          this.selectedAllTotal = this.selectedAllArray[j].amount + this.selectedAllTotal;
+        }
+        e.option.value.isInCart = true;
+        this.checkForNewForms();
       }
-      //console.log('selectedActivites', this.selectedActivities);
+    } else {
+      if (e.option.value.isInCart) {
+        this.addCartItemService.subscribeTodeleteCartItemNew(e.option.value.activityKey, e.option.value.studentKey, this.loginResponse);
+      }
+      var i;
+      for (i = 0; i < this.selectedActivities.length; i++) {
+        if (this.selectedActivities[i] === e.option.value) {
+          this.selectedActivities.splice(i, 1);
+        }
+      }
+
+      var k;
+      for (k = 0; k < this.newlySelected.length; k++) {
+        if (this.newlySelected[k] === e.option.value) {
+          this.newlySelected.splice(k, 1);
+        }
+      }
+
+      this.selectedAllArray = this.selectedActivities.concat(this.selectedFees);
+      if (this.selectedAllArray === false) { }
+      this.selectedAllTotal = 0;
+      var j;
+      for (j = 0; j < this.selectedAllArray.length; j++) {
+        this.selectedAllTotal = this.selectedAllArray[j].amount + this.selectedAllTotal;
+      }
     }
-    this.selectedAll = this.selectedActivities.concat(this.selectedFees);
-    if (this.selectedAll === false) { }
-    this.selectedAllTotal = 0;
-    var j;
-    for (j = 0; j < this.selectedAll.length; j++) {
-      this.selectedAllTotal = this.selectedAll[j].amount + this.selectedAllTotal;
-    }
-    this.checkForNewForms();
+
   }
 
   //Adds and removes fees from the selected fees list when clicked
   onSelectionFees(e, v) {
-    //console.log('v', v);
-    //console.log('e.option', e.option);
+    this.currentFeeSelection = e.option.value;
+    console.log('selected fees', this.selectedFees);
+    console.log('v', v);
+    console.log('e.option', e.option);
     if (this.selectedFees.length === 0) {
       this.selectedFees.push(e.option.value);
     } else {
@@ -317,36 +397,54 @@ export class AutoEnrollDialogComponent implements OnInit {
       } else {
         this.selectedFees.push(e.option.value);
       }
-      //console.log('selectedFees', this.selectedFees);
+      console.log('selectedFees', this.selectedFees);
     }
-    this.selectedAll = this.selectedActivities.concat(this.selectedFees);
+    console.log('selectedFees', this.selectedFees);
+    this.selectedAllArray = this.selectedActivities.concat(this.selectedFees);
     this.selectedAllTotal = 0;
     var j;
-    for (j = 0; j < this.selectedAll.length; j++) {
-      this.selectedAllTotal = this.selectedAll[j].amount + this.selectedAllTotal;
+    for (j = 0; j < this.selectedAllArray.length; j++) {
+      this.selectedAllTotal = this.selectedAllArray[j].amount + this.selectedAllTotal;
+    }
+    var k;
+    this.account = [];
+    for(k=0;k< this.feesService.feesList.length; k++){
+      if(k === e.option.value.outsideIndex){
+        this.account.push(this.feesService.feesList[k]);
+      }
+    }
+    console.log('this.account', this.account);          
+    if (e.option.value.isInCart === false) {
+      e.option.value.amountInCart = e.option.value.amount;
+      let params = {
+        outsideIndex: e.option.value.outsideIndex,
+        insideIndex: e.option.value.insideIndex,
+      }
+      this.addCartItemService.putCartFeeNew(this.account[0], params, this.loginResponse);
+      e.option.value.isInCart = true;
+    } else {
+      this.addCartItemService.subscribeTodeleteCartItemNew(e.option.value.feeTransactionKey, e.option.value.studentKey, this.loginResponse);
+      e.option.value.isInCart = false;
     }
   }
 
   //Adds all selected activities and fees to the cart
   async  addAutoEnrolledItems() {
-    this.selectedAll = [];
+    this.selectedAllArray = [];
     var i;
     for (i = 0; i < this.selectedActivities.length; i++) {
       this.selectedActivities[i].amountInCart = this.selectedActivities[i].amount;
       this.selectedActivities[i].quantity = 1;
-      this.selectedAll.push(this.selectedActivities[i]);
+      this.selectedAllArray.push(this.selectedActivities[i]);
     }
-    var j;
-    for (j = 0; j < this.selectedFees.length; j++) {
-      this.selectedFees[j].amountInCart = this.selectedFees[j].amount;
-      let params = {
-        outsideIndex: this.selectedFees[j].outsideIndex,
-        insideIndex: this.selectedFees[j].insideIndex,
-      }
-      this.selectedAll.push(this.selectedFees[j]);
-    }
+
     // console.log('selected all', this.selectedAll);
-    this.addCartItemService.subscribeToPostCartGroup(this.selectedAll, this.loginResponse);
+    this.addCartItemService.subscribeToPostCartGroup(this.selectedAllArray, this.loginResponse);
+    this.checkForNewForms();
+    this.responses = [];
+    if (this.userContextService.defaultData.isSuggestedAutoChecked) {
+      this.dialogRef.close();
+    }
   }
 
   //Sees if any the activities added to the cart have a required form
@@ -358,27 +456,36 @@ export class AutoEnrollDialogComponent implements OnInit {
     for (i = 0; i < this.newlySelected.length; i++) {
       if (this.newlySelected[i].activityFormId !== 0) {
         this.activitiesWithForms.push(this.newlySelected[i]);
-        await this.formsService.subscribeToGetForm(this.loginResponse, this.newlySelected[i].activityFormId, this.newlySelected[i].studentKey);
       }
     }
+    var j;
+    for (j = 0; j < this.activitiesWithForms.length; j++) {
+      this.newForms.push(this.activitiesWithForms[j].formModel);
+    }
     this.formInterval = setInterval(() => {
-      console.log('newlySelected', this.newlySelected);
+      // console.log('newlySelected', this.newlySelected);
       if (this.newlySelected[0].activityFormId !== 0) {
-        if (this.formsService.newForms.length > 0) {
-          this.newForms = this.formsService.newForms;
-          console.log('forms that need to be filled out', this.newForms);
+        if (this.newForms.length > 0) {
+          // console.log('forms that need to be filled out', this.newForms);
           clearInterval(this.formInterval);
           this.openAutoEnrollFormsDialog();
         }
       } else {
         clearInterval(this.formInterval);
-        this.addAutoEnrolledItems();
-        console.log('why doesnt it clear this interval');
+        this.selectedAllArray = [];
+        var i;
+        for (i = 0; i < this.selectedActivities.length; i++) {
+          this.selectedActivities[i].amountInCart = this.selectedActivities[i].amount;
+          this.selectedActivities[i].quantity = 1;
+          this.selectedAllArray.push(this.selectedActivities[i]);
+        }
+        this.addCartItemService.subscribeToPostCartGroup(this.selectedAllArray, this.loginResponse);
+        // console.log('why doesnt it clear this interval');
       }
     }, 50);
   }
 
-  //Opens dialog containing list of activities and fees
+  //Opens dialog containing forms for activities
   public openAutoEnrollFormsDialog() {
     if (!this.mobile) {
       //console.log('does this get called?');
@@ -394,9 +501,9 @@ export class AutoEnrollDialogComponent implements OnInit {
       }
       const dialogRef = this.dialog.open(AutoEnrollFormsComponent, config);
     } else {
-      console.log('does this get called?');
-      console.log('new forms', this.newForms);
-      console.log('activities with forms', this.activitiesWithForms);
+      // console.log('does this get called?');
+      // console.log('new forms', this.newForms);
+      // console.log('activities with forms', this.activitiesWithForms);
       let config = new MatDialogConfig();
       config.panelClass = 'my-class';
       config.disableClose = true;

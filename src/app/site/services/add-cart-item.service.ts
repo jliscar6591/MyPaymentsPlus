@@ -17,6 +17,7 @@ import { FeesDetailsComponent } from 'app/site/dashboard/fees/fees-details.compo
 import { RefreshService } from '../../shared/services/refresh.service';
 import { Activities } from 'app/site/model/activities.model';
 import { ActivityCartDetail } from 'app/site/model/activity-cart-detail.model';
+import { ExamCartDetail } from 'app/site/model/exam-cart-detail.model';
 
 @Injectable()
 
@@ -39,6 +40,7 @@ export class AddCartItemService implements OnDestroy {
   public addedToCart: boolean = false;
   public cartGroupDetail: any;
   public feeDialog: boolean = false;
+  public examResult: boolean;
 
   constructor(
     private http: Http,
@@ -144,6 +146,28 @@ export class AddCartItemService implements OnDestroy {
     return this.broadCastDetail;
   }
 
+  private preProcessExamAddAmount(cartItem: any, studentKey: string, studentName: string) {
+    console.log('exam cart item', cartItem);
+    let cartExamDetail: ExamCartDetail = {
+      liteItemType: 'exam',
+      itemKey: cartItem.examKey,
+      districtKey: this.loginResponse.districtKey,
+      accountBalanceID: cartItem.accountBalanceID,
+      itemName: cartItem.examName,
+      studentName: cartItem.studentName,
+      examScheduleKey: cartItem.examScheduleKey,
+      needSpecialAccomodation: cartItem.needSpecialAccomodation,
+      isSpecialProgramExam: cartItem.isSpecialProgramExam
+    }
+    this.broadCastCartExamItem(cartExamDetail);
+    return cartExamDetail;
+  }
+
+  public broadCastCartExamItem(cartExamDetail) {
+    this.broadCastDetail = cartExamDetail
+    return this.broadCastDetail;
+  }
+
 
   public putCartItemNew(account: StudentMeal, params: any, loginResponse: LoginResponseModel): Observable<any> {
     //console.log("Putting Cart in Item: ", loginResponse)
@@ -184,9 +208,9 @@ export class AddCartItemService implements OnDestroy {
 
     return this.httpC.put(Url, body, options)
       .pipe(
-        catchError((error: any) => this.handleError(error, failureMessage))
-       ,
-        tap(data => this.cartResponse = data)
+      catchError((error: any) => this.handleError(error, failureMessage))
+      ,
+      tap(data => this.cartResponse = data)
       )
   }
 
@@ -221,26 +245,26 @@ export class AddCartItemService implements OnDestroy {
     let options = { headers: headers };
     this.http.put(Url, body, options)
       .subscribe(
-        data => {
-          newJwt = data.headers.toJSON();
-          this.cartResponse = data.json();
-        },
-        error => {
-          this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
-          this.result = true;
-        },
-        () => {
-          //processing the successful response
-          this.loginResponse.cartItemCount = this.cartResponse.itemCount;
-          this.count = this.loginResponse.cartItemCount;
-          this.loginResponse.access_token = newJwt.jwt_refresh[0];
-          this.loginResponse.messageType = Constants.Success;
-          this.loginResponse.messageTitle = 'Message: ';
-          this.loginResponse.message = successMessage;
-          this.result = true;
-          this.cartUpdate.emit(true);
-          //console.log('cartResponse', this.cartResponse);
-        }
+      data => {
+        newJwt = data.headers.toJSON();
+        this.cartResponse = data.json();
+      },
+      error => {
+        this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
+        this.result = true;
+      },
+      () => {
+        //processing the successful response
+        this.loginResponse.cartItemCount = this.cartResponse.itemCount;
+        this.count = this.loginResponse.cartItemCount;
+        this.loginResponse.access_token = newJwt.jwt_refresh[0];
+        this.loginResponse.messageType = Constants.Success;
+        this.loginResponse.messageTitle = 'Message: ';
+        this.loginResponse.message = successMessage;
+        this.result = true;
+        this.cartUpdate.emit(true);
+        //console.log('cartResponse', this.cartResponse);
+      }
       );
     return Observable.interval(Constants.PollingInterval)
   }
@@ -278,9 +302,9 @@ export class AddCartItemService implements OnDestroy {
       let options = { headers: headers };
       return this.httpC.put<any>(Url, body, options)
         .pipe(
-          catchError((error: any) => this.handleError(error, failureMessage))
-          ,
-          tap(data => this.cartResponse = data)
+        catchError((error: any) => this.handleError(error, failureMessage))
+        ,
+        tap(data => this.cartResponse = data)
 
         )
     } else {
@@ -313,18 +337,18 @@ export class AddCartItemService implements OnDestroy {
       let options = { headers: headers };
       return this.httpC.put<any>(Url, body, options)
         .pipe(
-          catchError((error: any) => this.handleError(error, failureMessage))
-          ,
-          map(data => {
-            if (!data) {
-              console.log("NO item Added: ", data);
-            }
-          })
-          ,
-          tap(data => this.cartResponse = data)
-      )
+        catchError((error: any) => this.handleError(error, failureMessage))
+        ,
+        map(data => {
+          if (!data) {
+            console.log("NO item Added: ", data);
+          }
+        })
+        ,
+        tap(data => this.cartResponse = data)
+        )
 
-        
+
     }
   }
 
@@ -380,25 +404,25 @@ export class AddCartItemService implements OnDestroy {
     let options = { headers: headers };
     this.http.post(Url, body, options)
       .subscribe(
-        data => {
-          newJwt = data.headers.toJSON();
-          this.cartResponse = data.json();
-        },
-        error => {
-          this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
-          this.result = true;
-        },
-        () => {
-          //processing the successful response
-          this.loginResponse.cartItemCount = this.cartResponse.itemCount;
-          this.count = this.loginResponse.cartItemCount;
-          this.loginResponse.access_token = newJwt.jwt_refresh[0];
-          this.loginResponse.messageType = Constants.Success;
-          this.loginResponse.messageTitle = 'Message: ';
-          this.loginResponse.message = successMessage;
-          this.result = true;
-          //console.log('cartResponse', this.cartResponse);
-        }
+      data => {
+        newJwt = data.headers.toJSON();
+        this.cartResponse = data.json();
+      },
+      error => {
+        this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
+        this.result = true;
+      },
+      () => {
+        //processing the successful response
+        this.loginResponse.cartItemCount = this.cartResponse.itemCount;
+        this.count = this.loginResponse.cartItemCount;
+        this.loginResponse.access_token = newJwt.jwt_refresh[0];
+        this.loginResponse.messageType = Constants.Success;
+        this.loginResponse.messageTitle = 'Message: ';
+        this.loginResponse.message = successMessage;
+        this.result = true;
+        //console.log('cartResponse', this.cartResponse);
+      }
       )
     return Observable.interval(Constants.PollingInterval)
   }
@@ -411,23 +435,88 @@ export class AddCartItemService implements OnDestroy {
     this.subscription =
       this.putCartGroupNew(group, loginResponse)
         .subscribe(
+        data => {
+          this.cartResponse = data;
+        },
+        error => {
+          this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
+          this.result = false;
+        },
+        () => {
+          //processing the successful response
+          this.loginResponse.cartItemCount = this.cartResponse.itemCount;
+          this.count = this.loginResponse.cartItemCount;
+          this.result = true;
+          //console.log("The this.addCartItemService.result is: ", this.result);
+          //console.log('cartResponse', this.cartResponse);
+        }
+        )
+  }
+
+  public putCartExamNew(account: any, loginResponse: LoginResponseModel): Observable<any> {
+    console.log('account', account);
+    console.log('is in cart', account.isInCart);
+      console.log("Putting exam in cart")
+      this.loginResponse = loginResponse;
+      // let cartExamDetail: ExamCartDetail = this.preProcessExamAddAmount(
+      //   account,
+      //   account.studentKey,
+      //   account.studentName
+      // )
+
+      let token = loginResponse.access_token;
+      this.currentToken = token;
+      let successMessage: string = '';
+      let failureMessage: string = 'Add Cart Item Failed';
+      var errHeader: any = {
+        _body: '',
+        status: ''
+      }
+
+      this.currTokenServ.setCurrentToken(this.currentToken, this.loginResponse);
+      let Url = Constants.WebApiUrl.Sale + '/CartItem';
+      let body = JSON.stringify(account);
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/JSON',
+        'Authorization': 'bearer ' + token
+      });
+
+      let options = { headers: headers };
+      return this.httpC.put<any>(Url, body, options)
+        .pipe(
+        catchError((error: any) => this.handleError(error, failureMessage))
+        ,
+        tap(data => this.cartResponse = data)
+
+        )
+    }
+
+    public subscribeToPutExamNew(account: any, loginResponse: LoginResponseModel) {
+      let failureMessage: string = 'Transaction Failed';
+      if (this.result === true) {
+        this.result = false;
+      }
+      this.subscription =
+        this.putCartExamNew(account, loginResponse)
+          .subscribe(
           data => {
             this.cartResponse = data;
           },
           error => {
             this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
-            this.result = false;
+            this.examResult = false;
           },
           () => {
             //processing the successful response
             this.loginResponse.cartItemCount = this.cartResponse.itemCount;
             this.count = this.loginResponse.cartItemCount;
             this.result = true;
-            //console.log("The this.addCartItemService.result is: ", this.result);
-            //console.log('cartResponse', this.cartResponse);
+            console.log("The this.addCartItemService.result is: ", this.result);
+            console.log('cartResponse', this.cartResponse);
           }
-        )
-  }
+          )
+    }
+  
 
   public deleteCartItemNew(itemKey: string, accountBalanceId: string, loginResponse: LoginResponseModel): Observable<any> {
     let newJwt: any;
@@ -464,28 +553,28 @@ export class AddCartItemService implements OnDestroy {
     let options = { headers: headers };
     this.http.post(Url, body, options)
       .subscribe(
-        data => {
-          newJwt = data.headers.toJSON();
-          this.cartResponse = data.json();
-        },
-        error => {
-          this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
-          this.result = true;
-        },
-        () => {
-          //processing the successful response
-          this.loginResponse.cartItemCount = this.cartResponse.itemCount;
-          this.count = this.loginResponse.cartItemCount;
-          this.loginResponse.access_token = newJwt.jwt_refresh[0];
-          this.loginResponse.messageType = Constants.Success;
-          this.loginResponse.messageTitle = 'Message: ';
-          this.loginResponse.message = successMessage;
-          this.deleteResult = true;
-          this.result = true;
-          //this.cartUpdate.emit(true);
-          this.itemRemoved = true;
-          //console.log('cartResponse', this.cartResponse);
-        }
+      data => {
+        newJwt = data.headers.toJSON();
+        this.cartResponse = data.json();
+      },
+      error => {
+        this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
+        this.result = true;
+      },
+      () => {
+        //processing the successful response
+        this.loginResponse.cartItemCount = this.cartResponse.itemCount;
+        this.count = this.loginResponse.cartItemCount;
+        this.loginResponse.access_token = newJwt.jwt_refresh[0];
+        this.loginResponse.messageType = Constants.Success;
+        this.loginResponse.messageTitle = 'Message: ';
+        this.loginResponse.message = successMessage;
+        this.deleteResult = true;
+        this.result = true;
+        //this.cartUpdate.emit(true);
+        this.itemRemoved = true;
+        //console.log('cartResponse', this.cartResponse);
+      }
       );
     return Observable.interval(Constants.PollingInterval)
   }
@@ -498,25 +587,25 @@ export class AddCartItemService implements OnDestroy {
     this.subscription =
       this.deleteCartItemNew(itemKey, accountBalanceID, loginResponse)
         .subscribe(
-          data => {
-            this.cartResponse = data;
-          },
-          error => {
-            this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
-            this.result = false;
-          },
-          () => {
-            //processing the successful response
-            this.loginResponse.cartItemCount = this.cartResponse.itemCount;
-            this.count = this.loginResponse.cartItemCount;
-            this.deleteResult = true;
-            // console.log("do we have a deleteResult: ", this.deleteResult);
-            this.result = true;
-            //console.log("The this.addCartItemService.result is: ", this.result);
-            this.cartUpdate.emit(true);
-            this.itemRemoved = true;
-            //console.log('cartResponse', this.cartResponse);
-          }
+        data => {
+          this.cartResponse = data;
+        },
+        error => {
+          this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
+          this.result = false;
+        },
+        () => {
+          //processing the successful response
+          this.loginResponse.cartItemCount = this.cartResponse.itemCount;
+          this.count = this.loginResponse.cartItemCount;
+          this.deleteResult = true;
+          // console.log("do we have a deleteResult: ", this.deleteResult);
+          this.result = true;
+          //console.log("The this.addCartItemService.result is: ", this.result);
+          this.cartUpdate.emit(true);
+          this.itemRemoved = true;
+          //console.log('cartResponse', this.cartResponse);
+        }
         )
   }
 
@@ -541,24 +630,24 @@ export class AddCartItemService implements OnDestroy {
     let options = new RequestOptions({ headers: headers });
     this.http.put(Url, body, options)
       .subscribe(
-        data => {
-          newJwt = data.headers.toJSON();
-          this.cartResponse = data.json()
-        },
-        error => {
-          this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
-          this.result = true;
-        },
-        () => {
-          //processing the successful response
-          this.loginResponse.cartItemCount = this.cartResponse.itemCount;
-          this.loginResponse.access_token = newJwt.jwt_refresh[0];
-          this.loginResponse.messageType = Constants.Success;
-          this.loginResponse.messageTitle = 'Message: ';
-          this.loginResponse.message = successMessage;
-          this.result = true;
-          this.cartUpdate.emit(true);
-        });
+      data => {
+        newJwt = data.headers.toJSON();
+        this.cartResponse = data.json()
+      },
+      error => {
+        this.utilityService.processApiErr(error, this.loginResponse, failureMessage);
+        this.result = true;
+      },
+      () => {
+        //processing the successful response
+        this.loginResponse.cartItemCount = this.cartResponse.itemCount;
+        this.loginResponse.access_token = newJwt.jwt_refresh[0];
+        this.loginResponse.messageType = Constants.Success;
+        this.loginResponse.messageTitle = 'Message: ';
+        this.loginResponse.message = successMessage;
+        this.result = true;
+        this.cartUpdate.emit(true);
+      });
     //Return to calling program every polling interval
     return Observable.interval(Constants.PollingInterval)
   }
@@ -597,9 +686,9 @@ export class AddCartItemService implements OnDestroy {
 
     return this.httpC.put(Url, body, options)
       .pipe(
-        catchError((error: any) => this.handleError(error, failureMessage))
-        //  ,
-        // tap(data => console.log("I think we added a Cart Item: ", data))
+      catchError((error: any) => this.handleError(error, failureMessage))
+      //  ,
+      // tap(data => console.log("I think we added a Cart Item: ", data))
       )
 
 
@@ -616,25 +705,25 @@ export class AddCartItemService implements OnDestroy {
 
     this.putTransferFeeItem(cartFeeDetails, loginResponseObj)
       .subscribe(
-        data => {
-          this.cartResponse = data;
-          this.feeCartResponse = data;
-        },
-        error => {
-          //console.log("Error: Failed to Add Item: ", this.feeCartResponse);
-          this.result = true;
-        },
-        () => {
-          loginResponseObj.cartItemCount = this.feeCartResponse.itemCount;
-          loginResponseObj.messageType = Constants.Success;
-          loginResponseObj.messageTitle = 'Message: ';
-          loginResponseObj.message = successMessage;
-          this.loginResponse = loginResponseObj;
-          this.loginStoreSvc.loadLogin(this.loginResponse)
-          // this.cookieService.putObject(Constants.AuthCookieName, this.loginResponse);
-          this.result = true;
-          this.cartUpdate.emit(true);
-        }
+      data => {
+        this.cartResponse = data;
+        this.feeCartResponse = data;
+      },
+      error => {
+        //console.log("Error: Failed to Add Item: ", this.feeCartResponse);
+        this.result = true;
+      },
+      () => {
+        loginResponseObj.cartItemCount = this.feeCartResponse.itemCount;
+        loginResponseObj.messageType = Constants.Success;
+        loginResponseObj.messageTitle = 'Message: ';
+        loginResponseObj.message = successMessage;
+        this.loginResponse = loginResponseObj;
+        this.loginStoreSvc.loadLogin(this.loginResponse)
+        // this.cookieService.putObject(Constants.AuthCookieName, this.loginResponse);
+        this.result = true;
+        this.cartUpdate.emit(true);
+      }
 
       )
 
